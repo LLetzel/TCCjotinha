@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - JOTINHA VEICULOS</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+</head>
+<body>
+    <div class="fundo-img">
+        <div class="containerform" data-aos="fade-up">
+            <div class="logo-container">
+                <img src="../../img/logonome.png" id="imglogo" alt="logo jotinha">
+            </div>
+
+            <form action="#" class="login-form">
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha:</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="senha" name="senha" required>
+                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                </div>
+                <a href="#" id="esqueceusenha">Esqueceu sua senha?</a>
+                <div class="remember-forgot">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="remember">
+                        <span class="checkmark"></span>
+                        Lembrar-me
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Entrar</span>
+                    <div class="loading-spinner"></div>
+                </button>
+
+                <div class="divider">
+                    <span>ou continue com</span>
+                </div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn google">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button type="button" class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                </div>
+
+                <p id="naotemconta">Não tem conta? <a href="/src/cadastro/cadastro.html" id="Cadastre-se">Cadastre-se</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <!-- <script src="ocultar.js"></script> -->
+    <script src="login.js"></script>
+</body>
+</html>

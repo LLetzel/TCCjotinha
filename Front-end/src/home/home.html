@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOTINHA VEÍCULOS</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh+o0s3IUaH6w7fd+iEm/ezEzLQeUQLAyx+K7cd5I45VeMjxL5K+XXkBfdJ/tTgv3lVm=" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+
+<body>
+    <header>
+
+        <div class="container">
+            <div class="logo">
+                <a href="src/home/home.html"><img src="../../img/logonome.png" alt="Logo"></a>
+
+                <nav>
+                    <a href="/src/home/home.html">Início</a>
+                    <a href="/src/estoque/estoque.html">Estoque</a>
+                    <a href="/src/sobrenos/sobrenos.html">Sobre nós</a>
+                    <a href="/src/contato/contato.html">Contato</a>
+                    <a href="/src/consignar/consignar.html">Consignar</a>
+
+                </nav>
+            </div>
+
+            <div class="auth-links">
+                <a id="login" href="/src/login/login.html">Login</a>
+                <a id="cadastro" href="/src/cadastro/cadastro.html">Cadastrar-se</a>
+                <!-- <a href="/src/perfil/perfil.html"><img id="iconperfil" src="/img/perfilred.png" alt="Perfil"></a> -->
+            </div>
+
+        </div>
+
+        <div class="divisoria"></div>
+
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-background"></div> <!-- Novo elemento para a imagem de fundo -->
+            <div class="hero-content">
+                <h1>Encontre o veículo Perfeito!</h1>
+                <div class="search-container">
+                    <input type="text" placeholder="Pesquisar">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        
+            <div class="cards">
+                <div class="card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><img src="../../img/carrosdisponiveis.jpeg"
+                            id="carrodisponivel" alt=""></svg>
+                    <div class="card__content">
+                        <p class="card__title">T-c</p>
+                        <p class="card__description">VW T-Cross 200 TSI</p>
+                        <button onclick="window.location.href='/src/cardetails/cardetails.html';" class="card__button">Ver mais</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><img src="../../img/carrosdisponiveis.jpeg"
+                            id="carrodisponivel" alt=""></svg>
+                    <div class="card__content">
+                        <p class="card__title">Civic</p>
+                        <p class="card__description">VW T-Cross 200 TSI</p>
+                        <button onclick="window.location.href='/src/cardetails/cardetails.html';" class="card__button">Ver mais</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 10"><img src="../../img/carrosdisponiveis.jpeg"
+                            id="carrodisponivel" alt=""></svg>
+                    <div class="card__content">
+                        <p class="card__title">T-cross</p>
+                        <p class="card__description">VW T-Cross 200 TSI</p>
+                        <button onclick="window.location.href='/src/cardetails/cardetails.html';" class="card__button">Ver mais</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <section class="car-types">
+            <h2 data-aos="fade-up">Tipos de Carros</h2>
+            <div class="types">
+                <div class="type" data-aos="zoom-in" data-aos-delay="100">
+                    <a href="#"><img src="../../img/sedan.png" alt="Sedan"></a>
+                    <p>Sedan</p>
+                </div>
+                <div class="type" data-aos="zoom-in" data-aos-delay="200">
+                    <a href="#"><img src="../../img/carro-suv.png" alt="SUV"></a>
+                    <p>SUV</p>
+                </div>
+                <div class="type" data-aos="zoom-in" data-aos-delay="300">
+                    <a href="#"><img src="../../img/carro-conversivel.png" alt="Conversível"></a>
+                    <p>Conversível</p>
+                </div>
+            </div>
+        </section>
+
+        <section data-aos="fade-up" class="carousel">
+            <h2>Sonhos realizados!</h2>
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="../../img/venda1.jpg" alt="Imagem 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../../img/venda2.jpg" alt="Imagem 2">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../../img/venda3.jpg" alt="Imagem 3">
+                    </div>
+                </div>
+                <div data-aos="zoom-in" class="swiper-pagination"></div>
+                <div data-aos="zoom-in" class="swiper-button-next"></div>
+                <div data-aos="zoom-in" class="swiper-button-prev"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-media">
+                <a class="media" href="https://www.instagram.com/jotinha_veiculos/"><i class="fa-brands fa-instagram"></i>
+                    jotinha_veiculos</a>
+                <a class="media"  href="https://www.facebook.com/profile.php?id=100040196695116"><i class="fa-brands fa-facebook"></i>
+                    jotinha_veiculos</a>
+                <a class="media"  href="https://www.instagram.com/lucasletzel_/"><i class="fa-brands fa-instagram"></i>
+                    lucasletzel_</a>
+            </div>
+            <div class="rights">
+                <p>Desenvolvido por Lucas Letzel</p>
+                <p>Copyright @ 2025. Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/d0367c04e4.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        AOS.init(); // Inicializa o AOS
+    </script>
+    <script src="carouselhome.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque - JOTINHA VEICULOS</title>
+    <link rel="stylesheet" href="estoque.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+</head>
+<body>
+    <div class="fundo-img">
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <a href="/src/home/home.html"><img src="../../img/logonome.png" alt="Logo"></a>
+
+                    <nav>
+                        <a href="/src/home/home.html">Início</a>
+                        <a href="/src/estoque/estoque.html">Estoque</a>
+                        <a href="/src/sobrenos/sobrenos.html">Sobre nós</a>
+                        <a href="/src/contato/contato.html">Contato</a>
+                        <a href="/src/consignar/consignar.html">Consignar</a>
+                    </nav>
+                </div>
+
+                <div class="auth-links">
+                    <a id="login" href="/src/login/login.html">Login</a>
+                    <a id="cadastro" href="/src/cadastro/cadastro.html">Cadastrar-se</a>
+                </div>
+            </div>
+            <div class="divisoria"></div>
+        </header>
+
+        <main>
+            <div class="estoque-container">
+                <h1 data-aos="fade-down">Nosso Estoque</h1>
+                <p class="subtitle" data-aos="fade-up">Encontre o veículo dos seus sonhos</p>
+
+                <div class="filters" data-aos="fade-up">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar veículo...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-options">
+                        <select name="marca" id="marca">
+                            <option value="">Todas as marcas</option>
+                            <option value="volkswagen">Volkswagen</option>
+                            <option value="fiat">Fiat</option>
+                            <option value="chevrolet">Chevrolet</option>
+                        </select>
+                        <select name="ano" id="ano">
+                            <option value="">Todos os anos</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                        <select name="preco" id="preco">
+                            <option value="">Faixa de preço</option>
+                            <option value="0-50000">Até R$ 50.000</option>
+                            <option value="50000-100000">R$ 50.000 - R$ 100.000</option>
+                            <option value="100000+">Acima de R$ 100.000</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="vehicles-grid">
+                    <!-- Veículo 1 -->
+                    <div class="vehicle-card" data-aos="fade-up">
+                        <div class="vehicle-image">
+                            <img src="../../img/carrosdisponiveis.jpeg" alt="Veículo">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Volkswagen T-Cross</h3>
+                            <p class="vehicle-details">2023 • 15.000 km • Automático</p>
+                            <div class="vehicle-features">
+                                <span><i class="fas fa-gas-pump"></i> Flex</span>
+                                <span><i class="fas fa-car"></i> SUV</span>
+                                <span><i class="fas fa-palette"></i> Preto</span>
+                            </div>
+                            <div class="vehicle-price">
+                                <span class="price">R$ 120.000</span>
+                                <a href="/src/cardetails/cardetails.html" class="details-btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais cards de veículos aqui -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    </script>
+    <script src="estoque.js"></script>
+</body>
+</html>

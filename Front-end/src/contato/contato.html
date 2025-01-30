@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - JOTINHA VEICULOS</title>
+    <link rel="stylesheet" href="contato.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/src/home/home.html"><img src="../../img/logonome.png" alt="Logo"></a>
+                <nav>
+                        <a href="/src/home/home.html">Início</a>
+                        <a href="/src/estoque/estoque.html">Estoque</a>
+                        <a href="/src/sobrenos/sobrenos.html">Sobre nós</a>
+                        <a href="/src/contato/contato.html">Contato</a>
+                        <a href="/src/consignar/consignar.html">Consignar</a>
+                </nav>
+            </div>
+            
+            <div class="auth-links">
+                <a id="login" href="/src/login/login.html">Login</a>
+                <a id="cadastro" href="/src/cadastro/cadastro.html">Cadastrar-se</a>
+                <!-- <a href="/src/perfil/perfil.html"><img id="iconperfil" src="/img/perfilred.png" alt="Perfil"></a> -->
+            </div>
+
+        </div>
+        <div class="divisoria"></div>
+    </header>
+
+    <main>
+        <section class="contact-hero" data-aos="fade-up">
+            <h1>Entre em Contato</h1>
+            <p>Estamos aqui para ajudar você a encontrar o veículo dos seus sonhos</p>
+        </section>
+
+        <div class="contact-container">
+            <section class="contact-info" data-aos="fade-right">
+                <h2>Informações de Contato</h2>
+                <div class="info-items">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="info-content">
+                            <h3>Localização</h3>
+                            <p>Rua Principal, 123 - Centro</p>
+                            <p>Pompéia - SP</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="info-content">
+                            <h3>Telefone</h3>
+                            <p><a href="tel:+5514998765432">(14) 99876-5432</a></p>
+                            <p><a href="tel:+551432345678">(14) 3234-5678</a></p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="info-content">
+                            <h3>E-mail</h3>
+                            <p><a href="mailto:contato@jotinhaveiculos.com">contato@jotinhaveiculos.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="info-content">
+                            <h3>Horário de Funcionamento</h3>
+                            <p>Segunda a Sexta: 8h às 18h</p>
+                            <p>Sábado: 8h às 12h</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-media">
+                    <h3>Redes Sociais</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact-form" data-aos="fade-left">
+                <h2>Envie sua Mensagem</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="name" name="name" placeholder="Nome completo" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="E-mail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" name="phone" placeholder="Telefone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-tag"></i>
+                            <select id="subject" name="subject" required>
+                                <option value="">Selecione o assunto</option>
+                                <option value="compra">Compra de veículo</option>
+                                <option value="venda">Venda de veículo</option>
+                                <option value="consignacao">Consignação</option>
+                                <option value="outro">Outro assunto</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-comment"></i>
+                            <textarea id="message" name="message" placeholder="Sua mensagem" required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Enviar Mensagem</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <section class="map-section" data-aos="fade-up">
+            <h2>Nossa Localização</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3687.7234234234234!2d-46.12345678901234!3d-23.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDA3JzM0LjQiUyA0NsKwMDcnMzQuNCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr"
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-media">
+                <a class="media" href="#"><i class="fa-brands fa-instagram"></i> jotinha_veiculos</a>
+                <a class="media" href="#"><i class="fa-brands fa-facebook"></i> jotinha_veiculos</a>
+                <a class="media" href="#"><i class="fa-brands fa-instagram"></i> lucasletzel_</a>
+            </div>
+            <div class="rights">
+                <p>Desenvolvido por Lucas Letzel</p>
+                <p>Copyright @ 2025. Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="contato.js"></script>
+</body>
+</html>

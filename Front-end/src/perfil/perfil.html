@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - JOTINHA VEICULOS</title>
+    <link rel="stylesheet" href="perfil.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+</head>
+
+<header>
+
+    <div class="container">
+        <div class="logo">
+            <a href="src/home/home.html"><img src="../../img/logonome.png" alt="Logo"></a>
+
+            <nav>
+                <a href="/src/home/home.html">Início</a>
+                <a href="/src/estoque/estoque.html">Estoque</a>
+                <a href="/src/sobrenos/sobrenos.html">Sobre nós</a>
+                <a href="/src/contato/contato.html">Contato</a>
+                <a href="/src/consignar/consignar.html">Consignar</a>
+
+            </nav>
+        </div>
+
+            <a href="/src/perfil/perfil.html"><img id="iconperfil" src="/img/perfilred.png" alt="Perfil"></a>
+    </div>
+
+    <div class="divisoria"></div>
+
+</header>
+<body>
+
+        <main>
+            <div class="profile-container" data-aos="fade-up">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-cover">
+                        <div class="profile-avatar">
+                            <img src="../../img/profile.jpg" alt="Profile Picture">
+                            <button class="edit-avatar">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h1>Lucas Letzel</h1>
+                        <p>usuario@email.com</p>
+                    </div>
+                </div>  
+
+                <!-- Profile Navigation -->
+                <div class="profile-nav">
+                    <button class="nav-btn active" data-tab="personal">
+                        <i class="fas fa-user"></i>
+                        Dados Pessoais
+                    </button>
+                    <button class="nav-btn" data-tab="vehicles">
+                        <i class="fas fa-car"></i>
+                        Meus Veículos
+                    </button>
+                    <button class="nav-btn" data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        Configurações
+                    </button>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="profile-content">
+                    <!-- Personal Info Tab -->
+                    <div class="tab-content active" id="personal">
+                        <div class="content-section" data-aos="fade-up">
+                            <h2>Informações Pessoais</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Nome Completo</label>
+                                    <p>Lucas Dias Letzel</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>CPF</label>
+                                    <p>123.456.789-00</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Data de Nascimento</label>
+                                    <p>01/01/1990</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Telefone</label>
+                                    <p>(11) 98765-4321</p>
+                                </div>
+                            </div>
+                            <button class="edit-btn">
+                                <i class="fas fa-edit"></i>
+                                Editar Informações
+                            </button>
+                        </div>
+
+                        <div class="content-section" data-aos="fade-up" data-aos-delay="100">
+                            <h2>Endereço</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>CEP</label>
+                                    <p>12345-678</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Rua</label>
+                                    <p>Rua das Flores, 123</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Bairro</label>
+                                    <p>Centro</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Cidade/UF</label>
+                                    <p>São Paulo/SP</p>
+                                </div>
+                            </div>
+                            <button class="edit-btn">
+                                <i class="fas fa-edit"></i>
+                                Editar Endereço
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Vehicles Tab -->
+                    <div class="tab-content" id="vehicles">
+                        <div class="vehicles-grid" data-aos="fade-up">
+                            <!-- Vehicle Card -->
+                            <div class="vehicle-card">
+                                <div class="vehicle-image">
+                                    <img src="../../img/carrosdisponiveis.jpeg" alt="Veiculo">
+                                </div>
+                                <div class="vehicle-info">
+                                    <h3>T-Cross 200 TSI</h3>
+                                    <p>2023 • 15.000 km</p>
+                                    <p class="price">R$ 120.000</p>
+                                </div>
+                                <div class="vehicle-actions">
+                                    <button class="delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-vehicle-btn">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Adicionar Veículo</span>
+                        </button>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="tab-content" id="settings">
+                        <div class="content-section" data-aos="fade-up">
+                            <h2>Segurança</h2>
+                            <div class="settings-group">
+                                <button class="settings-btn">
+                                    <i class="fas fa-key"></i>
+                                    Alterar Senha
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="content-section" data-aos="fade-up" data-aos-delay="100">
+                            <h2>Preferências</h2>
+                            <div class="settings-group">
+                                <div class="toggle-setting">
+                                    <span>Notificações por Email</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Personal Info Modal -->
+    <div id="editPersonalModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Informações Pessoais</h2>
+            <form id="editPersonalForm">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>CPF</label>
+                    <input type="text" id="editCpf" required>
+                </div>
+                <div class="form-group">
+                    <label>Data de Nascimento</label>
+                    <input type="date" id="editBirthdate" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="tel" id="editPhone" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn">Cancelar</button>
+                    <button type="submit" class="save-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Address Modal -->
+    <div id="editAddressModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Endereço</h2>
+            <form id="editAddressForm">
+                <div class="form-group">
+                    <label>CEP</label>
+                    <input type="text" id="editCep" required>
+                </div>
+                <div class="form-group">
+                    <label>Rua</label>
+                    <input type="text" id="editStreet" required>
+                </div>
+                <div class="form-group">
+                    <label>Bairro</label>
+                    <input type="text" id="editNeighborhood" required>
+                </div>
+                <div class="form-group">
+                    <label>Cidade/UF</label>
+                    <input type="text" id="editCity" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn">Cancelar</button>
+                    <button type="submit" class="save-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Alterar Senha</h2>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword">Senha Atual</label>
+                    <div class="password-input">
+                        <input type="password" id="currentPassword" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Nova Senha</label>
+                    <div class="password-input">
+                        <input type="password" id="newPassword" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Nova Senha</label>
+                    <div class="password-input">
+                        <input type="password" id="confirmPassword" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i>
+                    Salvar Nova Senha
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Avatar Modal -->
+    <div id="changeAvatarModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Alterar Foto de Perfil</h2>
+            <form id="avatarForm">
+                <div class="avatar-preview">
+                    <img id="avatarPreview" src="/img/perfilred.png" alt="Preview">
+                </div>
+                <div class="form-group">
+                    <label for="avatarInput" class="file-input-label">
+                        <i class="fas fa-upload"></i>
+                        Escolher Foto
+                    </label>
+                    <input type="file" id="avatarInput" accept="image/*" hidden>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i>
+                    Salvar Foto
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="/src/perfil/perfil.js"></script>
+</body>
+</html>
