@@ -10,41 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh+o0s3IUaH6w7fd+iEm/ezEzLQeUQLAyx+K7cd5I45VeMjxL5K+XXkBfdJ/tTgv3lVm=" crossorigin="anonymous"
         referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/Front-end/src/components/footer/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" />
-
+    <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 
 <body>
-    <header>
-
-        <div class="container">
-            <div class="logo">
-                <a href="src/home/home.html"><img src="../../img/logonome.png" alt="Logo"></a>
-
-                <nav>
-                    <a href="/Front-end/src/home/carouselhome.js">Início</a>
-                    <a href="/Front-end/src/estoque/estoque.html">Estoque</a>
-                    <a href="/Front-end/src/sobrenos/sobrenos.html">Sobre nós</a>
-                    <a href="/Front-end/src/contato/contato.html">Contato</a>
-                    <a href="/Front-end/src/consignar/consignar.html">Consignar</a>
-
-                </nav>
-            </div>
-
-            <div class="auth-links">
-                <a id="login" href="/Front-end/src/login/login.html">Login</a>
-                <a id="cadastro" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
-                <!-- <a href="/Front-end/src/perfil/perfil.html"><img id="iconperfil" src="/img/perfilred.png" alt="Perfil"></a> -->
-            </div>
-
-        </div>
-
-        <div class="divisoria"></div>
-
-    </header>
+    <header-component></header-component>
 
     <main>
         <section class="hero">
@@ -129,30 +104,19 @@
             </div>
         </section>
     </main>
+    
 
-    <footer>
-        <div class="footer-content">
-            <div class="social-media">
-                <a class="media" href="https://www.instagram.com/jotinha_veiculos/"><i class="fa-brands fa-instagram"></i>
-                    jotinha_veiculos</a>
-                <a class="media"  href="https://www.facebook.com/profile.php?id=100040196695116"><i class="fa-brands fa-facebook"></i>
-                    jotinha_veiculos</a>
-                <a class="media"  href="https://www.instagram.com/lucasletzel_/"><i class="fa-brands fa-instagram"></i>
-                    lucasletzel_</a>
-            </div>
-            <div class="rights">
-                <p>Desenvolvido por Lucas Letzel</p>
-                <p>Copyright @ 2025. Todos os direitos reservados</p>
-            </div>
-        </div>
-    </footer>
+
+    <footer-component></footer-component>
 
     <script src="https://kit.fontawesome.com/d0367c04e4.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script src="/Front-end/src/components/footer/footer.js" type="text/javascript" defer></script>
     <script>
         AOS.init(); // Inicializa o AOS
     </script>
     <script src="carouselhome.js"></script>
+    <script src="home.js"></script>
 </body>
 
 </html>

@@ -6,33 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contato - JOTINHA VEICULOS</title>
     <link rel="stylesheet" href="contato.css">
+    <link rel="stylesheet" href="/Front-end/src/components/footer/footer.css">
+    <link rel="stylesheet" href="/Front-end/src/components/header/header.css">
     <link rel="shortcut icon" href="/Front-end/img/image.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <a href="/Front-end/src/home/home.html"><img src="../../img/logonome.png" alt="Logo"></a>
-                <nav>
-                    <a href="/Front-end/src/home/home.html">Início</a>
-                    <a href="/Front-end/src/estoque/estoque.html">Estoque</a>
-                    <a href="/Front-end/src/sobrenos/sobrenos.html">Sobre nós</a>
-                    <a href="/Front-end/src/contato/contato.html">Contato</a>
-                    <a href="/Front-end/src/consignar/consignar.html">Consignar</a>
-                </nav>
-            </div>
-
-            <div class="auth-links">
-                <a id="login" href="/Front-end/src/login/login.html">Login</a>
-                <a id="cadastro" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
-                <!-- <a href="/Front-end/src/perfil/perfil.html"><img id="iconperfil" src="/img/perfilred.png" alt="Perfil"></a> -->
-            </div>
-
-        </div>
-        <div class="divisoria"></div>
-    </header>
+    <header-component></header-component>
 
     <main>
         <section class="contact-hero" data-aos="fade-up">
@@ -159,22 +140,11 @@
         </section>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="social-media">
-                <a class="media" href="#"><i class="fa-brands fa-instagram"></i> jotinha_veiculos</a>
-                <a class="media" href="#"><i class="fa-brands fa-facebook"></i> jotinha_veiculos</a>
-                <a class="media" href="#"><i class="fa-brands fa-instagram"></i> lucasletzel_</a>
-            </div>
-            <div class="rights">
-                <p>Desenvolvido por Lucas Letzel</p>
-                <p>Copyright @ 2025. Todos os direitos reservados</p>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
+    <script src="/Front-end/src/components/footer/footer.js" type="text/javascript" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
     <script>
         AOS.init();
     </script>
