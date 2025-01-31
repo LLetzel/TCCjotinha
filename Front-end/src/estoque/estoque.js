@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="vehicle-price">
                             <span class="price">R$ ${vehicle.price}</span>
-                            <a href="/src/cardetails/cardetails.html?id=${vehicle.id}" class="details-btn">Ver Detalhes</a>
+                            <a href="/Front-end/src/cardetails/cardetails.html?id=${vehicle.id}" class="details-btn">Ver Detalhes</a>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mileage: '15.000',
             fuel: 'Flex',
             transmission: 'Automático',
-            image: '/img/carrosdisponiveis.jpeg'
+            image: '/Front-end/img/carrosdisponiveis.jpeg'
         },
         // Add more vehicles here
     ];
