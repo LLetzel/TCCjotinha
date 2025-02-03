@@ -169,7 +169,7 @@ main {
 
 /* História Section */
 .historia {
-    padding: 6rem 2rem;
+    padding: 4rem 2rem; /* Reduced from 6rem */
     background: rgba(0, 0, 0, 0.85);
     width: 75%;
     border-radius: 20px;
@@ -186,7 +186,7 @@ main {
 
 .historia-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem; /* Reduced from 4rem */
 }
 
 .historia-header h2 {
@@ -315,7 +315,7 @@ main {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 1rem 0; /* Reduced from 2rem */
 }
 
 .timeline::before {
@@ -335,7 +335,7 @@ main {
     padding: 2rem;
     position: relative;
     width: 40vw;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Reduced from 2rem */
     left: 50%;
     padding-left: 3rem;
 }
@@ -481,7 +481,7 @@ main {
 
     .historia {
         width: 95%;
-        padding: 3rem 1rem;
+        padding: 2rem 1rem;
     }
 
     .historia-content {
@@ -494,6 +494,10 @@ main {
         line-height: 1.6;
     }
 
+    .historia-header {
+        margin-bottom: 1.5rem;
+    }
+
     .historia-header h2 {
         font-size: 2.5rem;
     }
@@ -503,8 +507,19 @@ main {
     }
 
     .timeline-item {
-        width: 100%;
-        padding-left: 2rem;
+        width: 90%;
+        left: 0;
+        margin-left: 20px;
+        padding: 1rem;
+    }
+
+    .timeline-item::before {
+        left: -26px;
+    }
+
+    .timeline-item::after {
+        left: -20px;
+        width: 20px;
     }
 
     .timeline-item:nth-child(even) {
@@ -513,19 +528,36 @@ main {
     }
 
     .timeline-item:nth-child(odd) {
+        left: 0;
+        padding-left: 2rem;
         padding-right: 1rem;
     }
 
+    .timeline-content {
+        padding: 1.5rem;
+    }
+
     .timeline-content h3 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .timeline-content p {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
-    .image-content {
-        order: -1;
+    .valores {
+        width: 95%;
+        padding: 3rem 1rem;
+    }
+
+    .valores-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .valor-item {
+        padding: 2rem;
     }
 }
 

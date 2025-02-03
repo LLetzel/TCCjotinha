@@ -111,7 +111,7 @@ nav a:hover {
     z-index: 1000;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
     .menu-toggle {
         display: block;
     }
@@ -128,7 +128,7 @@ nav a:hover {
         height: 100vh;
         background-color: #000;
         padding-top: 80px;
-        transition: 0.3s ease-in-out;
+        /* transition: 0.3s ease-in-out; */
         z-index: 999;
         display: flex;
         flex-direction: column;
