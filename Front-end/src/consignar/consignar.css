@@ -180,6 +180,8 @@ h1::after {
     color: var(--primary-color);
 }
 
+
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -232,6 +234,7 @@ select:focus, input:focus, textarea:focus {
     padding: 1.5rem;
     border-radius: 8px;
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .fipe-value {

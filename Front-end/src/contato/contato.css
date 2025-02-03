@@ -43,121 +43,12 @@ body::before {
     z-index: -1;
 }
 
-/* Header styles */
-.divisoria {
-    width: 110%;
-    height: 4px;
-    background-color: #A71313;
-    top: 0;
-    bottom: 0;
-    padding-left: 10px;
-}
-
-header {
-    display: flex;
-    flex-direction: column;
-    background-color: #000;
-    padding: 10px 10px 0px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-}
-
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo img {
-    width: 15vw;
-    margin-right: 3vw;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    font-size: large;
-}
-
-nav {
-    display: flex;
-}
-
-nav a {
-    margin: 0 15px;
-    color: #F6F6F6;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #c9302c;
-}
-
-.auth-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.auth-links a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.auth-links a:hover {
-    color: var(--primary-color);
-}
-
-#login, #cadastro {
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: all 0.3s;
-}
-
-#login {
-    background-color: transparent;
-    border: 2px solid var(--primary-color);
-}
-
-#cadastro {
-    background-color: var(--primary-color);
-}
-
-#login:hover {
-    background-color: var(--primary-color);
-}
-
-#cadastro:hover {
-    background-color: var(--hover-color);
-}
-
-
-/* Responsive adjustments for header */
-@media (max-width: 768px) {
-    .logo img {
-        width: 30vw;
-    }
-    
-    nav {
-        gap: 10px;
-    }
-    
-    nav a {
-        margin: 0 8px;
-        font-size: 0.9rem;
-    }
-}
 
 /* Main Content Styles */
 .contact-hero {
     text-align: center;
-    padding: 4rem 2rem;
-    margin-bottom: 3rem;
+    padding: 2rem 1rem;
+    margin-bottom: 1rem;
 }
 
 .contact-hero h1 {
@@ -274,6 +165,7 @@ nav a:hover {
 }
 
 .form-group {
+    margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
 

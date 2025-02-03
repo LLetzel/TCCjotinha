@@ -141,19 +141,44 @@ h1 {
     font-weight: 800;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     position: relative;
-    padding-bottom: 15px;
+
 }
 
-h1::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+.separator {
     width: 100px;
     height: 4px;
     background: var(--primary-color);
-    border-radius: 2px;
+    margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.separator::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: var(--hover-color);
+    animation: separatorPulse 2s infinite;
+}
+
+.separator::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shine 2s infinite;
+}
+
+/* Animations */
+@keyframes separatorPulse {
+    0% { width: 40px; }
+    50% { width: 60px; }
+    100% { width: 40px; }
 }
 
 .subtitle {

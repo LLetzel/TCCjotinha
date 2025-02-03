@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const anoSelect = document.getElementById('ano');
     const fipeResult = document.getElementById('fipeResult');
     const form = document.getElementById('consignForm');
+    const precoInput = document.getElementById('preco');
     
     // API FIPE base URL
     const FIPE_API = 'https://parallelum.com.br/fipe/api/v1/carros';
@@ -125,6 +126,23 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Enter') {
             e.preventDefault();
             return false;
+        }
+    });
+
+    // Máscara para o campo de preço
+    IMask(precoInput, {
+        mask: 'R$ num',
+        blocks: {
+            num: {
+                mask: Number,
+                thousandsSeparator: '.',
+                radix: ',',
+                scale: 2,
+                padFractionalZeros: true,
+                normalizeZeros: true,
+                min: 0,
+                max: 999999999.99
+            }
         }
     });
 });
