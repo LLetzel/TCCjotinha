@@ -51,7 +51,7 @@
                 <!-- Profile Content -->
                 <div class="profile-content">
                     <!-- Personal Info Tab -->
-                    <div class="tab-content active" id="personal">
+                    <div class="tab-content" id="personal">
                         <div class="content-section" data-aos="fade-up">
                             <h2>Informações Pessoais</h2>
                             <div class="info-grid">
@@ -75,32 +75,6 @@
                             <button class="edit-btn">
                                 <i class="fas fa-edit"></i>
                                 Editar Informações
-                            </button>
-                        </div>
-
-                        <div class="content-section" data-aos="fade-up" data-aos-delay="100">
-                            <h2>Endereço</h2>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <label>CEP</label>
-                                    <p>12345-678</p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Rua</label>
-                                    <p>Rua das Flores, 123</p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Bairro</label>
-                                    <p>Centro</p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Cidade/UF</label>
-                                    <p>São Paulo/SP</p>
-                                </div>
-                            </div>
-                            <button class="edit-btn">
-                                <i class="fas fa-edit"></i>
-                                Editar Endereço
                             </button>
                         </div>
                     </div>
@@ -170,19 +144,22 @@
             <form id="editPersonalForm">
                 <div class="form-group">
                     <label>Nome Completo</label>
-                    <input type="text" id="editName" required>
+                    <input type="text" id="editName" value="Lucas Dias Letzel" disabled>
+                    <span class="disabled-message">Este campo não pode ser alterado</span>
                 </div>
                 <div class="form-group">
                     <label>CPF</label>
-                    <input type="text" id="editCpf" required>
+                    <input type="text" id="editCpf" value="123.456.789-00" disabled>
+                    <span class="disabled-message">Este campo não pode ser alterado</span>
                 </div>
                 <div class="form-group">
                     <label>Data de Nascimento</label>
-                    <input type="date" id="editBirthdate" required>
+                    <input type="date" id="editBirthdate" value="1990-01-01" disabled>
+                    <span class="disabled-message">Este campo não pode ser alterado</span>
                 </div>
                 <div class="form-group">
                     <label>Telefone</label>
-                    <input type="tel" id="editPhone" required>
+                    <input type="tel" id="editPhone" value="(11) 98765-4321" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="cancel-btn">Cancelar</button>
@@ -192,35 +169,6 @@
         </div>
     </div>
 
-    <!-- Edit Address Modal -->
-    <div id="editAddressModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Editar Endereço</h2>
-            <form id="editAddressForm">
-                <div class="form-group">
-                    <label>CEP</label>
-                    <input type="text" id="editCep" required>
-                </div>
-                <div class="form-group">
-                    <label>Rua</label>
-                    <input type="text" id="editStreet" required>
-                </div>
-                <div class="form-group">
-                    <label>Bairro</label>
-                    <input type="text" id="editNeighborhood" required>
-                </div>
-                <div class="form-group">
-                    <label>Cidade/UF</label>
-                    <input type="text" id="editCity" required>
-                </div>
-                <div class="modal-buttons">
-                    <button type="button" class="cancel-btn">Cancelar</button>
-                    <button type="submit" class="save-btn">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="modal">
@@ -288,6 +236,6 @@
     <script>
         AOS.init();
     </script>
-    <script src="/src/perfil/perfil.js"></script>
+    <script src="perfil.js" type="text/javascript" defer></script>
 </body>
 </html>

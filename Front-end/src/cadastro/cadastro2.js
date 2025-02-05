@@ -31,11 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 field.classList.add('error');
             } else {
                 field.classList.remove('error');
+                if (field.id === 'adminCode' && field.value !== 'ADMIN123') {
+                    valid = false;
+                    field.classList.add('error');
+                    alert('Código de administrador inválido');
+                }
             }
         });
 
         if (!valid) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
+            alert('Por favor, preencha todos os campos obrigatórios corretamente.');
         }
 
         return valid;
@@ -56,6 +61,22 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
         });
+    });
+
+    // Admin code field toggle
+    const userType = document.getElementById('userType');
+    const adminCodeGroup = document.getElementById('adminCodeGroup');
+    const adminCode = document.getElementById('adminCode');
+
+    userType.addEventListener('change', function() {
+        if (this.value === 'administrador') {
+            adminCodeGroup.style.display = 'block';
+            adminCode.required = true;
+        } else {
+            adminCodeGroup.style.display = 'none';
+            adminCode.required = false;
+            adminCode.value = '';
+        }
     });
 
     // ...existing code for CEP API and password toggle...

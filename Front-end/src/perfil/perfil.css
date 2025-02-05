@@ -15,6 +15,32 @@
     font-weight: bold;
 }
 
+::-webkit-scrollbar {
+    width: 16px;
+    background: #000000;
+    border-radius: 8px;
+    border: 1px solid rgba(166, 18, 17, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #A61211, #c9302c);
+    border-radius: 8px;
+    border: 2px solid #000000;
+    box-shadow: 0 0 15px rgba(166, 18, 17, 0.7);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(145deg, #c9302c, #A61211);
+    border: 2px solid #000000;
+    box-shadow: 0 0 20px rgba(166, 18, 17, 0.9);
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+    border-radius: 8px;
+    box-shadow: inset 0 0 6px rgba(166, 18, 17, 0.4);
+}
+
 /* Base styles (same as other pages) */
 body {
     font-family: 'Trebuchet MS', Arial, sans-serif;
@@ -463,14 +489,104 @@ input:checked + .slider:before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
     z-index: 1000;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .modal.show {
     opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(166, 18, 17, 0.1));
+    width: 90%;
+    max-width: 500px;
+    margin: 10vh auto;
+    padding: 2.5rem;
+    border-radius: 20px;
+    transform: translateY(-30px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(166, 18, 17, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(166, 18, 17, 0.2);
+    border-radius: 10px;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.modal input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(166, 18, 17, 0.2);
+    outline: none;
+}
+
+/* Add these styles for disabled inputs */
+.modal input:disabled {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(166, 18, 17, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+}
+
+.modal input:disabled + label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.disabled-message {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.save-btn, .cancel-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.save-btn {
+    background: var(--primary-color);
+    color: var(--text-color);
+}
+
+.save-btn:hover {
+    background: var(--hover-color);
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .modal-content {
@@ -585,14 +701,14 @@ input:checked + .slider:before {
 
 /* Tab Content */
 .tab-content {
-    opacity: 0;
     display: none;
+    opacity: 0;
     transition: opacity 0.3s ease;
 }
 
 .tab-content.active {
-    opacity: 1;
     display: block;
+    opacity: 1;
 }
 
 /* Add to perfil.css */
