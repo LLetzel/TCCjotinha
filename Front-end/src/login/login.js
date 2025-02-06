@@ -72,4 +72,50 @@ const togglePassword = document.querySelector('.toggle-password');
             this.classList.add('fa-eye');
         }
     });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('.login-form');
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const submitBtn = loginForm.querySelector('.submit-btn');
+
+        try {
+            submitBtn.classList.add('loading');
+
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, senha })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Erro no login');
+            }
+
+            // Save token and user data
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            // Redirect based on user type
+            if (data.user.tipo_id === 1) {
+                window.location.href = '/admin/dashboard.html';
+            } else {
+                window.location.href = '/perfil.html';
+            }
+
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            submitBtn.classList.remove('loading');
+        }
+    });
+});
 ;

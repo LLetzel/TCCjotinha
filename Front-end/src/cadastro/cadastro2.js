@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.querySelector('.next-btn');
     const backBtn = document.querySelector('.back-btn');
     const progressSteps = document.querySelectorAll('.progress-step');
+    const cadastroForm = document.querySelector('.cadastro-form');
 
     // Form Navigation
     nextBtn.addEventListener('click', () => {
@@ -79,5 +80,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ...existing code for CEP API and password toggle...
+    // Form Submission
+    cadastroForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            nome: localStorage.getItem('cadastro_nome'),
+            email: document.getElementById('email').value,
+            senha: document.getElementById('senha').value,
+            telefone: document.getElementById('telefone').value,
+            cpf: localStorage.getItem('cadastro_cpf'),
+            nascimento: localStorage.getItem('cadastro_nascimento'),
+            sexo: localStorage.getItem('cadastro_sexo'),
+            tipo_id: document.getElementById('userType').value === 'administrador' ? 1 : 2
+        };
+
+        const submitBtn = cadastroForm.querySelector('.submit-btn');
+
+        try {
+            submitBtn.classList.add('loading');
+
+            if (formData.tipo_id === 1) {
+                const adminCode = document.getElementById('adminCode').value;
+                if (adminCode !== 'ADMIN123') {
+                    throw new Error('Código de administrador inválido');
+                }
+            }
+
+            const response = await fetch('http://localhost:3000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Erro no cadastro');
+            }
+
+            // Clear localStorage
+            localStorage.removeItem('cadastro_nome');
+            localStorage.removeItem('cadastro_cpf');
+            localStorage.removeItem('cadastro_nascimento');
+            localStorage.removeItem('cadastro_sexo');
+
+            alert('Cadastro realizado com sucesso!');
+            window.location.href = '/login.html';
+
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            submitBtn.classList.remove('loading');
+        }
+    });
 });

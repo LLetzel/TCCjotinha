@@ -1,10 +1,12 @@
 module.exports = {
-    development: {
-      username: 'root',
-      password: 'root',
-      database: 'jotinhaveiculos',
-      host: 3306,
-      dialect: 'mysql',
-      logging: false
-    }
-  };
+    dialect: 'mysql',
+    host: 'localhost',
+    username: 'root',
+    password: 'root',
+    database: 'jotinhaveiculos',
+    port: 3307,
+    define: {
+        timestamps: true,
+        underscored: true,
+    },
+};
