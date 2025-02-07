@@ -1,7 +1,7 @@
 const express = require('express');
 // const routes = require('./routes.js');
 const app = express();
-const PORT = 3000;
+const PORT = 3007;
 // app.use(cookieParser());
 
 app.use(express.json());
