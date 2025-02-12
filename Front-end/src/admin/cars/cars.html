@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Veículos | Jotinha Veículos</title>
+    <link rel="stylesheet" href="/src/admin/dashboard/dashboard.css">
+    <link rel="stylesheet" href="cars.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="logo">
+        <img src="/./img/logonome.png" alt="Jotinha Veículos">
+    </div>
+    <nav>
+        <a href="/src/admin/dashboard/dashboard.html">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="/src/admin/cars/cars.html">
+            <i class="fas fa-car"></i>
+            <span>Estoque</span>
+        </a>
+        <a href="#users">
+            <i class="fas fa-users"></i>
+            <span>Usuários</span>
+        </a>
+        <a href="#appointments">
+            <i class="fas fa-calendar"></i>
+            <span>Agendamentos</span>
+        </a>
+    </nav>
+</aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Gerenciar Veículos</h1>
+                <button class="add-btn" onclick="openModal()">
+                    <i class="fas fa-plus"></i> Adicionar Veículo
+                </button>
+            </header>
+
+            <!-- <div class="filters">
+                <input type="text" id="searchInput" placeholder="Buscar veículo...">
+                <select id="statusFilter">
+                    <option value="">Status</option>
+                    <option value="1">Disponível</option>
+                    <option value="2">Vendido</option>
+                    <option value="3">Reservado</option>
+                </select>
+                <select id="typeFilter">
+                    <option value="">Tipo</option>
+                    <option value="1">Novo</option>
+                    <option value="2">Usado</option>
+                </select>
+            </div> -->
+
+            <div class="table-container">
+                <table class="cars-table">
+                    <thead>
+                        <tr>
+                            <th>Imagens</th>
+                            <th>Marca/Modelo</th>
+                            <th>Ano</th>
+                            <th>Preço</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="carsTableBody">
+                        <!-- Sample Car Data -->
+                        <tr>
+                            <td>
+                                <div class="car-image-preview">
+                                    <img src="/img/carrosdisponiveis.jpeg" alt="T-Cross">
+                                </div>
+                            </td>
+                            <td>Volkswagen T-Cross</td>
+                            <td>2023</td>
+                            <td>R$ 120.000,00</td>
+                            <td>
+                                <span class="status-badge disponivel">Disponível</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit-btn" onclick="openModal(1)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn" onclick="deleteCar(1)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Car Modal -->
+    <div id="carModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Adicionar Veículo</h2>
+            <form id="carForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Marca</label>
+                        <input type="text" id="marca" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Modelo</label>
+                        <input type="text" id="modelo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ano</label>
+                        <input type="number" id="ano" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Preço</label>
+                        <input type="number" id="preco" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quilometragem</label>
+                        <input type="number" id="quilometragem" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Combustível</label>
+                        <select id="combustivel" required>
+                            <option value="Flex">Flex</option>
+                            <option value="Gasolina">Gasolina</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Elétrico">Elétrico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Câmbio</label>
+                        <select id="cambio" required>
+                            <option value="Manual">Manual</option>
+                            <option value="Automático">Automático</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cor</label>
+                        <input type="text" id="cor" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Descrição</label>
+                        <textarea id="descricao" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagem 1</label>
+                        <input type="file" id="imagem1" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Imagem 2</label>
+                        <input type="file" id="imagem2" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Imagem 3</label>
+                        <input type="file" id="imagem3" accept="image/*">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="save-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="modal.js"></script>
+</body>
+</html>

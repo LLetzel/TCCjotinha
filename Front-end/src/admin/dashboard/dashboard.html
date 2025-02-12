@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | Jotinha Veículos</title>
+    
+    <link rel="stylesheet" href="dashboard.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="/./img/logonome.png" alt="Jotinha Veículos">
+            </div>
+            <nav>
+                <a href="/Front-end/src/admin/dashboard/dashboard.html">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/src/admin/cars/cars.html">
+                    <i class="fas fa-car"></i>
+                    <span>Estoque</span>
+                </a>
+                <a href="#users">
+                    <i class="fas fa-users"></i>
+                    <span>Usuários</span>
+                </a>
+                <a href="#appointments">
+                    <i class="fas fa-calendar"></i>
+                    <span>Agendamentos</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="admin-profile">
+                    <span class="admin-name">Administrador</span>
+                    <img src="../img/profile.jpg" alt="Admin">
+                </div>
+            </header>
+
+            <!-- Quick Stats -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Carros em Estoque</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Agendamentos Hoje</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Carros em Destaque</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions
+            <section class="actions-section">
+                <h2>Ações Rápidas</h2>
+                <div class="actions-grid">
+                    <button class="action-btn" onclick="openModal('addCar')">
+                        <i class="fas fa-plus-circle"></i>
+                        Adicionar Carro
+                    </button>
+                    <button class="action-btn" onclick="openModal('featured')">
+                        <i class="fas fa-star"></i>
+                        Gerenciar Destaques
+                    </button>
+                    <button class="action-btn" onclick="openModal('appointments')">
+                        <i class="fas fa-calendar"></i>
+                        Ver Agendamentos
+                    </button>
+                </div>
+            </section> -->
+
+        </main>
+    </div>
+
+    <script src="/src/admin/cars/modal.js"></script>
+</body>
+</html>
