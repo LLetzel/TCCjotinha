@@ -70,8 +70,16 @@ h1{
 /* Main Content */
 .main-content {
     flex: 1;
-    padding: 2rem;
+    gap: 2rem;
+    padding: 4rem;
     overflow-y: auto;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
 .top-header {
@@ -193,6 +201,228 @@ h1{
 
 .activity-list {
     margin-top: 1rem;
+}
+
+/* Appointments Section */
+.appointments-section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.time-slot {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.time-slot h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.slot-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+}
+
+.slot-item:hover {
+    transform: translateX(5px);
+}
+
+.slot-item.available {
+    border-left: 4px solid #28a745;
+}
+
+.slot-item.booked {
+    border-left: 4px solid var(--primary-color);
+}
+
+.slot-item.pending {
+    border-left: 4px solid #ffc107;
+}
+
+.slot-time {
+    font-weight: bold;
+    min-width: 60px;
+}
+
+.slot-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.client-name {
+    display: block;
+    font-weight: 500;
+}
+
+.appointment-type {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--primary-color);
+    color: var(--text-color);
+}
+
+.action-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.date-navigation {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.date-selector input {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.time-block h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.appointment-slot {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.appointment-slot.available {
+    background: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+}
+
+.appointment-slot.booked {
+    background: rgba(201, 48, 44, 0.1);
+    border-color: var(--primary-color);
+}
+
+.appointment-slot.pending {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.appointment-slot .time {
+    font-weight: bold;
+    min-width: 60px;
+}
+
+.appointment-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.appointment-info .client {
+    display: block;
+    font-weight: 500;
+}
+
+.appointment-info .type {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.details-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.details-btn:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.status {
+    color: #28a745;
+    font-size: 0.9rem;
 }
 
 /* Responsive Design */

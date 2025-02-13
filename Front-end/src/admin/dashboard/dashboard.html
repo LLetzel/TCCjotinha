@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo | Jotinha Veículos</title>
-    
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
     <link rel="stylesheet" href="dashboard.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -17,7 +16,7 @@
                 <img src="/./img/logonome.png" alt="Jotinha Veículos">
             </div>
             <nav>
-                <a href="/Front-end/src/admin/dashboard/dashboard.html">
+                <a href="/src/admin/dashboard/dashboard.html">
                     <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </a>
@@ -25,84 +24,103 @@
                     <i class="fas fa-car"></i>
                     <span>Estoque</span>
                 </a>
-                <a href="#users">
+                <a href="/src/admin/user/user.html">
                     <i class="fas fa-users"></i>
                     <span>Usuários</span>
-                </a>
-                <a href="#appointments">
-                    <i class="fas fa-calendar"></i>
-                    <span>Agendamentos</span>
                 </a>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <header class="top-header">
-                <div class="page-title">
-                    <h1>Dashboard</h1>
-                </div>
-                <div class="admin-profile">
-                    <span class="admin-name">Administrador</span>
-                    <img src="../img/profile.jpg" alt="Admin">
-                </div>
+            <header class="top-bar">
+                <h1>Dashboard</h1>
             </header>
 
             <!-- Quick Stats -->
-            <section class="stats-grid">
+            <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-car"></i>
-                    </div>
+                    <i class="fas fa-car"></i>
                     <div class="stat-info">
-                        <span class="stat-value">0</span>
-                        <span class="stat-label">Carros em Estoque</span>
+                        <h3>Carros em estoque</h3>
+                        <p>12</p>
                     </div>
                 </div>
-                
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
+                    <i class="fas fa-users"></i>
                     <div class="stat-info">
-                        <span class="stat-value">0</span>
-                        <span class="stat-label">Agendamentos Hoje</span>
+                        <h3>Usuários</h3>
+                        <p>145</p>
                     </div>
                 </div>
-                
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
+                    <i class="fas fa-check-circle"></i>
                     <div class="stat-info">
-                        <span class="stat-value">0</span>
-                        <span class="stat-label">Carros em Destaque</span>
+                        <h3>Sonhos Realizados</h3>
+                        <p>89</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Featured Cars Section -->
+            <section class="featured-cars">
+                <h2>Carros em Destaque</h2>
+                <div class="cars-grid">
+                    <!-- Car cards will be dynamically added here -->
                 </div>
             </section>
 
-            <!-- Quick Actions
-            <section class="actions-section">
-                <h2>Ações Rápidas</h2>
-                <div class="actions-grid">
-                    <button class="action-btn" onclick="openModal('addCar')">
-                        <i class="fas fa-plus-circle"></i>
-                        Adicionar Carro
-                    </button>
-                    <button class="action-btn" onclick="openModal('featured')">
-                        <i class="fas fa-star"></i>
-                        Gerenciar Destaques
-                    </button>
-                    <button class="action-btn" onclick="openModal('appointments')">
-                        <i class="fas fa-calendar"></i>
-                        Ver Agendamentos
-                    </button>
+            <!-- Appointments Section -->
+            <section class="appointments-section">
+                <div class="section-header">
+                    <h2>Agendamentos do Dia</h2>
+                    <div class="date-selector">
+                        <input type="date" id="appointmentDate" onchange="loadAppointments(this.value)">
+                    </div>
                 </div>
-            </section> -->
 
+                <div class="appointments-grid">
+                    <div class="time-slot morning">
+                        <h3>Manhã</h3>
+                        <div class="slot-list" id="morningSlots">
+                            <div class="slot-item available">
+                                <span class="slot-time">09:00</span>
+                                <div class="slot-info">
+                                    <span class="status">Disponível</span>
+                                </div>
+                            </div>
+                            <div class="slot-item booked">
+                                <span class="slot-time">10:00</span>
+                                <div class="slot-info">
+                                    <span class="client-name">João Silva</span>
+                                    <span class="appointment-type">Test Drive - T-Cross</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="time-slot afternoon">
+                        <h3>Tarde</h3>
+                        <div class="slot-list" id="afternoonSlots">
+                            <div class="slot-item available">
+                                <span class="slot-time">14:00</span>
+                                <div class="slot-info">
+                                    <span class="status">Disponível</span>
+                                </div>
+                            </div>
+                            <div class="slot-item booked">
+                                <span class="slot-time">15:00</span>
+                                <div class="slot-info">
+                                    <span class="client-name">Maria Oliveira</span>
+                                    <span class="appointment-type">Avaliação</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
-
+    <script src="dashboard.js"></script>
     <script src="/src/admin/cars/modal.js"></script>
 </body>
 </html>
