@@ -65,16 +65,19 @@ carForm.addEventListener('submit', async (e) => {
     }
 });
 
-// Load cars into table
+// Update loadCars function to include featured toggle
 async function loadCars() {
     try {
         const response = await fetch('/api/cars');
         const cars = await response.json();
+        const featuredResponse = await fetch('/api/featured-cars');
+        const featured = await featuredResponse.json();
         
         const tbody = document.getElementById('carsTableBody');
         tbody.innerHTML = '';
         
         cars.forEach(car => {
+            const isFeatured = featured.some(f => f.id_carro === car.id);
             const row = `
                 <tr>
                     <td>
@@ -87,6 +90,12 @@ async function loadCars() {
                         <span class="status-badge ${car.status.toLowerCase()}">
                             ${car.status}
                         </span>
+                    </td>
+                    <td>
+                        <button class="feature-toggle ${isFeatured ? 'featured' : ''}" 
+                                onclick="toggleFeatured(${car.id})">
+                            <i class="fas fa-star"></i>
+                        </button>
                     </td>
                     <td>
                         <div class="action-buttons">
@@ -102,8 +111,61 @@ async function loadCars() {
             `;
             tbody.innerHTML += row;
         });
+        
+        updateFeaturedDisplay(featured);
     } catch (error) {
         console.error('Erro ao carregar veículos:', error);
+    }
+}
+
+async function updateFeaturedDisplay(featured) {
+    const container = document.querySelector('.featured-grid');
+    container.innerHTML = '';
+    
+    // Add featured cars
+    featured.forEach(car => {
+        container.innerHTML += `
+            <div class="featured-slot">
+                <div class="featured-car">
+                    <img src="${car.imagem1 || '../../img/no-image.jpg'}" alt="${car.modelo}">
+                    <div class="featured-details">
+                        <h3>${car.marca} ${car.modelo}</h3>
+                        <p>R$ ${car.preco.toLocaleString()}</p>
+                    </div>
+                    <button class="remove-featured" onclick="removeFeatured(${car.id})">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+    
+    // Add empty slots
+    const emptySlots = 3 - featured.length;
+    for(let i = 0; i < emptySlots; i++) {
+        container.innerHTML += `
+            <div class="featured-slot empty">
+                <div class="empty-state">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Selecione um carro da lista</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+async function toggleFeatured(carId) {
+    try {
+        const featured = document.querySelector(`button[onclick="toggleFeatured(${carId})"]`);
+        if (featured.classList.contains('featured')) {
+            await removeFeatured(carId);
+        } else {
+            await addFeatured(carId);
+        }
+        
+        loadCars(); // Refresh display
+    } catch (error) {
+        console.error('Erro ao alterar destaque:', error);
     }
 }
 
@@ -124,6 +186,52 @@ async function deleteCar(id) {
             alert(error.message);
         }
     }
+}
+
+let featuredCars = [];
+
+function toggleFeatured(carId) {
+    if (featuredCars.includes(carId)) {
+        removeFeatured(carId);
+    } else {
+        addFeatured(carId);
+    }
+}
+
+function addFeatured(carId) {
+    if (featuredCars.length >= 3) {
+        alert('Máximo de 3 carros em destaque atingido');
+        return;
+    }
+    
+    featuredCars.push(carId);
+    updateFeaturedDisplay();
+    saveFeaturedCars();
+}
+
+function removeFeatured(carId) {
+    featuredCars = featuredCars.filter(id => id !== carId);
+    updateFeaturedDisplay();
+    saveFeaturedCars();
+}
+
+async function saveFeaturedCars() {
+    try {
+        await fetch('/api/featured-cars', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ featuredCars })
+        });
+    } catch (error) {
+        console.error('Erro ao salvar carros em destaque:', error);
+    }
+}
+
+function updateFeaturedDisplay() {
+    const slots = document.querySelectorAll('.featured-slot');
+    // Update featured slots display
 }
 
 // Search and filter functionality
