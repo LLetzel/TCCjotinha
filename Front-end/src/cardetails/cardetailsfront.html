@@ -25,7 +25,15 @@
             <section class="car-carousel" data-aos="fade-up">
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <!-- Images will be dynamically inserted here -->
+                        <div class="swiper-slide">
+                            <img src="../../img/carrosdisponiveis.jpeg" alt="T-Cross Frente">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../../img/carrosdisponiveis.jpeg" alt="T-Cross Lateral">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../../img/carrosdisponiveis.jpeg" alt="T-Cross Interior">
+                        </div>
                     </div>
                     <div class="swiper-pagination"></div>
                     <div class="swiper-button-next"></div>
@@ -35,50 +43,79 @@
 
             <section class="car-info" data-aos="fade-up" data-aos-delay="200">
                 <div class="car-header">
-                    <h1 id="carTitle">Carregando...</h1>
-                    <div class="price" id="carPrice">R$ --</div>
+                    <h1>VW T-Cross 200 TSI</h1>
+                    <div class="price">R$ 120.000</div>
                 </div>
 
                 <div class="car-details-grid">
                     <div class="detail-item">
                         <i class="fas fa-calendar"></i>
-                        <span id="carYear">Ano: --</span>
+                        <span>Ano: 2023</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-tachometer-alt"></i>
-                        <span id="carKm">-- km</span>
+                        <span>15.000 km</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-gas-pump"></i>
-                        <span id="carFuel">Combustível: --</span>
+                        <span>Combustível: Flex</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-cogs"></i>
-                        <span id="carTransmission">Câmbio: --</span>
+                        <span>Câmbio: Automático</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-file-invoice-dollar"></i>
-                        <span id="carIpva">IPVA: --</span>
+                        <span>IPVA: 2024 Pago</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-car-side"></i>
-                        <span id="carDoors">Portas: --</span>
+                        <span>Portas: 4</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-palette"></i>
-                        <span id="carColor">Cor: --</span>
+                        <span>Cor: Prata</span>
                     </div>
                 </div>
 
                 <div class="car-description" data-aos="fade-up" data-aos-delay="300">
                     <h2>Descrição</h2>
-                    <p id="carDescription">Carregando descrição...</p>
+                    <p>Veículo em excelente estado, único dono, completo com todos opcionais da categoria. Revisões feitas em concessionária, documentação em dia. Aceita financiamento.</p>
+                    <p class="description-text">
+                        O Volkswagen T-Cross 200 TSI é um SUV compacto que combina design moderno, 
+                        tecnologia avançada e excelente desempenho. Este modelo específico está em 
+                        excelente estado de conservação, com apenas um dono e todas as revisões 
+                        feitas em concessionária autorizada.
+                    </p>
                 </div>
 
                 <div class="features-section" data-aos="fade-up" data-aos-delay="400">
                     <h2>Características</h2>
-                    <div class="features-grid" id="featuresGrid">
-                        <!-- Features will be dynamically inserted here -->
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-check"></i>
+                            <span>Ar condicionado digital</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check"></i>
+                            <span>Direção elétrica</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check"></i>
+                            <span>Vidros elétricos</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check"></i>
+                            <span>Central multimídia</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check"></i>
+                            <span>Sensor de estacionamento</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check"></i>
+                            <span>Câmera de ré</span>
+                        </div>
                     </div>
                 </div>
 
@@ -87,36 +124,31 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <strong>Cor:</strong>
-                            <span id="additionalColor">--</span>
+                            <span>Prata Metálico</span>
                         </div>
                         <div class="info-item">
                             <strong>Final Placa:</strong>
-                            <span id="licensePlate">--</span>
+                            <span>0</span>
                         </div>
                         <div class="info-item">
                             <strong>Portas:</strong>
-                            <span id="additionalDoors">--</span>
+                            <span>4</span>
                         </div>
                         <div class="info-item">
                             <strong>IPVA:</strong>
-                            <span id="additionalIpva">--</span>
+                            <span>Pago</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="action-buttons" data-aos="fade-up" data-aos-delay="600">
-                    <a href="/Front-end/src/agendamento/agendamento.html" class="schedule-btn" id="scheduleButton">
+                    <a href="/Front-end/src/agendamento/agendamento.html" class="schedule-btn">
                         <i class="fas fa-calendar-alt"></i>
                         Agendar Visita
                     </a>
 
                 </div>
             </section>
-        </div>
-
-        <!-- Add error message container -->
-        <div id="errorMessage" class="error-message" style="display: none;">
-            <p>Ocorreu um erro ao carregar os dados do veículo. Por favor, tente novamente.</p>
         </div>
     </main>
 

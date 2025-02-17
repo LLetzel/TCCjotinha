@@ -1,21 +1,13 @@
 const express = require('express');
-// const routes = require('./routes.js');
+const cors = require('cors');
+const carrosRoutes = require('./routes'); // Certifique-se de que esse arquivo existe
+
 const app = express();
-const PORT = 3007;
-// app.use(cookieParser());
+app.use(cors()); // Permitir requisições do frontend
+app.use(express.json()); // Permitir envio de JSON
+app.use('/carros', carrosRoutes); // Aqui estava o erro
 
-app.use(express.json());
-
-// app.use(routes);
-
-app.listen(PORT, (error) => {
-
-    if (error) {
-        console.log(`Erro ao iniciar o servidor: ${error}`);
-        } else {
-    console.log(`Servidor está rodando na porta ${PORT}`);
-    }
+const PORT = 3006;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
-
-
-

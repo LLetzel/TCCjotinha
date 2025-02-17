@@ -11,21 +11,26 @@
 //     },
 // };
 
-const mysql2 = require(mysql2);
+const mysql2 = require('mysql2');
 
-const ConexaoDB = mysql.createConnection({
-    host: 'localhost',
+const db = mysql2.createConnection({
+    host: '127.0.0.1', // Changed from localhost
     user: 'root',
-    password: 'root',
-    database: 'jotinhaveiculos',
-    port: 3307
-    });
-    connection.connect((err) => {
+    password: '',
+    database: 'idev2_jotinhaveculos',
+    port: 3306,
+    charset: 'utf8mb4',
+    connectTimeout: 10000,
+    dialectOptions: {
+        connectTimeout: 10000
+    }
+});
+    db.connect((err) => {
         if (err) {
-            console.log(`Erro ao conectar no banco de dados: ${err}`);
-        } else {
-            console.log('Conectado ao banco de dados com sucesso!');
+            console.error('Erro ao conectar ao MySQL:', err);
+            return;
         }
-        });
+        console.log('Conectado ao banco de dados MySQL!');
+    });
 
-module.exports = ConexaoDB;
+module.exports = db;
