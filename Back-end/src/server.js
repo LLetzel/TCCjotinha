@@ -1,11 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-const carrosRoutes = require('./routes'); // Certifique-se de que esse arquivo existe
+const db = require('./config/database');
+const carrosRoutes = require('./routes');
 
 const app = express();
-app.use(cors()); // Permitir requisições do frontend
-app.use(express.json()); // Permitir envio de JSON
-app.use('/carros', carrosRoutes); // Aqui estava o erro
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Health check route
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK' });
+});
+
+// Routes
+app.use('/carros', carrosRoutes);
+
+// Error handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+});
 
 const PORT = 3006;
 app.listen(PORT, () => {
