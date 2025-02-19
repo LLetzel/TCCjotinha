@@ -5,28 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Usuários | Jotinha Veículos</title>
     <link rel="stylesheet" href="../dashboard/dashboard.css">
-    <link rel="stylesheet" href="/src/admin/user/user.css">
+    <link rel="stylesheet" href="../user/user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/./Front-end/img/image.png" type="image/x-icon">
 </head>
 <body>
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
     <div class="admin-container">
         <!-- Sidebar -->
-         <!-- Sidebar -->
          <aside class="sidebar">
             <div class="logo">
-                <img src="/./img/logonome.png" alt="Jotinha Veículos">
+                <img src="/./Front-end/img/logonome.png" alt="Jotinha Veículos">
             </div>
             <nav>
-                <a href="/src/admin/dashboard/dashboard.html">
+                <a href="../dashboard/dashboard.html">
                     <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/src/admin/cars/cars.html">
+                <a href="../cars/cars.html">
                     <i class="fas fa-car"></i>
                     <span>Estoque</span>
                 </a>
-                <a href="user.html">
+                <a href="user.html" class="active">
                     <i class="fas fa-users"></i>
                     <span>Usuários</span>
                 </a>
@@ -36,10 +38,10 @@
         <main class="main-content">
             <header class="top-bar">
                 <h1>Gerenciar Usuários</h1>
-                <div class="search-box">
+                <!-- <div class="search-box">
                     <input type="text" id="searchUser" placeholder="Buscar usuário...">
                     <i class="fas fa-search"></i>
-                </div>
+                </div> -->
             </header>
 
             <!-- <div class="filters">
@@ -137,6 +139,7 @@
         </div>
     </div>
 
-    <script src="/src/admin/user/user.js"></script>
+    <script src="./user.js"></script>
+    <script src="../dashboard/dashboard.js"></script>
 </body>
 </html>

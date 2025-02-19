@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Veículos | Jotinha Veículos</title>
-    <link rel="stylesheet" href="/src/admin/dashboard/dashboard.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
     <link rel="stylesheet" href="cars.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/./Front-end/img/image.png" type="image/x-icon">
 </head>
 <body>
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
     <div class="admin-container">
 <!-- Sidebar -->
 <aside class="sidebar">
     <div class="logo">
-        <img src="/./img/logonome.png" alt="Jotinha Veículos">
-    </div>
+        <img src="/./Front-end/img/logonome.png" alt="Jotinha Veículos">
+    </div>  
     <nav>
-        <a href="/src/admin/dashboard/dashboard.html">
+        <a href="../dashboard/dashboard.html">
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
-        <a href="/src/admin/cars/cars.html">
+        <a href="cars.html">
             <i class="fas fa-car"></i>
             <span>Estoque</span>
         </a>
-        <a href="/src/admin/user/user.html">
+        <a href="../user/user.html">
             <i class="fas fa-users"></i>
             <span>Usuários</span>
         </a>
@@ -202,5 +205,6 @@
     </div>
 
     <script src="modal.js"></script>
+    <script src="../dashboard/dashboard.js"></script>
 </body>
 </html>

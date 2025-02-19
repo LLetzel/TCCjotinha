@@ -1,11 +1,11 @@
 const mysql2 = require('mysql2');
 
-// Create connection pool
+// Criar conexão com o pool
 const pool = mysql2.createPool({
-    host: '127.0.0.1',
+    host: '10.91.228.12',   // IP do servidor MySQL
     user: 'root',
     password: '',
-    database: 'idev2_jotinhaveculos',
+    database: 'idev2_jotinhaveiculos',
     port: 3306,
     charset: 'utf8mb4',
     waitForConnections: true,
@@ -13,17 +13,17 @@ const pool = mysql2.createPool({
     queueLimit: 0
 });
 
-// Convert pool to promise-based interface
+// Converter para promessas
 const promisePool = pool.promise();
 
-// Test connection
+// Testar conexão
 promisePool.getConnection()
     .then(connection => {
-        console.log('MySQL conectado com sucesso');
+        console.log('✅ MySQL conectado com sucesso!');
         connection.release();
     })
     .catch(err => {
-        console.error('Erro ao conectar:', {
+        console.error('❌ Erro ao conectar:', {
             message: err.message,
             code: err.code,
             state: err.sqlState
