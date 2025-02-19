@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contato - JOTINHA VEICULOS</title>
     <link rel="stylesheet" href="contato.css">
-    <link rel="stylesheet" href="/Front-end/src/components/footer/footer.css">
-    <link rel="stylesheet" href="/Front-end/src/components/header/header.css">
-    <link rel="shortcut icon" href="/Front-end/img/image.png" type="image/x-icon">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="/components/footer/footer.css">
+    <link rel="shortcut icon" href="../img/image.png" type="image/x-icon"> <!--  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet"> <!-- animação de carregamento -->
 </head>
 
 <body>
-    <header-component></header-component>
+    <header-component>
+
+    </header-component>
 
     <main>
         <section class="contact-hero" data-aos="fade-up">
@@ -118,7 +119,7 @@
                     </div>
 
                     <button type="submit" class="submit-btn">
-                        <span>Enviar Mensagem</span>
+                        <span></span>
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </form>
@@ -142,13 +143,35 @@
 
 
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
-    <script src="/Front-end/src/components/footer/footer.js" type="text/javascript" defer></script>
+    <script src="/components/footer/footer.js" type="text/javascript" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
-    <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
+    <script src="/components/header/header.js" type="text/javascript" defer></script>
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita recarregar a página
+        
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const subject = document.getElementById("subject").value;
+            const message = document.getElementById("message").value;
+
+            const resposta = await fetch("http://localhost:3000/contato", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, phone, subject, message })
+            });
+        
+            const resultado = await resposta.json();
+            alert(resultado.mensagem); // Exibe o resultado
+        });
+        </script>
     <script>
         AOS.init();
     </script>
-    <script src="contato.js"></script>
+
 </body>
 
 </html>

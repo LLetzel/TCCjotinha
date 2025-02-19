@@ -8,24 +8,24 @@ class Header extends HTMLElement {
             <header>
                 <div class="container">
                     <div class="logo">
-                        <a href="/Front-end/src/home/home.html"><img src="/Front-end/img/logonome.png" alt="Logo"></a>
+                        <a href="/home/home.html"><img src="/img/logonome.png" alt="Logo"></a>
                     </div>
 
                     <nav class="nav-menu">
-                        <a href="/Front-end/src/home/home.html">Início</a>
-                        <a href="/Front-end/src/estoque/estoque.html">Estoque</a>
-                        <a href="/Front-end/src/sobrenos/sobrenos.html">Sobre nós</a>
-                        <a href="/Front-end/src/contato/contato.html">Contato</a>
-                        <a href="/Front-end/src/consignar/consignar.html">Consignar</a>
+                        <a href="/home">Início</a>
+                        <a href="/estoque">Estoque</a>
+                        <a href="/sobrenos">Sobre nós</a>
+                        <a href="/contato">Contato</a>
+                        <a href="/consignar">Consignar</a>
                         <div class="auth-links-mobile">
-                            <a id="login" href="/Front-end/src/login/login.html">Login</a>
-                            <a id="cadastro" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
+                            <a id="login" href="/login">Login</a>
+                            <a id="cadastro" href="/cadastro">Cadastrar-se</a>
                         </div>
                     </nav>
 
                     <div class="auth-links-desktop">
-                        <a id="login" href="/Front-end/src/login/login.html">Login</a>
-                        <a id="cadastro" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
+                        <a id="login" href="/login">Login</a>
+                        <a id="cadastro" href="/cadastro">Cadastrar-se</a>
                     </div>
 
                     <button class="menu-toggle">
@@ -39,7 +39,7 @@ class Header extends HTMLElement {
         // Adiciona o CSS do componente
         const style = document.createElement('link');
         style.rel = 'stylesheet';
-        style.href = '/Front-end/src/components/header/header.css';
+        style.href = '/components/header/header.css';
         document.head.appendChild(style);
 
         // Adiciona a funcionalidade do menu mobile
