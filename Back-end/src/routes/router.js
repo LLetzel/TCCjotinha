@@ -13,8 +13,12 @@ const checkPermissions = require('../middleware/checkPermissionsMiddleware.js')
 // const usuarioController = require('../controllers/usuario');
 const authController = require('./../controllers/auth.js')
 
-router.post('/cadastro', authController.authCadastro);
+router.post('/cadastro', authController.register);
+router.post('/login', authController.login)
 
+router.get('/teste', isAuthenticated, (req, res) => {
+    res.send('Você está autenticado e tem permissão para acessar essa rota')}
+)
 // router.get('/login', authController.authLogin);
 
 // router.get('/eventos/criar', isAuthenticated, checkPermissions('admin'), (req, res) => {

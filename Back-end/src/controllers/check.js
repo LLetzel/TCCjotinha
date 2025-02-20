@@ -1,4 +1,4 @@
-// Importação do modelo de dados Usuario
+ // Importação do modelo de dados Usuario
 const { CharsetToEncoding } = require('mysql2');
 const Usuario = require('../models/usuario'); // Alterado de Usuarios para Usuario
 const { where } = require('sequelize');
@@ -22,7 +22,6 @@ exports.loginCpf = async (req, res) => {
             });
         }   
 
-           
     } catch (err) {
         console.error(err);
         res.status(500).json({

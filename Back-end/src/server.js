@@ -4,7 +4,7 @@ const sequelize = require('./config/sequelize');
 const router = require('./routes/router');
 const cors = require('cors')
 const session = require('express-session');
-// const { token } = require('./config.json')
+const { token } = require('./config.json')
 // require('dotenv').config();
 
 // Testando a conexão com o banco de dados
@@ -31,16 +31,16 @@ sequelize.authenticate()
 // Criando uma instância do express
 const app = express();
 
-// app.use(session({
-//     secret: token, // Substitua por uma chave secreta forte
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { 
-//         maxAge: 24 * 60 * 60 * 1000, // O cookie vai expirar em 1 dia (em milissegundos)
-//         httpOnly: true, // Impede o acesso ao cookie via JavaScript no cliente
-//         secure: process.env.NODE_ENV === 'production', // Somente envia cookies via HTTPS em produção
-//     } // O cookie vai expirar em 1 dia
-// }));
+app.use(session({
+    secret: token, // Substitua por uma chave secreta forte
+    resave: false,
+    saveUninitialized: true,
+    cookie: { 
+        sameSite: "strict", // Protege contra CSRF
+        httpOnly: true, // Impede o acesso ao cookie via JavaScript no cliente
+        secure: process.env.NODE_ENV === 'production', // Somente envia cookies via HTTPS em produção
+    } // O cookie vai expirar em 1 dia
+}));
 
 // // Middleware para lidar com erros
 // app.use(function (err, req, res, next) {

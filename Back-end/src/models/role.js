@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/sequelize');
-const { SELECT } = require('sequelize/lib/query-types');
 
-const Role = sequelize.define('tipo_id',{
+const Role = sequelize.define('tipos_usuarios',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
