@@ -1,24 +1,76 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.login-form');
-    const inputs = form.querySelectorAll('input');
+    const form = document.querySelector('.login-form'); // Seleciona o formulário
+    const inputs = form.querySelectorAll('input');      // Seleciona os campos de entrada
 
+    // Adiciona a validação ao sair do campo (blur)
     inputs.forEach(input => {
         input.addEventListener('blur', () => validateInput(input));
     });
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (validateForm()) {
+    // Evento de envio do formulário (submit)
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Impede o recarregamento da página
+
+        if (validateForm()) { // Verifica se o formulário está válido
             const submitBtn = form.querySelector('.submit-btn');
-            submitBtn.classList.add('loading');
-            // Simulate API call
-            setTimeout(() => {
-                submitBtn.classList.remove('loading');
-                // Handle login success
-            }, 2000);
+            submitBtn.classList.add('loading'); // Ativa o spinner de carregamento
+
+            // Coleta os dados do formulário
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            try {
+                // Faz a requisição para a API de login do backend
+                const response = await fetch('http://localhost:3006/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha }) // Envia os dados em JSON
+                });
+
+                const data = await response.json(); // Converte a resposta para JSON
+
+                if (response.ok) {
+                    alert('Login bem-sucedido!');
+                    localStorage.setItem('token', data.token); // Salva o token no armazenamento local
+                    window.location.href = '/Front-end/src/home/home.html'; // Redireciona após o login
+                } else {
+                    alert(data.error || 'Falha no login. Verifique suas credenciais.');
+                }
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                alert('Erro ao conectar com o servidor.');
+            } finally {
+                submitBtn.classList.remove('loading'); // Remove o carregamento, independente do resultado
+            }
         }
     });
 });
+
+// Função para validar cada campo individualmente
+function validateInput(input) {
+    if (input.value.trim() === '') {
+        input.style.borderColor = 'red'; // Destaca o campo vazio
+        return false;
+    } else {
+        input.style.borderColor = ''; // Volta ao normal se estiver preenchido
+        return true;
+    }
+}
+
+// Função para validar o formulário inteiro
+function validateForm() {
+    const inputs = document.querySelectorAll('.login-form input');
+    let isValid = true;
+
+    inputs.forEach(input => {
+        if (!validateInput(input)) {
+            isValid = false; // Se algum campo estiver inválido, bloqueia o envio
+        }
+    });
+
+    return isValid;
+}
+
 
 function validateInput(input) {
     const wrapper = input.closest('.input-wrapper');
@@ -73,49 +125,3 @@ const togglePassword = document.querySelector('.toggle-password');
         }
     });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('.login-form');
-
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
-        const submitBtn = loginForm.querySelector('.submit-btn');
-
-        try {
-            submitBtn.classList.add('loading');
-
-            const response = await fetch('http://localhost:3000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, senha })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Erro no login');
-            }
-
-            // Save token and user data
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-
-            // Redirect based on user type
-            if (data.user.tipo_id === 1) {
-                window.location.href = '/admin/dashboard.html';
-            } else {
-                window.location.href = '/perfil.html';
-            }
-
-        } catch (error) {
-            alert(error.message);
-        } finally {
-            submitBtn.classList.remove('loading');
-        }
-    });
-});
-;

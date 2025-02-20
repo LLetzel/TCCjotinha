@@ -6,6 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressSteps = document.querySelectorAll('.progress-step');
     const cadastroForm = document.querySelector('.cadastro-form');
 
+    // Recuperar dados do localStorage
+    const dadosPessoais = JSON.parse(localStorage.getItem('cadastroDadosPessoais'));
+
+    if (dadosPessoais) {
+        console.log('Dados Pessoais Recuperados:', dadosPessoais);
+    } else {
+        alert('Dados da primeira etapa não encontrados. Retornando ao início.');
+        window.location.href = './cadastro.html';
+        return;
+    }
+
     // Form Navigation
     nextBtn.addEventListener('click', () => {
         if (validateContactForm()) {
@@ -49,16 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Password Toggle
     const toggleButtons = document.querySelectorAll('.toggle-password');
-    
     toggleButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const input = this.previousElementSibling;
-            
-            // Toggle type
-            const type = input.type === 'password' ? 'text' : 'password';
-            input.type = type;
-            
-            // Toggle icon
+            input.type = input.type === 'password' ? 'text' : 'password';
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
         });
@@ -69,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminCodeGroup = document.getElementById('adminCodeGroup');
     const adminCode = document.getElementById('adminCode');
 
-    userType.addEventListener('change', function() {
+    userType.addEventListener('change', function () {
         if (this.value === 'administrador') {
             adminCodeGroup.style.display = 'block';
             adminCode.required = true;
@@ -85,14 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const formData = {
-            nome: localStorage.getItem('cadastro_nome'),
+            nome: dadosPessoais.nome,
+            nascimento: dadosPessoais.nascimento,
+            cpf: dadosPessoais.cpf,
+            sexo: dadosPessoais.sexo,
             email: document.getElementById('email').value,
             senha: document.getElementById('senha').value,
             telefone: document.getElementById('telefone').value,
-            cpf: localStorage.getItem('cadastro_cpf'),
-            nascimento: localStorage.getItem('cadastro_nascimento'),
-            sexo: localStorage.getItem('cadastro_sexo'),
-            tipo_id: document.getElementById('userType').value === 'administrador' ? 1 : 2
+            tipo_id: userType.value === 'administrador' ? 1 : 2
         };
 
         const submitBtn = cadastroForm.querySelector('.submit-btn');
@@ -109,9 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const response = await fetch('http://localhost:3000/api/auth/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
 
@@ -121,15 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error || 'Erro no cadastro');
             }
 
-            // Clear localStorage
-            localStorage.removeItem('cadastro_nome');
-            localStorage.removeItem('cadastro_cpf');
-            localStorage.removeItem('cadastro_nascimento');
-            localStorage.removeItem('cadastro_sexo');
+            // Limpar localStorage após o cadastro
+            localStorage.removeItem('cadastroDadosPessoais');
 
             alert('Cadastro realizado com sucesso!');
             window.location.href = '/login.html';
-
         } catch (error) {
             alert(error.message);
         } finally {
