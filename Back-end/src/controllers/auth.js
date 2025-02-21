@@ -156,3 +156,27 @@ exports.register = async (req, res) => {
     });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                response: "Usuário não encontrado",
+            });
+        }
+        await user.destroy();
+        return res.status(200).json({
+            success: true,
+            response: "Usuário deletado com sucesso",
+        });
+    } catch (err) {
+        console.error("Error no servidor:" + err);
+        return res.status(500).json({
+            success: false,
+            response: "Erro interno no servidor",
+        });
+    }
+}

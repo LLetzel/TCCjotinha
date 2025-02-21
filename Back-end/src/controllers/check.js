@@ -48,3 +48,6 @@
          return res.status(500).json({ error: 'Erro ao autenticar' });
      }
  }
+
+
+ 

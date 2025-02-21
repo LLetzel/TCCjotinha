@@ -9,9 +9,9 @@ const tipoCars = require('../models/tipocars')
 
 exports.createCar = async (req, res) => {
     try {
-        const {placa, modelo, ano, cor, status, tipo} = req.body;
+        const {marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5} = req.body;
 
-        if (!placa || !modelo || !ano || !cor || !status || !tipo) {
+        if (!marca || !modelo || !ano || !preco || !quilometragem || combustivel || cambio || !cor || ipva || !descricao || !imagem1 || !imagem1 || !imagem2 || !imagem3 || !imagem4 || !imagem5) {
             return res.status(400).json({
                 message: 'Preencha todos os campos'});
         }
@@ -111,3 +111,24 @@ exports.deleteCar = async (req, res) => {
                     });
                 }
             }
+
+exports.atualizarCar = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5} = req.body;
+        const car = await Cars.update({marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5}, {where: {id}});
+        if (!car) {
+            return res.status(404).json({
+                message: 'Carro não encontrado'
+            });
+        }
+        return res.status(200).json({message: 'Carro atualizado com sucesso'});
+    }
+    catch (err) {
+        console.error('Error no servidor:' + err);
+        return res.status(500).json({
+            success: false,
+            response: 'Erro interno no servidor'
+        });
+    }
+}
