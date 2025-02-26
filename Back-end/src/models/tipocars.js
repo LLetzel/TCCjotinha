@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/sequelize');
 
-const tipoCars = sequelize.define('tipos_carros',{
+const tipos_carros = sequelize.define('tipos_carros', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,13 +10,13 @@ const tipoCars = sequelize.define('tipos_carros',{
     },
 
     tipo: {
-    type: Sequelize.STRING(50),
-    allowNull: false,
-    unique: true,
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        unique: true,
     },
 }, {
     timestamps: false, // Remove campos createdAt e updatedAt
     freezeTableName: true, // Usa o nome exato da tabela (não pluraliza)
 })
 
-module.exports = tipoCars;
+module.exports = tipos_carros;

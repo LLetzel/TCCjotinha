@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/sequelize');
-const { SELECT } = require('sequelize/lib/query-types');
+
+const statusCarros = require('./statuscars'); // Importe o modelo de statusCarros
+const tipos_carros = require('./tipocars'); // Importe o modelo de tiposCarros
 
 const Cars = sequelize.define('carros', {
     id: {
@@ -33,7 +35,6 @@ const Cars = sequelize.define('carros', {
     combustivel: {
         type: Sequelize.STRING(20),
         allowNull: false,
-        unique: true,
     },
     cambio: {
         type: Sequelize.STRING(20),
@@ -83,5 +84,9 @@ const Cars = sequelize.define('carros', {
     timestamps: false,
     freezeTableName: true, 
 });
+
+// **Definição das associações**
+Cars.belongsTo(statusCarros, { foreignKey: 'status_id', as: 'status' });
+Cars.belongsTo(tipos_carros, { foreignKey: 'tipo_id', as: 'tipo' });
 
 module.exports = Cars;

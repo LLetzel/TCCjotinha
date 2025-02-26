@@ -8,7 +8,9 @@ class Header extends HTMLElement {
             <header>
                 <div class="container">
                     <div class="logo">
-                        <a href="/Front-end/src/home/home.html"><img src="/Front-end/img/logonome.png" alt="Logo"></a>
+                        <a href="/Front-end/src/home/home.html">
+                            <img src="/Front-end/img/logonome.png" alt="Logo">
+                        </a>
                     </div>
 
                     <nav class="nav-menu">

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/sequelize');
 
-const Role = sequelize.define('tipos_usuarios',{
+const Role = sequelize.define('tipos_usuarios', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,9 +10,9 @@ const Role = sequelize.define('tipos_usuarios',{
     },
 
     tipo: {
-    type: Sequelize.STRING(50),
-    allowNull: false,
-    unique: true,
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        unique: true,
     },
 }, {
     timestamps: false, // Remove campos createdAt e updatedAt

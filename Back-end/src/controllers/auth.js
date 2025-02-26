@@ -49,6 +49,10 @@ exports.login = async (req, res) => {
       id: user.id,
     };
 
+    req.session.role = {
+      tipo_id: user.tipo_id,
+    };
+
     return res.status(200).json({
       success: true,
       response: "Login bem-sucedido!",

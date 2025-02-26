@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/sequelize');
 
-const statusCarros = sequelize.define('status_carros',{
+const statusCarros = sequelize.define('status_carros', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,9 +10,9 @@ const statusCarros = sequelize.define('status_carros',{
     },
 
     status: {
-    type: Sequelize.STRING(50),
-    allowNull: false,
-    unique: true,
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        unique: true,
     },
 }, {
     timestamps: false, // Remove campos createdAt e updatedAt

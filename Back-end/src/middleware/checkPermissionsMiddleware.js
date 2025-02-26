@@ -1,28 +1,20 @@
 const User = require('../models/user');
+const session = require('express-session');
 
-const checkPermissions = (requiredRole) => {
-    return async (req, res, next) => {
-        const login = req.session.user;
-
-        if (!login) {
-            return res.status(401).send('Não autorizado. Faça login primeiro!');
+//check permissions middleware
+const checkPermissions = (role) => {
+    
+    return (req, res, next) => {
+    
+        if (req.session.user && req.session.role.tipo_id === role) {
+            next();
         }
-
-        const user = await User.findOne({ where: { id: login.id } });
-
-        if (!user) {
-            return res.status(401).send('Usuário não encontrado');
+        else {
+            res.status(403).json({
+                message: 'Você não tem permissão para acessar essa rota'
+            });
         }
-
-        // Verificando se o tipo_id representa a permissão necessária
-        const isAdmin = user.tipo_id === 1; 
-
-        if (requiredRole === 'Administrador' && isAdmin) {
-            return next();
-        } else {
-            return res.status(403).send('Permissão negada. Você não tem acesso a esta área.');
-        }
-    };
-};
+    }
+}
 
 module.exports = checkPermissions;
