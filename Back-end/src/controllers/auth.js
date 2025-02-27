@@ -38,10 +38,7 @@ exports.login = async (req, res) => {
     req.session.regenerate((err) => {
       if (err) {
         console.error("Erro ao regenerar sessão:", err);
-        return res.status(500).json({
-          success: false,
-          response: "Erro interno no servidor",
-        });
+        return res.status(500).send("Erro interno do servidor", err);
       }
     });
 
@@ -175,6 +172,30 @@ exports.deleteUser = async (req, res) => {
         return res.status(200).json({
             success: true,
             response: "Usuário deletado com sucesso",
+        });
+    } catch (err) {
+        console.error("Error no servidor:" + err);
+        return res.status(500).json({
+            success: false,
+            response: "Erro interno no servidor",
+        });
+    }
+}
+
+
+exports.mostrarUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                response: "Usuário não encontrado",
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            response: user,
         });
     } catch (err) {
         console.error("Error no servidor:" + err);

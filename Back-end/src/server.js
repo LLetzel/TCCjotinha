@@ -1,4 +1,3 @@
-
 // Importando o módulo do express
 const express = require('express');
 const sequelize = require('./config/sequelize');
@@ -53,7 +52,12 @@ app.use(session({
 //     next();
 // });
 
-app.use(cors())
+app.use(cors({
+         origin: "http://127.0.0.1:5501", // Permite apenas essa origem acessar
+         methods: ["GET", "POST", "DELETE", "PUT"], // Permite apenas esses métodos
+         allowedHeaders: ["Content-Type", "Authorization"], // Define cabeçalhos permitidos
+         credentials: true // Permite envio de cookies e headers de autenticação
+     }))
 
 // Definindo o middleware para aceitar dados no formato JSON
 app.use(express.json());

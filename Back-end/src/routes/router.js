@@ -12,12 +12,12 @@ const authController = require('../controllers/auth.js')
 const carsController = require('../controllers/carsController.js')
 
 router.post('/cadastro', authController.register);
-router.post('/login', authController.login)
+router.post('/login', authController.login);
 router.get('/teste', isAuthenticated, (req, res) => {
     res.send('Você está autenticado e tem permissão para acessar essa rota')
 }
-)
-
+);
+router.get('/usuario/:id', authController.mostrarUser );
 
 
 // carros
@@ -26,6 +26,9 @@ router.delete('/DeletarCarro/:id', isAuthenticated, checkPermissions(1), carsCon
 router.put('/AtualizarCarro/:id', isAuthenticated, checkPermissions(1), carsController.atualizarCar);
 router.get('/Carros', carsController.mostrarCarros);
 router.get('/Carro/:id', carsController.mostrarCarro);
+
+
+// agendamento
 
 
 
