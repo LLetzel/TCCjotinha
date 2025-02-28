@@ -1,13 +1,24 @@
 function cadastrar() {
-    let nomeInput = document.querySelector('#name').value;
-    let datanascimentoInput = document.querySelector('#nascimento').value;
-    let cpfInput = document.querySelector('#cpf').value;
-    let sexoInput = document.querySelector('#sexo').value;
+    let nome = document.querySelector('#name').value;
+    let datanascimento = document.querySelector('#nascimento').value;
+    let cpf = document.querySelector('#cpf').value;
+    let sexo = document.querySelector('#sexo').value;
 
-    if (!nomeInput || !datanascimentoInput || !cpfInput || !sexoInput) {
+    if (!nome || !datanascimento || !cpf || !sexo) {
         alert('Preencha todos os campos');
         return;
     }
 
-    const submitButton = document.querySelector('.submit-btn');
+    let dadospessoais = {
+        nome,
+        datanascimento,
+        cpf,
+        sexo
+    };
+
+    localStorage.setItem('cadastroDadosPessoais', JSON.stringify(dadospessoais));
+    
+    if (localStorage.getItem('cadastroDadosPessoais')) {
+        window.location.href = '/cadastro2.html';
+    }
 }

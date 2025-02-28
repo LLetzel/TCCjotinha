@@ -7,7 +7,6 @@ function entrar() {
     const email = emailInput.value;
     const senha = senhaInput.value;
     const submitButton = document.querySelector('.submit-btn');
-    // fetch('http://localhost:3000/Carros').then(response => response.json()).then(data => console.log(data.cars))
 
     if (!email || !senha) {
         alert('Preencha todos os campos');
@@ -29,7 +28,7 @@ function entrar() {
             localStorage.setItem('userId', data.user.id);
             localStorage.setItem('userRole', data.user.tipo_id);
 
-            const userRole = Number(localStorage.getItem('userRole'));
+            // const userRole = Number(localStorage.getItem('userRole'));
 
             let userId = localStorage.getItem('userId');
 
@@ -49,10 +48,14 @@ function entrar() {
                         if (data.response.tipo_id === 1) {
                             window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
                             return;
-                        }
-                        if (data.response.tipo_id === 2) {
+                        } else {
+                            window.location.href = '/Front-end/src/home/home.html';
                             return;
                         }
+                        // if (data.response.tipo_id === 2) {
+                        //     window.location.href = '/Front-end/src/home/home.html';
+                        //     return;
+                        // }
         
                     } 
                     return console.log('Erro ao verificar o usuário');

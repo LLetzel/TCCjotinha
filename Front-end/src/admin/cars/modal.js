@@ -22,48 +22,108 @@ function closeModal() {
     editingCarId = null;
 }
 
-// Form submission
+// Form submission handler
 carForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // Criar objeto FormData para enviar dados do formulário
     const formData = new FormData();
-    const fields = ['marca', 'modelo', 'ano', 'preco', 'quilometragem', 
-                   'combustivel', 'cambio', 'cor', 'descricao'];
-    
-    fields.forEach(field => {
-        formData.append(field, document.getElementById(field).value);
-    });
 
-    // Handle images
-    ['imagem1', 'imagem2', 'imagem3'].forEach(imageField => {
-        const file = document.getElementById(imageField).files[0];
+    // Adiciona os campos básicos do carro
+    formData.append('marca', document.getElementById('marca').value);
+    formData.append('modelo', document.getElementById('modelo').value);
+    formData.append('ano', document.getElementById('ano').value);
+    formData.append('preco', document.getElementById('preco').value);
+    formData.append('quilometragem', document.getElementById('quilometragem').value);
+    formData.append('combustivel', document.getElementById('combustivel').value);
+    formData.append('cambio', document.getElementById('cambio').value);
+    formData.append('cor', document.getElementById('cor').value);
+    formData.append('descricao', document.getElementById('descricao').value);
+
+    // Configuração base do caminho das imagens
+    const baseImagePath = '/Front-end/img/imgcarros/';
+
+    // Processa cada imagem
+    for (let i = 1; i <= 5; i++) {
+        const inputId = `imagem${i}`;
+        const fileInput = document.getElementById(inputId);
+        const file = fileInput.files[0];
+
         if (file) {
-            formData.append(imageField, file);
+            // Gera nome único para o arquivo usando timestamp
+            const timestamp = new Date().getTime();
+            const fileName = `${timestamp}_${file.name}`;
+            const filePath = baseImagePath + fileName;
+
+            // Adiciona arquivo e caminho ao FormData
+            formData.append(inputId, file);
+            formData.append(`${inputId}Path`, filePath);
         }
-    });
+    }
+
+    // Adiciona status e tipo (necessários pelo modelo)
+    formData.append('status_id', 1); // 1 = Disponível
+    formData.append('tipo_id', 1);   // 1 = Novo (ajuste conforme necessário)
 
     try {
+        // Define URL baseada se está editando ou criando
         const url = editingCarId 
-            ? `/api/cars/${editingCarId}` 
-            : '/api/cars';
-        
-        const method = editingCarId ? 'PUT' : 'POST';
-        
+            ? `http://localhost:3006/AtualizarCarro/${editingCarId}`
+            : 'http://localhost:3006/RegistroCarro';
+
+        // Configuração da requisição
         const response = await fetch(url, {
-            method: method,
-            body: formData
+            method: editingCarId ? 'PUT' : 'POST',
+            body: formData,
+            credentials: 'include' // Necessário para enviar cookies de autenticação
         });
 
-        if (response.ok) {
-            closeModal();
-            loadCars(); // Refresh table
+        const data = await response.json();
+
+        if (data.success) {
+            // Fecha o modal e atualiza a lista
+            modal.style.display = 'none';
+            loadCars(); // Função para recarregar a lista de carros
         } else {
-            throw new Error('Erro ao salvar veículo');
+            alert(data.response || 'Erro ao salvar o carro');
         }
     } catch (error) {
-        alert(error.message);
+        console.error('Erro:', error);
+        alert('Erro ao salvar o carro');
     }
 });
+
+/*
+NOTAS PARA INTEGRAÇÃO COM BACKEND:
+
+1. No Backend (carsController.js):
+   - Usar multer para processar upload de arquivos
+   - Configurar armazenamento das imagens em /Front-end/img/imgcarros/
+   - Salvar caminhos das imagens no banco
+
+2. Configuração Multer necessária:
+   const storage = multer.diskStorage({
+     destination: './Front-end/img/imgcarros/',
+     filename: (req, file, cb) => {
+       cb(null, Date.now() + '_' + file.originalname)
+     }
+   });
+
+3. Rotas necessárias:
+   - POST /RegistroCarro (criar)
+   - PUT /AtualizarCarro/:id (atualizar)
+   - Ambas precisam processar múltiplos arquivos
+
+4. Modelo do Banco:
+   - Todos os campos estão alinhados com o modelo Cars
+   - Campos de imagem armazenam os caminhos
+   - status_id e tipo_id são obrigatórios
+
+5. Autenticação:
+   - Usar credentials: 'include' para sessão
+   - Verificar middleware isAuthenticated
+   - Verificar permissões (checkPermissions)
+*/
 
 // Update loadCars function to include featured toggle
 async function loadCars() {
@@ -173,7 +233,7 @@ async function toggleFeatured(carId) {
 async function deleteCar(id) {
     if (confirm('Tem certeza que deseja excluir este veículo?')) {
         try {
-            const response = await fetch(`/api/cars/${id}`, {
+            const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
                 method: 'DELETE'
             });
             
