@@ -3,6 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.main-content');
+    const adminContainer = document.querySelector('.admin-container');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Fix logout function
+    function fazerLogout() {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        window.location.href = '/Front-end/src/login/login.html';
+    }
+
+    // Add logout event listener
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            fazerLogout();
+        });
+    }
 
     if (!menuToggle || !sidebar) {
         console.error('Menu elements not found');
@@ -62,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize other dashboard functions
     initializeDashboard();
 });
+
 
 function previousDay() {
     // Handle previous day navigation

@@ -26,7 +26,8 @@ function entrar() {
     .then(data => {
         if (data.success) {
             localStorage.setItem('userId', data.user.id);
-            localStorage.setItem('userRole', data.user.tipo_id);
+            console.log(data.user.id);
+            localStorage.setItem('userRole',1);
 
             // const userRole = Number(localStorage.getItem('userRole'));
 

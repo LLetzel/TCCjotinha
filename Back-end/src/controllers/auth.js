@@ -1,7 +1,7 @@
 //Importar os módulos necessários
 const User = require("../models/user.js");
 const { Op } = require("sequelize");
-
+const jwt = require('jsonwebtoken'); // Importe a biblioteca jwt
 const { where } = require("sequelize");
 const { response } = require("express");
 const { spliceStr, singularize, removeTicks } = require("sequelize/lib/utils");

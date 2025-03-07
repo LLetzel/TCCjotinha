@@ -9,17 +9,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <button class="menu-toggle" id="menuToggle">
-        <i class="fas fa-bars"></i>
-    </button>
     <div class="admin-container">
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
                 <img src="/./Front-end/img/logonome.png" alt="Jotinha Veículos">
-            </div>
+            </div>  
             <nav>
-                <a href="dashboard.html">
+                <a href="../dashboard/dashboard.html">
                     <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </a>
@@ -30,6 +30,10 @@
                 <a href="../user/user.html">
                     <i class="fas fa-users"></i>
                     <span>Usuários</span>
+                </a>
+                <a href="#" id="logoutBtn" class="logout-link" onclick="fazerLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
                 </a>
             </nav>
         </aside>

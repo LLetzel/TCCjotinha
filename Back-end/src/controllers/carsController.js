@@ -9,33 +9,44 @@ const tipos_carros = require('../models/tipocars');
 
 exports.createCar = async (req, res) => {
     try {
-        const { marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5, status_id, tipo_id } = req.body;
+        const carData = { marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5, status_id, tipo_id } = req.body;
 
-        if (!marca || !modelo || !ano || !preco || !combustivel || !cambio || !cor || !ipva || !descricao || !imagem1 || !imagem2 || !imagem3 || !imagem4 || !imagem5 || !status_id || !tipo_id) {
+        if (!marca || !modelo || !ano || !preco || !combustivel || !cambio || !cor || !ipva || !descricao || !status_id || !tipo_id) {
             return res.status(400).json({
                 message: 'Preencha todos os campos'
             });
         }
 
-        const car = await Cars.create({
-            marca,
-            modelo,
-            ano,
-            preco,
-            quilometragem,
-            combustivel,
-            cambio,
-            cor,
-            ipva,
-            descricao,
-            imagem1,
-            imagem2,
-            imagem3,
-            imagem4,
-            imagem5,
-            status_id,
-            tipo_id
-        });
+
+        // Processar caminhos das imagens
+        if (req.files) {
+            for (let i = 1; i <= 5; i++) {
+                if (req.files[`imagem${i}`]) {
+                    carData[`imagem${i}`] = `/Front-end/src/imgcarros/${req.files[`imagem${i}`][0].filename}`;
+                }
+            }
+        }
+
+        const car = await Cars.create(carData);
+        // const car = await Cars.create({
+        //     marca,
+        //     modelo,
+        //     ano,
+        //     preco,
+        //     quilometragem,
+        //     combustivel,
+        //     cambio,
+        //     cor,
+        //     ipva,
+        //     descricao,
+        //     imagem1,
+        //     imagem2,
+        //     imagem3,
+        //     imagem4,
+        //     imagem5,
+        //     status_id,
+        //     tipo_id
+        // });
 
         return res.status(201).json({ car });
     } catch (err) {

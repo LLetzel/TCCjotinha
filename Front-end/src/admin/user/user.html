@@ -15,25 +15,30 @@
     </button>
     <div class="admin-container">
         <!-- Sidebar -->
-         <aside class="sidebar">
-            <div class="logo">
-                <img src="/./Front-end/img/logonome.png" alt="Jotinha Veículos">
-            </div>
-            <nav>
-                <a href="../dashboard/dashboard.html">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="../cars/cars.html">
-                    <i class="fas fa-car"></i>
-                    <span>Estoque</span>
-                </a>
-                <a href="user.html" class="active">
-                    <i class="fas fa-users"></i>
-                    <span>Usuários</span>
-                </a>
-            </nav>
-        </aside>
+         <!-- Sidebar -->
+<aside class="sidebar">
+    <div class="logo">
+        <img src="/./Front-end/img/logonome.png" alt="Jotinha Veículos">
+    </div>  
+    <nav>
+        <a href="../dashboard/dashboard.html">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="../cars/cars.html">
+            <i class="fas fa-car"></i>
+            <span>Estoque</span>
+        </a>
+        <a href="../user/user.html">
+            <i class="fas fa-users"></i>
+            <span>Usuários</span>
+        </a>
+        <a href="#" id="logoutBtn" class="logout-link" onclick="fazerLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span>
+        </a>
+    </nav>
+</aside>
 
         <main class="main-content">
             <header class="top-bar">

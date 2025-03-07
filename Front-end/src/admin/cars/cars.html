@@ -24,7 +24,7 @@
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
-        <a href="cars.html">
+        <a href="../cars/cars.html">
             <i class="fas fa-car"></i>
             <span>Estoque</span>
         </a>
@@ -32,8 +32,13 @@
             <i class="fas fa-users"></i>
             <span>Usuários</span>
         </a>
+        <a href="#" id="logoutBtn" class="logout-link" onclick="fazerLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span>
+        </a>
     </nav>
 </aside>
+
 
         <main class="main-content">
             <header class="top-bar">
@@ -106,7 +111,7 @@
                 <div class="featured-grid">
                     <div class="featured-slot">
                         <div class="featured-car">
-                            <img src="/img/carrosdisponiveis.jpeg" alt="T-Cross">
+                            <img src="/Front-end/img/carrosdisponiveis.jpeg" alt="T-Cross">
                             <div class="featured-details">
                                 <h3>Volkswagen T-Cross</h3>
                                 <p>R$ 120.000,00</p>
@@ -179,32 +184,71 @@
                         <label>Cor</label>
                         <input type="text" id="cor" required>
                     </div>
+                    <div class="form-group">
+                        <label>IPVA</label>
+                        <select id="ipva" required>
+                            <option value="Pago">Pago</option>
+                            <option value="Não pago">Não pago</option>
+                        </select>
+                    </div>
                     <div class="form-group full-width">
                         <label>Descrição</label>
                         <textarea id="descricao" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Imagem 1</label>
-                        <input type="file" id="imagem1" accept="img/*" required>
+                    <!-- Atualizar seção de imagens no modal -->
+                    <div class="form-group full-width">
+                        <label>Imagens do Veículo</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview-grid">
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem1" required>
+                                    <div class="preview" id="preview1">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem Principal</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem2">
+                                    <div class="preview" id="preview2">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 2</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem3">
+                                    <div class="preview" id="preview3">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 3</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem4">
+                                    <div class="preview" id="preview4">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 4</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem5" accept="image/*">
+                                    <div class="preview" id="preview5">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Imagem 2</label>
-                        <input type="file" id="imagem2" accept="image/*">
-                    </div>
-                    <div class="form-group">
-                        <label>Imagem 3</label>
-                        <input type="file" id="imagem3" accept="image/*">
-                    </div>
+                    
                 </div>
                 <div class="form-actions">
                     <button type="button" class="cancel-btn" onclick="closeModal()">Cancelar</button>
-                    <button type="submit" class="save-btn">Salvar</button>
+                    <button type="submit" event="submit" class="save-btn">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="modal.js"></script>
+    <script src="../cars/modal.js"></script>
     <script src="../dashboard/dashboard.js"></script>
 </body>
 </html>
