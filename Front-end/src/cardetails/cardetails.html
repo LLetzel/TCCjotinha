@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Veículo - JOTINHA VEICULOS</title>
     <link rel="stylesheet" href="cardetails.css">
-    <link rel="stylesheet" href="/components/footer/footer.css">
-    <link rel="stylesheet" href="/components/header/header.css">
-    <link rel="shortcut icon" href="img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="/Front-end/src/components/footer/footer.css">
+    <link rel="stylesheet" href="/Front-end/src/components/header/header.css">
+    <link rel="shortcut icon" href="/Front-end/img/image.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -17,7 +17,7 @@
 
     <main>
         <div class="back-link">
-            <a href="/estoque/estoque.html" title="Voltar">
+            <a href="/Front-end/src/estoque/estoque.html" title="Voltar">
                 <i class="fas fa-arrow-left"></i>
             </a>
         </div>
@@ -25,15 +25,7 @@
             <section class="car-carousel" data-aos="fade-up">
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="/img/carrosdisponiveis.jpeg" alt="T-Cross Frente">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/img/carrosdisponiveis.jpeg" alt="T-Cross Lateral">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/img/carrosdisponiveis.jpeg" alt="T-Cross Interior">
-                        </div>
+                        <!-- Images will be dynamically inserted here -->
                     </div>
                     <div class="swiper-pagination"></div>
                     <div class="swiper-button-next"></div>
@@ -113,9 +105,7 @@
                 </div>
 
                 <div class="action-buttons" data-aos="fade-up" data-aos-delay="600">
-
                     <a href="/Front-end/src/agendamento/agendamento.html" class="schedule-btn" id="scheduleButton">
-
                         <i class="fas fa-calendar-alt"></i>
                         Agendar Visita
                     </a>
