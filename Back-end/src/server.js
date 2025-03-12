@@ -36,6 +36,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { 
+        secure: false,
         sameSite: "strict", // Protege contra CSRF
         httpOnly: true, // Impede o acesso ao cookie via JavaScript no cliente
         secure: process.env.NODE_ENV === 'production', // Somente envia cookies via HTTPS em produção

@@ -22,7 +22,7 @@ router.get('/usuario/:id', authController.mostrarUser );
 
 
 // carros
-router.post('/RegistroCarro', isAuthenticated, checkPermissions(1), 
+router.post('/RegistroCarro',
     upload.fields([
         { name: 'imagem1', maxCount: 1 },
         { name: 'imagem2', maxCount: 1 },

@@ -25,13 +25,13 @@ function closeModal() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Função para exibir o preview da imagem
     function handleImagePreview(event, previewId) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const preview = document.getElementById(previewId);
                 preview.innerHTML = ''; // Limpa o conteúdo anterior
                 const img = document.createElement('img');
@@ -46,149 +46,77 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Adiciona o evento de change para cada input file
-    document.getElementById('imagem1').addEventListener('change', function(event) {
+    document.getElementById('imagem1').addEventListener('change', function (event) {
         handleImagePreview(event, 'preview1');
     });
 
-    document.getElementById('imagem2').addEventListener('change', function(event) {
+    document.getElementById('imagem2').addEventListener('change', function (event) {
         handleImagePreview(event, 'preview2');
     });
 
-    document.getElementById('imagem3').addEventListener('change', function(event) {
+    document.getElementById('imagem3').addEventListener('change', function (event) {
         handleImagePreview(event, 'preview3');
     });
 
-    document.getElementById('imagem4').addEventListener('change', function(event) {
+    document.getElementById('imagem4').addEventListener('change', function (event) {
         handleImagePreview(event, 'preview4');
     });
 
-    document.getElementById('imagem5').addEventListener('change', function(event) {
+    document.getElementById('imagem5').addEventListener('change', function (event) {
         handleImagePreview(event, 'preview5');
     });
 });
 
-
 carForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Cria um objeto FormData
-    const formData = {
-    marca: document.getElementById('marca').value,
-    modelo: document.getElementById('modelo').value,
-    ano: document.getElementById('ano').value,
-    preco: document.getElementById('preco').value,
-    quilometragem: document.getElementById('quilometragem').value,
-    combustivel: document.getElementById('combustivel').value,
-    cambio: document.getElementById('cambio').value,
-    cor: document.getElementById('cor').value,
-    ipva: document.getElementById('ipva').value,
-    descricao: document.getElementById('descricao').value,
-    status_id: 1,
-    tipo_id: 1,
-}
-    // Adiciona as imagens
+    // Criar um objeto FormData para envio multipart
+    const formData = new FormData();
+    formData.append('marca', document.getElementById('marca').value);
+    formData.append('modelo', document.getElementById('modelo').value);
+    formData.append('ano', document.getElementById('ano').value);
+    formData.append('preco', document.getElementById('preco').value);
+    formData.append('quilometragem', document.getElementById('quilometragem').value);
+    formData.append('combustivel', document.getElementById('combustivel').value);
+    formData.append('cambio', document.getElementById('cambio').value);
+    formData.append('cor', document.getElementById('cor').value);
+    formData.append('ipva', document.getElementById('ipva').value);
+    formData.append('descricao', document.getElementById('descricao').value);
+    formData.append('status_id', '1');
+    formData.append('tipo_id', '1');
+
+    // Adicionar imagens
     for (let i = 1; i <= 5; i++) {
         const fileInput = document.getElementById(`imagem${i}`);
-        console.log('fileInput:', fileInput );
-        formData[`imagem${i}`] = fileInput.files[0]
+        if (fileInput.files.length > 0) {
+            formData.append(`imagem${i}`, fileInput.files[0]); 
+        }
+    }
 
-        // formData.add(`imagem${i}`) = fileInput.files[i];
-    };
-    
-        
-    console.log('Form data:', formData);
+    console.log('Dados enviados:', formData);
 
-    console.log('Form data:', formData.imagem1.nome);
     try {
         const url = editingCarId
             ? `http://localhost:3000/AtualizarCarro/${editingCarId}`
             : 'http://localhost:3000/RegistroCarro';
-            console.log('foi até aqui 1');
 
         const response = await fetch(url, {
             method: editingCarId ? 'PUT' : 'POST',
-            body: formData,
-            credentials: 'include',
-            body: JSON.stringify(formData)
-            
+            credentials: 'include', // Envia cookies de sessão
+            body: formData // Envia os dados corretamente como `multipart/form-data`
         });
-        console.log('foi até aqui 2');
 
-
-
-        console.log('foi até aqui 3', response.json());
-
-
-        if (data.success) {
-            console.log('foi até aqui 4');
-            modal.style.display = 'none';
-            loadCars();
-            alert('Veículo cadastrado com sucesso!');
-        } else {
-            console.log('foi até aqui 5');
-            throw new Error(data.message || 'Erro ao salvar o veículo');
+        if (!response.ok) {
+            throw new Error('Erro ao salvar o veículo');
         }
-        console.log('foi até aqui 6');
-    } catch (error) {
-        console.log('error');
 
+        alert('Veículo cadastrado com sucesso!');
+    } catch (error) {
         console.error('Erro:', error.message);
         alert('Erro ao salvar o veículo: ' + error.message);
     }
 });
 
-// Update loadCars function to include featured toggle
-// async function loadCars() {
-//     try {
-//         const response = await fetch('/api/cars');
-//         const cars = await response.json();
-//         const featuredResponse = await fetch('/api/featured-cars');
-//         const featured = await featuredResponse.json();
-
-//         const tbody = document.getElementById('carsTableBody');
-//         tbody.innerHTML = '';
-
-//         cars.forEach(car => {
-//             const isFeatured = featured.some(f => f.id_carro === car.id);
-//             const row = `
-//                 <tr>
-//                     <td>
-//                         <img src="${car.imagem1 || '../../img/no-image.jpg'}" alt="${car.modelo}">
-//                     </td>
-//                     <td>${car.marca} ${car.modelo}</td>
-//                     <td>${car.ano}</td>
-//                     <td>R$ ${car.preco.toLocaleString()}</td>
-//                     <td>
-//                         <span class="status-badge ${car.status.toLowerCase()}">
-//                             ${car.status}
-//                         </span>
-//                     </td>
-//                     <td>
-//                         <button class="feature-toggle ${isFeatured ? 'featured' : ''}" 
-//                                 onclick="toggleFeatured(${car.id})">
-//                             <i class="fas fa-star"></i>
-//                         </button>
-//                     </td>
-//                     <td>
-//                         <div class="action-buttons">
-//                             <button onclick="openModal(${car.id})" class="edit-btn">
-//                                 <i class="fas fa-edit"></i>
-//                             </button>
-//                             <button onclick="deleteCar(${car.id})" class="delete-btn">
-//                                 <i class="fas fa-trash"></i>
-//                             </button>
-//                         </div>
-//                     </td>
-//                 </tr>
-//             `;
-//             tbody.innerHTML += row;
-//         });
-
-//         updateFeaturedDisplay(featured);
-//     } catch (error) {
-//         console.error('Erro ao carregar veículos:', error);
-//     }
-// }
 
 async function updateFeaturedDisplay(featured) {
     const container = document.querySelector('.featured-grid');
@@ -299,7 +227,7 @@ async function saveFeaturedCars() {
     } catch (error) {
         console.error('Erro ao salvar carros em destaque:', error);
     }
- }
+}
 
 // function updateFeaturedDisplay() {
 //     const slots = document.querySelectorAll('.featured-slot');
