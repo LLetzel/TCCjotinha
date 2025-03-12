@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - JOTINHA VEICULOS</title>
     <link rel="stylesheet" href="perfil.css">
-    <link rel="stylesheet" href="/Front-end/src/components/footer/footer.css">
-    <link rel="stylesheet" href="/Front-end/src/components/header/header.css">
-    <link rel="shortcut icon" href="/Front-end/img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="components/footer/footer.css">
+    <link rel="stylesheet" href="components/header/header.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
 </head>
 
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                     <div class="profile-info">
-                        <h1>Lucas Letzel</h1>
-                        <p>usuario@email.com</p>
+                        <h1 id="nome"></h1>
+                        <p id="email"></p>
                     </div>
                 </div>  
 
@@ -57,19 +57,19 @@
                             <div class="info-grid">
                                 <div class="info-item">
                                     <label>Nome Completo</label>
-                                    <p>Lucas Dias Letzel</p>
+                                    <p id="nome"> </p>
                                 </div>
                                 <div class="info-item">
                                     <label>CPF</label>
-                                    <p>123.456.789-00</p>
+                                    <p id="cpf"> </p>
                                 </div>
                                 <div class="info-item">
                                     <label>Data de Nascimento</label>
-                                    <p>01/01/1990</p>
+                                    <p id="nascimento"></p>
                                 </div>
                                 <div class="info-item">
                                     <label>Telefone</label>
-                                    <p>(11) 98765-4321</p>
+                                    <p id="telefone"></p>
                                 </div>
                             </div>
                             <button class="edit-btn">
@@ -123,7 +123,7 @@
                                 <div class="toggle-setting">
                                     <span>Notificações por Email</span>
                                     <label class="switch">
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" id="emailNotifications" checked>
                                         <span class="slider"></span>
                                     </label>
                                 </div>
@@ -231,10 +231,252 @@
 
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
-    <script src="/Front-end/src/components/footer/footer.js" type="text/javascript" defer></script>
-    <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
+    <script src="/components/footer/footer.js" type="text/javascript" defer></script>
+    <script src="/components/header/header.js" type="text/javascript" defer></script>
+
+    <!--aparecer Informações caixas -->
     <script>
         AOS.init();
+
+        async function carregarPerfil() {
+            try {
+                const token = localStorage.getItem("token"); // Pegando o token salvo no login
+
+                if (!token) {
+                    alert("Você precisa estar logado para acessar o perfil.");
+                    window.location.href = "/login.html"; // Redireciona para o login
+                    return;
+                }
+
+                const response = await fetch("http://localhost:3000/perfil", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": token, // Enviando o token no cabeçalho
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar perfil");
+                }
+
+                const usuario = await response.json(); // Pegando os dados do usuário
+
+                // Atualizando os elementos do HTML com os dados do banco
+                document.getElementById("nome").textContent = usuario.nome;
+                document.getElementById("cpf").textContent = usuario.cpf;
+                document.getElementById("nascimento").textContent = usuario.nascimento;
+                document.getElementById("telefone").textContent = usuario.telefone;
+            } catch (error) {
+                console.error(error);
+                alert("Erro ao carregar perfil. Faça login novamente.");
+                localStorage.removeItem("token"); // Remove o token inválido
+                window.location.href = "/login.html"; // Redireciona para login
+            }
+        }
+
+        // Chamar a função quando a página carregar
+        document.addEventListener("DOMContentLoaded", carregarPerfil);
+
+    </script>
+
+
+    <!-- mostrar nome e email -->
+    <script>
+        AOS.init();
+
+        async function carregarPerfil() {
+            try {
+                const token = localStorage.getItem("token"); // Pegando o token salvo no login
+
+                if (!token) {
+                    alert("Você precisa estar logado para acessar o perfil.");
+                    window.location.href = "/login.html"; // Redireciona para o login
+                    return;
+                }
+
+                const response = await fetch("http://localhost:3000/perfil", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": token, // Enviando o token no cabeçalho
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar perfil");
+                }
+
+                const usuario = await response.json(); // Pegando os dados do usuário
+
+                // Atualizando os elementos do HTML com os dados do banco
+                document.getElementById("nome").textContent = usuario.nome;
+                document.getElementById("email").textContent = usuario.email;
+            } catch (error) {
+                console.error(error);
+                alert("Erro ao carregar perfil. Faça login novamente.");
+                localStorage.removeItem("token"); // Remove o token inválido
+                window.location.href = "/login.html"; // Redireciona para login
+            }
+        }
+
+        // Chamar a função quando a página carregar
+        document.addEventListener("DOMContentLoaded", carregarPerfil);
+
+    </script>
+
+
+    <!-- alterar telefone -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const editButton = document.querySelector(".edit-btn");
+            const telefoneInput = document.getElementById("editPhone");
+            const saveButton = document.querySelector(".save-btn");
+
+            // Ativar edição ao clicar no botão "Editar Informações"
+            editButton.addEventListener("click", () => {
+                telefoneInput.removeAttribute("disabled"); // Habilita o campo para edição
+                telefoneInput.focus(); // Dá foco ao input
+            });
+
+            // Salvar a alteração ao clicar no botão "Salvar"
+            saveButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+
+                const novoTelefone = telefoneInput.value;
+                const token = localStorage.getItem("token"); // Pegando o token do usuário
+
+                if (!novoTelefone) {
+                    alert("O telefone não pode estar vazio.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:3000/perfil/telefone", {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": token, // Envia o token do usuário
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ telefone: novoTelefone }) // Envia o novo telefone
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.mensagem);
+
+                    alert("Telefone atualizado com sucesso!");
+                    telefoneInput.setAttribute("disabled", "true"); // Bloqueia edição novamente
+
+                } catch (error) {
+                    console.error("Erro ao atualizar telefone:", error);
+                    alert("Erro ao atualizar telefone. Tente novamente.");
+                }
+            });
+        });
+        carregarPerfil()
+        module.exports = router;
+    </script>
+
+    <!-- notificações -->
+ 
+    <script>
+        async function obterEmailUsuario() {
+            try {
+                const resposta = await fetch("/perfil/email", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}` // Token JWT
+                    }
+                });
+
+                if (!resposta.ok) throw new Error("Erro ao obter e-mail");
+
+                const dados = await resposta.json();
+                return dados.email; // Retorna o e-mail do usuário
+            } catch (erro) {
+                console.error("Erro ao buscar e-mail do usuário:", erro);
+                return null;
+            }
+        }
+
+        document.getElementById("emailNotifications").addEventListener("change", async function () {
+            if (this.checked) {
+                const email = await obterEmailUsuario(); // Obtém o e-mail do banco
+                if (!email) {
+                    alert("Erro ao obter e-mail do usuário.");
+                    return;
+                }
+
+                try {
+                    const resposta = await fetch("/perfil/ativar-notificacoes", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ email })
+                    });
+
+                    const resultado = await resposta.json();
+                    if (resposta.ok) {
+                        alert("Notificações ativadas com sucesso!");
+                    } else {
+                        alert("Erro: " + resultado.error);
+                    }
+                } catch (erro) {
+                    console.error("Erro ao ativar notificações:", erro);
+                    alert("Erro ao ativar notificações.");
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const changePasswordForm = document.getElementById("changePasswordForm");
+
+            changePasswordForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const currentPassword = document.getElementById("currentPassword").value;
+                const newPassword = document.getElementById("newPassword").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+                const token = localStorage.getItem("token"); // Pegando o token do usuário
+
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    alert("Todos os campos são obrigatórios.");
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    alert("A nova senha e a confirmação devem ser iguais.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:3000/perfil/", {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": token, // Envia o token do usuário
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ 
+                            senhaAtual: currentPassword, 
+                            novaSenha: newPassword 
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.mensagem);
+
+                    alert("Senha alterada com sucesso!");
+                    changePasswordForm.reset(); // Limpa os campos após o sucesso
+
+                } catch (error) {
+                    console.error("Erro ao alterar senha:", error);
+                    alert("Erro ao alterar senha. Tente novamente.");
+                }
+            });
+        }); 
     </script>
     <script src="perfil.js" type="text/javascript" defer></script>
 </body>
