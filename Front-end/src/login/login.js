@@ -1,75 +1,86 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.login-form');
-    const inputs = form.querySelectorAll('input');
+const User = require('../models/user');
+const session = require('express-session');
 
-    inputs.forEach(input => {
-        input.addEventListener('blur', () => validateInput(input));
-    });
+function entrar() {
+    const emailInput = document.querySelector('#email');
+    const senhaInput = document.querySelector('#senha');
+    const email = emailInput.value;
+    const senha = senhaInput.value;
+    const submitButton = document.querySelector('.submit-btn');
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-            const submitBtn = form.querySelector('.submit-btn');
-            submitBtn.classList.add('loading');
-            // Simulate API call
-            setTimeout(() => {
-                submitBtn.classList.remove('loading');
-                // Handle login success
-            }, 2000);
-        }
-    });
-});
+    if (!email || !senha) {
+        alert('Preencha todos os campos');
+        return;
+    }
 
-function validateInput(input) {
-    const wrapper = input.closest('.input-wrapper');
-    const errorMessage = wrapper.querySelector('.error-message');
+    fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, senha }),
+        credentials: 'include'
+    })
+        .then(res => res.json())
     
-    if (input.type === 'email') {
-        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
-        updateValidation(wrapper, valid, 'Email inválido');
-    }
-    
-    if (input.type === 'password') {
-        const valid = input.value.length >= 6;
-        updateValidation(wrapper, valid, 'Senha deve ter no mínimo 6 caracteres');
-    }
-}
+    .then(data => {
+        if (data.success) {
+            localStorage.setItem('userId', data.user.id);
+            console.log(data.user.id);
+            localStorage.setItem('userRole',1);
 
-function updateValidation(wrapper, valid, message) {
-    wrapper.classList.remove('error', 'success');
-    wrapper.classList.add(valid ? 'success' : 'error');
-    const errorMessage = wrapper.querySelector('.error-message');
-    if (errorMessage) {
-        errorMessage.textContent = message;
-        errorMessage.classList.toggle('visible', !valid);
-    }
-}
+            // const userRole = Number(localStorage.getItem('userRole'));
 
-function validateForm() {
-    let valid = true;
-    const inputs = document.querySelectorAll('input[required]');
-    inputs.forEach(input => {
-        validateInput(input);
-        if (input.closest('.input-wrapper').classList.contains('error')) {
-            valid = false;
-        }
-    });
-    return valid;
-}
+            let userId = localStorage.getItem('userId');
 
-const togglePassword = document.querySelector('.toggle-password');
-    const passwordInput = document.querySelector('#senha');
+            fetch(`http://localhost:3000/usuario/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    
+                    if (data) {
+                        console.log(data);
+                        
+                        if (data.response.tipo_id === 1) {
+                            window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
+                            return;
+                        } else {
+                            window.location.href = '/Front-end/src/home/home.html';
+                            return;
+                        }
+                        // if (data.response.tipo_id === 2) {
+                        //     window.location.href = '/Front-end/src/home/home.html';
+                        //     return;
+                        // }
+        
+                    } 
+                    return console.log('Erro ao verificar o usuário');
+                })
+                .catch((err) => {
+                    console.log('erro de conexão com o servidor', err);
+                    alert('Erro de conexão com o servidor');
+                });
+            
 
-    togglePassword.addEventListener('click', function() {
-        // Toggle password visibility
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            this.classList.remove('fa-eye');
-            this.classList.add('fa-eye-slash');
         } else {
-            passwordInput.type = 'password';
-            this.classList.remove('fa-eye-slash');
-            this.classList.add('fa-eye');
+            alert(data.response || 'Erro ao fazer login');
         }
-    });
-;
+    })
+        .catch((err) => {
+            
+            console.log('erro de conexão com o servidor', err);
+            alert('Erro de conexão com o servidor');
+        });
+
+    emailInput.value = '';
+    senhaInput.value = '';
+    submitButton.classList.remove('loading');
+    submitButton.disabled = false;
+    
+}
+

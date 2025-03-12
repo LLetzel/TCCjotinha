@@ -1,4 +1,3 @@
-/* filepath: /c:/jotinhaveiculos/src/cadastro/cadastro.js */
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.cadastro-form');
     
@@ -10,14 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
             
-            // Store form data in sessionStorage
+            // Store form data in localStorage
             const formData = {
                 nome: document.getElementById('name').value,
                 nascimento: document.getElementById('nascimento').value,
                 cpf: document.getElementById('cpf').value,
                 sexo: document.getElementById('sexo').value
             };
-            sessionStorage.setItem('cadastroDadosPessoais', JSON.stringify(formData));
+            localStorage.setItem('cadastroDadosPessoais', JSON.stringify(formData));
             
             // Redirect with animation
             setTimeout(() => {
