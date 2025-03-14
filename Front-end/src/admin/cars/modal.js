@@ -3,7 +3,7 @@ const carForm = document.getElementById('carForm');
 let editingCarId = null;
 
 
-
+// abrir modal
 function openModal(carId = null) {
     modal.style.display = 'block';
     editingCarId = carId;
@@ -18,13 +18,14 @@ function openModal(carId = null) {
     }
 }
 
+//fechar modal (resetar)
 function closeModal() {
     modal.style.display = 'none';
     carForm.reset();
     editingCarId = null;
 }
 
-
+// função preview de imagem
 document.addEventListener('DOMContentLoaded', function () {
     // Função para exibir o preview da imagem
     function handleImagePreview(event, previewId) {
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
+// formulário
 carForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -124,6 +125,7 @@ carForm.addEventListener('submit', async (e) => {
 });
 
 
+
 async function updateFeaturedDisplay(featured) {
     const container = document.querySelector('.featured-grid');
     container.innerHTML = '';
@@ -175,24 +177,7 @@ async function toggleFeatured(carId) {
     }
 }
 
-// Delete car
-async function deleteCar(id) {
-    if (confirm('Tem certeza que deseja excluir este veículo?')) {
-        try {
-            const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
-                method: 'DELETE'
-            });
 
-            if (response.ok) {
-                loadCars(); // Refresh table
-            } else {
-                throw new Error('Erro ao excluir veículo');
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    }
-}
 
 let featuredCars = [];
 
@@ -215,47 +200,119 @@ function addFeatured(carId) {
     saveFeaturedCars();
 }
 
-function removeFeatured(carId) {
-    featuredCars = featuredCars.filter(id => id !== carId);
-    updateFeaturedDisplay();
-    saveFeaturedCars();
+    
+
+// function removeFeatured(carId) {
+//     featuredCars = featuredCars.filter(id => id !== carId);
+//     updateFeaturedDisplay();
+//     saveFeaturedCars();
+// }
+
+// async function saveFeaturedCars() {
+//     try {
+//         await fetch('/api/featured-cars', {
+//             method: 'PUT',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ featuredCars })
+//         });
+//     } catch (error) {
+//         console.error('Erro ao salvar carros em destaque:', error);
+//     }
+// }
+
+// Função para formatar preço em Real
+function formatarPreco(preco) {
+    return parseFloat(preco).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
 }
 
-async function saveFeaturedCars() {
+// Função atualizada para listar carros
+async function ListarCarros() {
     try {
-        await fetch('/api/featured-cars', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ featuredCars })
-        });
-    } catch (error) {
-        console.error('Erro ao salvar carros em destaque:', error);
-    }
-}
-
-
-
-// Atualiza a função loadCars para usar o novo displayCars
-async function loadCars() {
-    try {
+        // Fazer requisição GET para a API
         const response = await fetch('http://localhost:3000/Carros', {
             method: 'GET',
             credentials: 'include'
         });
 
-        if (!response.ok) {
-            throw new Error('Erro ao carregar veículos');
-        }
+        
 
-        const cars = await response.json();
-        displayCars(cars); // Chama a função que usa .map()
+        const carros = await response.json();
+        console.log('Carros:', carros);
+        carr = carros.cars
+
+        // Selecionar tbody da tabela
+        const tbody = document.querySelector('.cars-table tbody');
+        
+        // Limpar conteúdo atual da tabela
+        tbody.innerHTML = '';
+
+        // Usar map para criar as linhas da tabela
+        const linhasHTML = carr.map(carro => 
+
+            `
+            <tr>
+                <td>
+                    <img src="${carro.imagem1 || '../../../img/no-image.jpg'}" 
+                         alt="${carro.modelo}"
+                         style="width: 80px; height: 60px; object-fit: cover; border-radius: 6px;">
+                </td>
+                <td>${carro.marca} ${carro.modelo}</td>
+                <td>${carro.ano}</td>
+                <td>${formatarPreco(carro.preco)}</td>
+                <td>
+                    <span class="status-badge ${carro.status_id === 1 ? 'disponivel' : 'vendido'}">
+                        ${carro.status_id === 1 ? 'Disponível' : 'Vendido'}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="openModal(${carro.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteCar(${carro.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+        
+ 
+        // Inserir as linhas na tabela
+        tbody.innerHTML = linhasHTML;   
+        
     } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro ao listar carros:', error);
         alert('Erro ao carregar veículos', 'erro');
     }
 }
 
-// Carrega os carros quando a página é iniciada
-document.addEventListener('DOMContentLoaded', loadCars);
+// Chamar a função quando a página carregar
+document.addEventListener('DOMContentLoaded', ListarCarros);
+
+// Delete car function
+async function deleteCar(id) {
+    if (confirm('Tem certeza que deseja excluir este veículo?')) {
+        try {
+            const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
+                method: 'DELETE',
+                
+            });
+
+            console.log(id);
+
+            if (response.ok) {
+                ListarCarros(); // Refresh table
+            } else {
+                throw new Error('Erro ao excluir veículo');
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+}

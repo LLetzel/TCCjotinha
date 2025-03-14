@@ -27,7 +27,6 @@ function entrar() {
         if (data.success) {
             localStorage.setItem('userId', data.user.id);
             console.log(data.user.id);
-            localStorage.setItem('userRole',1);
 
             // const userRole = Number(localStorage.getItem('userRole'));
 
@@ -47,6 +46,7 @@ function entrar() {
                         console.log(data);
                         
                         if (data.response.tipo_id === 1) {
+                            localStorage.setItem('userRole',1);
                             window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
                             return;
                         } else {
