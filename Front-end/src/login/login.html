@@ -15,7 +15,7 @@
                 <img src="../../img/logonome.png" id="imglogo" alt="logo jotinha">
             </div>
 
-            <form action="#" class="login-form">
+            <form action="loginForm" class="login-form">
                 <div class="input-group">
                     <label for="email">Email:</label>
                     <div class="input-wrapper">
@@ -41,7 +41,8 @@
                     </label>
                 </div>
 
-                <button type="submit" class="submit-btn">
+                <button type="submit" action="submit" class="submit-btn" onclick=entrar()>
+                    <!-- <i class="fas fa-sign-in-alt"></i> -->
                     <span>Entrar</span>
                     <div class="loading-spinner"></div>
                 </button>
@@ -69,7 +70,6 @@
     <script>
         AOS.init();
     </script>
-    <!-- <script src="ocultar.js"></script> -->
     <script src="login.js"></script>
 </body>
 </html>
