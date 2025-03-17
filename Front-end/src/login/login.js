@@ -46,10 +46,11 @@ function entrar() {
                         console.log(data);
                         
                         if (data.response.tipo_id === 1) {
-                            localStorage.setItem('userRole',1);
+                            localStorage.setItem('userRole', data.response.tipo_id);
                             window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
                             return;
                         } else {
+                            localStorage.setItem('userRole', data.response.tipo_id);
                             window.location.href = '/Front-end/src/home/home.html';
                             return;
                         }

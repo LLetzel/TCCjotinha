@@ -2,45 +2,14 @@ const roleModal = document.getElementById('roleModal');
 const roleForm = document.getElementById('roleForm');
 let currentUserId = null;
 
-
-window.onload = () => {
-     verificar();
-}
-
-function verificar() {
-    if (userId == null) {
+window.onload = async () => {
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
+    if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
         window.location.href = '/Front-end/src/login/login.html';
         return;
     }
-    fetch(`http://localhost:3000/usuario/${userId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    })
-        .then(res => res.json())
-        .then(data => {
-            
-            if (data) {
-                console.log(data);
-                
-                if (data.response.tipo_id === 1) {
-                    window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
-                    return;
-                }
-                if (data.response.tipo_id === 2) {
-                    return;
-                }
-
-            } 
-            return console.log('Erro ao verificar o usuário');
-        })
-        .catch((err) => {
-            console.log('erro de conexão com o servidor', err);
-            alert('Erro de conexão com o servidor');
-        });
-}
+    };
 
 function openRoleModal(userId) {
     roleModal.style.display = 'block';

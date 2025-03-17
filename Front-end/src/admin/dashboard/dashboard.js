@@ -159,3 +159,12 @@ document.getElementById('currentDate').textContent = new Date().toLocaleDateStri
     day: 'numeric',
     month: 'long'
 });
+
+window.onload = async () => {
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
+    if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
+        window.location.href = '/Front-end/src/login/login.html';
+        return;
+    }
+    };

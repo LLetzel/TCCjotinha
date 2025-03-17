@@ -1,6 +1,6 @@
 const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
-      
+  const userId = localStorage.getItem('userId');
+    if (!userId) {
       return next();
     }
     

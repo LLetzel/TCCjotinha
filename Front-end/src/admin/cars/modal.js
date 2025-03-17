@@ -200,28 +200,6 @@ function addFeatured(carId) {
     saveFeaturedCars();
 }
 
-    
-
-// function removeFeatured(carId) {
-//     featuredCars = featuredCars.filter(id => id !== carId);
-//     updateFeaturedDisplay();
-//     saveFeaturedCars();
-// }
-
-// async function saveFeaturedCars() {
-//     try {
-//         await fetch('/api/featured-cars', {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ featuredCars })
-//         });
-//     } catch (error) {
-//         console.error('Erro ao salvar carros em destaque:', error);
-//     }
-// }
-
 // Função para formatar preço em Real
 function formatarPreco(preco) {
     return parseFloat(preco).toLocaleString('pt-BR', {
@@ -297,17 +275,24 @@ document.addEventListener('DOMContentLoaded', ListarCarros);
 
 // Delete car function
 async function deleteCar(id) {
+    const userRole = localStorage.getItem('userRole');
+    if (userRole !== '1') {
+        alert('Você não tem permissão para excluir veículos');
+        return;
+    }
+
     if (confirm('Tem certeza que deseja excluir este veículo?')) {
         try {
+
             const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
                 method: 'DELETE',
-                
             });
 
             console.log(id);
 
-            if (response.ok) {
+            if (response.ok) {  
                 ListarCarros(); // Refresh table
+                alert('Veículo excluído com sucesso!', 'sucesso');
             } else {
                 throw new Error('Erro ao excluir veículo');
             }
@@ -316,3 +301,12 @@ async function deleteCar(id) {
         }
     }
 }
+
+window.onload = async () => {
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
+    if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
+        window.location.href = '/Front-end/src/login/login.html';
+        return;
+    }
+    };
