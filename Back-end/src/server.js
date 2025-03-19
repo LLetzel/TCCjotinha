@@ -5,6 +5,7 @@ const router = require('./routes/router');
 const cors = require('cors')
 const session = require('express-session');
 const { token } = require('./config.json')
+
 // require('dotenv').config();
 
 // Testando a conexão com o banco de dados
