@@ -205,3 +205,26 @@ exports.mostrarUser = async (req, res) => {
         });
     }
 }
+
+
+exports.mostrarUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    if (!users){
+      return res.status(404).json({
+        success:false,
+        response: "Usuários não encontrados",
+      })
+      }
+      return res.status(200).json({
+      success: true,
+      response: users
+      });
+  } catch (err){
+      console.error("Error no servidor:" + err);
+      return res.status(500).json({
+        success: false,
+        response: "Erro interno no servidor",
+      })
+  }
+}

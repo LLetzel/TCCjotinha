@@ -16,6 +16,7 @@ const upload = require('../utils/multer.js');
 router.post('/cadastro', authController.register);
 router.post('/login', authController.login);
 router.get('/usuario/:id', authController.mostrarUser );
+router.get('/usuarios', authController.mostrarUsers);
 
 
 // carros
