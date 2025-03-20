@@ -14,8 +14,6 @@
         <i class="fas fa-bars"></i>
     </button>
     <div class="admin-container">
-        <!-- Sidebar -->
-         <!-- Sidebar -->
 <aside class="sidebar">
     <div class="logo">
         <img src="/./Front-end/img/logonome.png" alt="Jotinha Veículos">
@@ -43,19 +41,7 @@
         <main class="main-content">
             <header class="top-bar">
                 <h1>Gerenciar Usuários</h1>
-                <!-- <div class="search-box">
-                    <input type="text" id="searchUser" placeholder="Buscar usuário...">
-                    <i class="fas fa-search"></i>
-                </div> -->
             </header>
-
-            <!-- <div class="filters">
-                <select id="roleFilter">
-                    <option value="">Todos os tipos</option>
-                    <option value="1">Administrador</option>
-                    <option value="2">Cliente</option>
-                </select>
-            </div> -->
 
             <div class="table-container">
                 <table class="users-table">
@@ -65,55 +51,13 @@
                             <th>Email</th>
                             <th>Telefone</th>
                             <th>Tipo</th>
-                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">
-                        <!-- Sample Users -->
-                        <tr>
-                            <td>João Silva</td>
-                            <td>joao@email.com</td>
-                            <td>(11) 99999-9999</td>
-                            <td>
-                                <span class="role-badge cliente">Cliente</span>
-                            </td>
-                            <td>
-                                <span class="status-badge ativo">Ativo</span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="edit-btn" onclick="openRoleModal(1)">
-                                        <i class="fas fa-user-edit"></i>
-                                    </button>
-                                    <button class="view-btn" onclick="viewUserDetails(1)">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Admin User -->
-                        <tr>
-                            <td>Maria Oliveira</td>
-                            <td>maria@jotinha.com</td>
-                            <td>(11) 98888-8888</td>
-                            <td>
-                                <span class="role-badge admin">Administrador</span>
-                            </td>
-                            <td>
-                                <span class="status-badge ativo">Ativo</span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="edit-btn" onclick="openRoleModal(2)">
-                                        <i class="fas fa-user-edit"></i>
-                                    </button>
-                                    <button class="view-btn" onclick="viewUserDetails(2)">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        
+
+                        
                     </tbody>
                 </table>
             </div>
@@ -125,22 +69,22 @@
         <div class="modal-content">
             <h2>Alterar Tipo de Usuário</h2>
             <div class="user-info">
-                <p>Nome: <span id="userName">João Silva</span></p>
-                <p>Email: <span id="userEmail">joao@email.com</span></p>
-            </div>
+                <p>Nome: <span id="userName"></span></p>
+                <p>Email: <span id="userEmail"></span></p>
+            </div>  
             <form id="roleForm">
                 <div class="form-group">
                     <label>Tipo de Usuário</label>
                     <select id="userRole" required>
-                        <option value="2">Cliente</option>
-                        <option value="1">Administrador</option>
+                        <option value='2'>Cliente</option>
+                        <option value='1'>Administrador</option>
                     </select>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="cancel-btn" onclick="closeRoleModal()">Cancelar</button>
-                    <button type="submit" class="save-btn">Salvar</button>
+                    <button type="submit" class="save-btn" onclick="alterarRole()">Salvar</button>
                 </div>
-            </form>
+            </form> 
         </div>
     </div>
 

@@ -126,3 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+window.onload = async () => {
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
+    if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
+        window.location.href = '/Front-end/src/login/login.html';
+        return;
+    }
+    }; 

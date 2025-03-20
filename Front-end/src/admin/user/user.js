@@ -1,6 +1,6 @@
 const roleModal = document.getElementById('roleModal');
 const roleForm = document.getElementById('roleForm');
-let currentUserId = null;
+let currentUserId;
 
 window.onload = async () => {
     const userId = localStorage.getItem('userId');
@@ -9,13 +9,22 @@ window.onload = async () => {
         window.location.href = '/Front-end/src/login/login.html';
         return;
     }
-    };
+};
 
 function openRoleModal(userId) {
     roleModal.style.display = 'block';
     currentUserId = userId;
-    // Fetch user data and populate modal
-    fetchUserData(userId);
+
+    // Busca o usuário na lista carregada
+    const user = users.find(u => u.id === userId);
+    if (user) {
+        document.getElementById('userName').innerText = user.nome;
+        document.getElementById('userEmail').innerText = user.email;
+    } else {
+        console.error('Usuário não encontrado!');
+    }
+
+    console.log('Modal aberto para o usuário:', user);
 }
 
 function closeRoleModal() {
@@ -23,70 +32,129 @@ function closeRoleModal() {
     currentUserId = null;
 }
 
-async function fetchUserData(userId) {
+
+async function ListarUsuarios() {
     try {
-        const response = await fetch(`/api/users/${userId}`);
-        const user = await response.json();
-        
-        document.getElementById('userName').textContent = user.nome;
-        document.getElementById('userEmail').textContent = user.email;
-        document.getElementById('userRole').value = user.tipo_id;
+        //Fazer o GET
+        const response = await fetch('http://localhost:3000/usuarios', {
+            method: 'GET',
+            credentials: 'include'
+        }
+
+        );
+
+        const Usuarios = await response.json();
+        users = Usuarios.response;
+
+
+        //selecionando o lugar no html
+        const tbody = document.querySelector('.users-table tbody')
+        //limpar o conteudo
+        tbody.innerHTML = ``
+
+        const linhasHTML = users.map(user =>
+
+            `
+             <tr>
+                            <td>${user.nome}</td>
+                            <td>${user.email}</td>
+                            <td>${user.telefone}</td>
+                            <td>
+                            ${user.tipo_id === 1
+                ? `<span class="role-badge admin">Administrador</span>`
+                : `<span class="role-badge cliente">Cliente</span>`}
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit-btn" onclick="openRoleModal(${user.id})">
+                                        <i class="fas fa-user-edit"></i>
+                                    </button>
+                                    <button class="delete-btn" onclick="deleteUser(${user.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+            `
+        ).join('')
+
+        tbody.innerHTML = linhasHTML;
     } catch (error) {
-        console.error('Erro ao carregar dados do usuário:', error);
+        console.error('Erro ao listar usuarios:', error);
+        alert('Erro ao carregar usuarios', 'erro');
+
     }
 }
 
-roleForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const newRole = document.getElementById('userRole').value;
-    
+
+
+async function deleteUser(id) {
+    const userRole = localStorage.getItem('userRole');
+    if (userRole !== '1') {
+        alert('Você não tem permissão para excluir usuários!');
+        return;
+
+    }
+    if (confirm('Tem certeza que deseja excluir esse usuário?')) {
+
+        try {
+            const response = await fetch(`http://localhost:3000/deletarUsuario/${id}`, {
+                method: 'DELETE',
+            })
+
+            console.log(id)
+
+            if (response.ok) {
+                ListarUsuarios();
+                alert('Usuário excluído com sucesso!', 'sucesso');
+            } else {
+                alert('Erro ao excluir usuário', 'erro');
+                console.error('Erro ao excluir usuário:', response.status);
+            }
+
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+}
+
+
+
+async function alterarRole() {
+
+    console.log(currentUserId)
+
+    const userRole = localStorage.getItem('userRole');
+    if (userRole !== '1') {
+        alert('Você não tem permissão para alterar cargos!');
+        return;
+    }
+
+    const userRoleSelect = document.getElementById('userRole');
+    const selectedRole = parseInt(userRoleSelect.value);
+
     try {
-        const response = await fetch(`/api/users/${currentUserId}/role`, {
+        const response = await fetch(`http://localhost:3000/atualizarUsuario/${currentUserId}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ tipo_id: newRole })
+            body: JSON.stringify({
+                tipo_id: selectedRole
+            })
         });
 
-        if (response.ok) {
-            closeRoleModal();
-            loadUsers(); // Refresh table
+        if (!response.ok) {
+            alert('Erro ao alterar cargo.');
         } else {
-            throw new Error('Erro ao alterar tipo de usuário');
+            alert('Cargo alterado com sucesso!');
         }
-    } catch (error) {
-        alert(error.message);
-    }
-});
 
-// Search and filter functionality
-document.getElementById('searchUser').addEventListener('input', filterUsers);
-document.getElementById('roleFilter').addEventListener('change', filterUsers);
-
-async function filterUsers() {
-    const search = document.getElementById('searchUser').value.toLowerCase();
-    const role = document.getElementById('roleFilter').value;
-    
-    try {
-        const response = await fetch('/api/users');
-        const users = await response.json();
-        
-        const filteredUsers = users.filter(user => {
-            const matchesSearch = (user.nome + ' ' + user.email)
-                .toLowerCase()
-                .includes(search);
-            const matchesRole = !role || user.tipo_id == role;
-            
-            return matchesSearch && matchesRole;
-        });
-        
-        displayFilteredUsers(filteredUsers);
     } catch (error) {
-        console.error('Erro ao filtrar usuários:', error);
+        console.log(error.message);
     }
 }
 
-// Initial load
-document.addEventListener('DOMContentLoaded', loadUsers);
+
+// Chamar a função quando a página carregar
+document.addEventListener('DOMContentLoaded', ListarUsuarios);

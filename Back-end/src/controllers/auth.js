@@ -159,72 +159,97 @@ exports.register = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const user = await User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                response: "Usuário não encontrado",
-            });
-        }
-        await user.destroy();
-        return res.status(200).json({
-            success: true,
-            response: "Usuário deletado com sucesso",
-        });
-    } catch (err) {
-        console.error("Error no servidor:" + err);
-        return res.status(500).json({
-            success: false,
-            response: "Erro interno no servidor",
-        });
+  const id = req.params.id;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        response: "Usuário não encontrado",
+      });
     }
+    await user.destroy();
+    return res.status(200).json({
+      success: true,
+      response: "Usuário deletado com sucesso",
+    });
+  } catch (err) {
+    console.error("Error no servidor:" + err);
+    return res.status(500).json({
+      success: false,
+      response: "Erro interno no servidor",
+    });
+  }
 }
 
 
 exports.mostrarUser = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const user = await User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                response: "Usuário não encontrado",
-            });
-        }
-        return res.status(200).json({
-            success: true,
-            response: user,
-        });
-    } catch (err) {
-        console.error("Error no servidor:" + err);
-        return res.status(500).json({
-            success: false,
-            response: "Erro interno no servidor",
-        });
+  try {
+    const id = req.params.id;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        response: "Usuário não encontrado",
+      });
     }
+    return res.status(200).json({
+      success: true,
+      response: user,
+    });
+  } catch (err) {
+    console.error("Error no servidor:" + err);
+    return res.status(500).json({
+      success: false,
+      response: "Erro interno no servidor",
+    });
+  }
 }
 
 
 exports.mostrarUsers = async (req, res) => {
   try {
     const users = await User.findAll();
-    if (!users){
+    if (!users) {
       return res.status(404).json({
-        success:false,
+        success: false,
         response: "Usuários não encontrados",
       })
-      }
-      return res.status(200).json({
+    }
+    return res.status(200).json({
       success: true,
       response: users
-      });
-  } catch (err){
-      console.error("Error no servidor:" + err);
-      return res.status(500).json({
+    });
+  } catch (err) {
+    console.error("Error no servidor:" + err);
+    return res.status(500).json({
+      success: false,
+      response: "Erro interno no servidor",
+    })
+  }
+}
+
+
+exports.updateUsers = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        response: "Erro interno no servidor",
-      })
+        response: "Usuário não encontrado",
+      });
+    }
+
+    console.log(user);
+
+    const tipo_id = req.body;
+    const userUpdated = await user.update(tipo_id);
+    return res.status(200).json({
+      success: true,
+      response: userUpdated
+      });
+  } catch (error) {
+    alert(error.message);
   }
 }

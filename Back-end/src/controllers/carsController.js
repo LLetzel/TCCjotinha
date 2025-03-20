@@ -6,6 +6,7 @@ const { response } = require('express');
 const { spliceStr, singularize, removeTicks } = require('sequelize/lib/utils');
 const statusCarros = require('../models/statuscars');
 const tipos_carros = require('../models/tipocars');
+const CarrosDestaques = require('../models/destaques')
 
 exports.createCar = async (req, res) => {
     try {
@@ -28,25 +29,6 @@ exports.createCar = async (req, res) => {
         }
 
         const car = await Cars.create(carData);
-        // const car = await Cars.create({
-        //     marca,
-        //     modelo,
-        //     ano,
-        //     preco,
-        //     quilometragem,
-        //     combustivel,
-        //     cambio,
-        //     cor,
-        //     ipva,
-        //     descricao,
-        //     imagem1,
-        //     imagem2,
-        //     imagem3,
-        //     imagem4,
-        //     imagem5,
-        //     status_id,
-        //     tipo_id
-        // });
 
         return res.status(201).json({ car });
     } catch (err) {
@@ -155,3 +137,37 @@ exports.atualizarCar = async (req, res) => {
         });
     }
 }
+
+
+exports.MostrarDestaques = async (req, res) => {
+    try {
+        const cars = await CarrosDestaques.findAll();
+        return res.status(200).json(cars);
+    }
+    catch (err) {
+        console.error('Error no servidor:' + err);
+    }
+
+};
+
+exports.AdicionarDestaques = async (req, res) => {
+    try {
+        const car = await CarrosDestaques.create(req.body);
+        return res.status(200).send('Sucesso ao adicionar Destaque')
+    }
+    catch (err) {
+        return res.status(500).send(err)
+    }
+};
+
+exports.DeletarDestaque = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const car = await CarrosDestaques.destroy({ where: { id } });
+        return res.status(200).send('Sucesso ao excluir destaque')
+    }
+    catch (err) {
+        return res.status(500).send(err)
+    }
+}
+

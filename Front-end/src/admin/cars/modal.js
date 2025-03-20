@@ -296,8 +296,8 @@ async function deleteCar(id) {
             } else {
                 throw new Error('Erro ao excluir veículo');
             }
-        } catch (error) {
-            alert(error.message);
+            } catch (error) {
+                alert(error.message);
         }
     }
 }
@@ -309,4 +309,4 @@ window.onload = async () => {
         window.location.href = '/Front-end/src/login/login.html';
         return;
     }
-    };
+    }; 

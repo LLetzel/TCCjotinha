@@ -17,6 +17,8 @@ router.post('/cadastro', authController.register);
 router.post('/login', authController.login);
 router.get('/usuario/:id', authController.mostrarUser );
 router.get('/usuarios', authController.mostrarUsers);
+router.delete('/deletarUsuario/:id', authController.deleteUser);
+router.put('/atualizarUsuario/:id', authController.updateUsers);
 
 
 // carros
@@ -34,6 +36,12 @@ router.delete('/DeletarCarro/:id', isAuthenticated, carsController.deleteCar);
 router.put('/AtualizarCarro/:id', isAuthenticated, carsController.atualizarCar);
 router.get('/Carros', carsController.mostrarCarros);
 router.get('/Carro/:id', carsController.mostrarCarro);
+
+
+// Destaques
+router.get('/mostrarDestaques', carsController.MostrarDestaques);
+router.post(`/adicionarDestaque`, carsController.AdicionarDestaques);
+router.delete(`/removerDestaque/:id`, carsController.DeletarDestaque);
 
 
 // agendamento

@@ -81,84 +81,141 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function previousDay() {
-    // Handle previous day navigation
-}
+// function previousDay() {
+//     // Handle previous day navigation
+// }
 
-function nextDay() {
-    // Handle next day navigation
-}
+// function nextDay() {
+//     // Handle next day navigation
+// }
 
-function viewAppointment(id) {
-    // Show appointment details modal
-}
+// function viewAppointment(id) {
+//     // Show appointment details modal
+// }
 
-function initializeDashboard() {
-    setCurrentDate();
-    loadAppointments(getCurrentDate());
-    updateStats();
-}
+// function initializeDashboard() {
+//     setCurrentDate();
+//     loadAppointments(getCurrentDate());
+//     updateStats();
+// }
 
-function loadAppointments(date) {
-    // Example structure for backend integration
-    const appointments = {
-        morning: generateTimeSlots(8, 12),
-        afternoon: generateTimeSlots(13, 18)
-    };
+// function loadAppointments(date) {
+//     // Example structure for backend integration
+//     const appointments = {
+//         morning: generateTimeSlots(8, 12),
+//         afternoon: generateTimeSlots(13, 18)
+//     };
     
-    renderTimeSlots('morningSlots', appointments.morning);
-    renderTimeSlots('afternoonSlots', appointments.afternoon);
-}
+//     renderTimeSlots('morningSlots', appointments.morning);
+//     renderTimeSlots('afternoonSlots', appointments.afternoon);
+// }
 
-function generateTimeSlots(start, end) {
-    const slots = [];
-    for(let i = start; i <= end; i++) {
-        slots.push({
-            time: `${i}:00`,
-            status: Math.random() > 0.5 ? 'available' : 'booked',
-            clientName: 'João Silva',
-            appointmentType: 'Test Drive'
-        });
+// function generateTimeSlots(start, end) {
+//     const slots = [];
+//     for(let i = start; i <= end; i++) {
+//         slots.push({
+//             time: `${i}:00`,
+//             status: Math.random() > 0.5 ? 'available' : 'booked',
+//             clientName: 'João Silva',
+//             appointmentType: 'Test Drive'
+//         });
+//     }
+//     return slots;
+// }
+
+// function renderTimeSlots(containerId, slots) {
+//     const container = document.getElementById(containerId);
+//     container.innerHTML = slots.map(slot => `
+//         <div class="slot-item ${slot.status}">
+//             <span class="slot-time">${slot.time}</span>
+//             <div class="slot-info">
+//                 ${slot.status === 'booked' ? `
+//                     <span class="client-name">${slot.clientName}</span>
+//                     <span class="appointment-type">${slot.appointmentType}</span>
+//                 ` : '<span class="status">Disponível</span>'}
+//             </div>
+//         </div>
+//     `).join('');
+// }
+
+// function getCurrentDate() {
+//     return new Date().toISOString().split('T')[0];
+// }
+
+// function setCurrentDate() {
+//     document.getElementById('appointmentDate').value = getCurrentDate();
+// }
+
+// function updateStats() {
+//     // Placeholder for backend integration
+//     document.getElementById('totalCars').textContent = '24';
+//     document.getElementById('todayAppointments').textContent = '5';
+//     document.getElementById('totalClients').textContent = '156';
+// }
+
+// // Format and display current date
+// document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', {
+//     weekday: 'long',
+//     day: 'numeric',
+//     month: 'long'
+// });
+
+
+
+// LLetzel
+
+//contador usuarios
+
+async function contarUsuarios() {
+    try {
+        const response = await fetch('http://localhost:3000/usuarios', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                },
+        })
+
+    const Usuarios = await response.json();
+    // console.log(Usuarios)
+    let ContadorUsers = Usuarios.response.length;
+    // console.log(ContadorUsers)
+    document.getElementById('contador-users').textContent = ContadorUsers;
     }
-    return slots;
+    
+    catch (err) {
+    }
 }
 
-function renderTimeSlots(containerId, slots) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = slots.map(slot => `
-        <div class="slot-item ${slot.status}">
-            <span class="slot-time">${slot.time}</span>
-            <div class="slot-info">
-                ${slot.status === 'booked' ? `
-                    <span class="client-name">${slot.clientName}</span>
-                    <span class="appointment-type">${slot.appointmentType}</span>
-                ` : '<span class="status">Disponível</span>'}
-            </div>
-        </div>
-    `).join('');
+// Chamar a função quando a página carregar
+document.addEventListener('DOMContentLoaded', contarUsuarios);
+
+
+//contador carros 
+async function contarCarros() {
+    try {
+        const response = await fetch('http://localhost:3000/Carros', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                },
+        })
+    
+
+    const Carros = await response.json();
+    // console.log(Carros)
+    // console.log(Carros.cars.length)
+    let ContadorCarros = Carros.cars.length;
+    // console.log(ContadorCarros)
+    document.getElementById('contador-cars').textContent = ContadorCarros;
+    }
+    
+    catch (error) {
+        console.log(error)
+    }
 }
 
-function getCurrentDate() {
-    return new Date().toISOString().split('T')[0];
-}
-
-function setCurrentDate() {
-    document.getElementById('appointmentDate').value = getCurrentDate();
-}
-
-function updateStats() {
-    // Placeholder for backend integration
-    document.getElementById('totalCars').textContent = '24';
-    document.getElementById('todayAppointments').textContent = '5';
-    document.getElementById('totalClients').textContent = '156';
-}
-
-// Format and display current date
-document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-});
+// Chamar a função quando a página carregar
+document.addEventListener('DOMContentLoaded', contarCarros);
 
 window.onload = async () => {
     const userId = localStorage.getItem('userId');
