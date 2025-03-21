@@ -271,7 +271,7 @@
     background: transparent;
     border: 1px solid var(--primary-color);
     color: var(--text-color);
-}
+}   
 
 /* Add to existing CSS */
 .menu-toggle {

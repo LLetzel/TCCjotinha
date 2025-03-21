@@ -146,9 +146,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
     <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
     <script>
+        document.getElementById("contactForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita recarregar a página
+        
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const subject = document.getElementById("subject").value;
+            const message = document.getElementById("message").value;
+
+            const resposta = await fetch("http://localhost:3000/contato", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, phone, subject, message })
+            });
+        
+            const resultado = await resposta.json();
+            alert(resultado.mensagem); // Exibe o resultado
+        });
+        </script>
+    <script>
         AOS.init();
     </script>
-    <script src="contato.js"></script>
 
 </body>
 
