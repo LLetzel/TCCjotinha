@@ -1,11 +1,11 @@
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = (req, res) => {
   const userId = localStorage.getItem('userId');
-    if (!userId) {
-      return next();
+    if (!userId || userId === null || userId === undefined) {
+      alert('Você não está logado, faça login primeiro');
+    window.location('/login');
     }
-    alert('Você não está logado');
-    return res.status(401).send('Não autorizado. Faça login primeiro.');
-    window.location('../../../Front-end/src/login/login.html')
+    
+    
   };
   
 module.exports = isAuthenticated

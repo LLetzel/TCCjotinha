@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function fazerLogout() {
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
-        window.location.href = '/Front-end/src/login/login.html';
+        window.location.href = '/login';
     }
 
     // Add logout event listener
@@ -221,7 +221,7 @@ window.onload = async () => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('userRole');
     if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
-        window.location.href = '/Front-end/src/login/login.html';
+        window.location.href = '/login';
         return;
     }
     };

@@ -6,8 +6,6 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const isAuthenticated = require('../middleware/authMiddleware.js');
-const checkPermissions = require('../middleware/checkPermissionsMiddleware.js')
 const authController = require('../controllers/auth.js')
 const carsController = require('../controllers/carsController.js')
 const upload = require('../utils/multer.js');
@@ -25,15 +23,15 @@ router.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/home/home.html"));
 });
 
-router.get("/carsAdm", isAuthenticated, (req, res) => {
+router.get("/carsAdm" , (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/admin/cars/cars.html"));
 });
 
-router.get("/dashboardAdm", isAuthenticated, (req, res) => {
+router.get("/dashboardAdm" , (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/admin/dashboard/dashboard.html"));
 });
 
-router.get("/userAdm", isAuthenticated, (req, res) => {
+router.get("/userAdm" , (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/admin/user/user.html"));
 });
 
@@ -49,7 +47,7 @@ router.get("/cardetails", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/cardetails/cardetails.html"));
 });
 
-router.get("/consignar", isAuthenticated, (req, res) => {
+router.get("/consignar" , (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/consignar/consignar.html"));
 });
 
@@ -92,8 +90,8 @@ router.post('/RegistroCarro',
     ]), 
     carsController.createCar
 );
-router.delete('/DeletarCarro/:id', isAuthenticated, carsController.deleteCar);
-router.put('/AtualizarCarro/:id', isAuthenticated, carsController.atualizarCar);
+router.delete('/DeletarCarro/:id' , carsController.deleteCar);
+router.put('/AtualizarCarro/:id' , carsController.atualizarCar);
 router.get('/Carros', carsController.mostrarCarros);
 router.get('/Carro/:id', carsController.mostrarCarro);
 
