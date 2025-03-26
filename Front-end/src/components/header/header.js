@@ -9,25 +9,25 @@ class Header extends HTMLElement {
                 <div class="container">
                     <div class="logo">
                         <a href="/Front-end/src/home/home.html">
-                            <img src="/Front-end/img/logonome.png" alt="Logo">
+                            <img src="/img/logonome.png" alt="Logo">
                         </a>
                     </div>
 
                     <nav class="nav-menu">
-                        <a href="/Front-end/src/home/home.html">Início</a>
-                        <a href="/Front-end/src/estoque/estoque.html">Estoque</a>
-                        <a href="/Front-end/src/sobrenos/sobrenos.html">Sobre nós</a>
-                        <a href="/Front-end/src/contato/contato.html">Contato</a>
-                        <a href="/Front-end/src/consignar/consignar.html">Consignar</a>
+                        <a href="/home">Início</a>
+                        <a href="/estoque">Estoque</a>
+                        <a href="/sobrenos">Sobre nós</a>
+                        <a href="/contato">Contato</a>
+                        <a href="/consignar">Consignar</a>
                         <div class="auth-links-mobile">
-                            <a id="loginMobile" href="/Front-end/src/login/login.html">Login</a>
-                            <a id="cadastroMobile" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
+                            <a id="loginMobile" href="/login.">Login</a>
+                            <a id="cadastroMobile" href="/cadastro">Cadastrar-se</a>
                         </div>
                     </nav>
 
                     <div class="auth-links-desktop">
-                        <a id="login" href="/Front-end/src/login/login.html">Login</a>
-                        <a id="cadastro" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
+                        <a id="login" href="/login">Login</a>
+                        <a id="cadastro" href="/cadastro">Cadastrar-se</a>
                     </div>
 
                     <button class="menu-toggle">
@@ -40,7 +40,7 @@ class Header extends HTMLElement {
 
         const style = document.createElement('link');
         style.rel = 'stylesheet';
-        style.href = '/Front-end/src/components/header/header.css';
+        style.href = '/src/components/header/header.css';
         document.head.appendChild(style);
 
         // Check if user is logged in
@@ -52,7 +52,7 @@ class Header extends HTMLElement {
 
             // Update desktop buttons
             loginBtn.innerHTML = '<i class="fas fa-user-circle"></i> Perfil';
-            loginBtn.href = '/Front-end/src/perfil/perfil.html';
+            loginBtn.href = '/perfil';
             
             cadastroBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
             cadastroBtn.href = '#';
@@ -60,7 +60,7 @@ class Header extends HTMLElement {
 
             // Update mobile buttons
             loginMobileBtn.innerHTML = '<i class="fas fa-user-circle"></i> Perfil';
-            loginMobileBtn.href = '/Front-end/src/perfil/perfil.html';
+            loginMobileBtn.href = '/perfil';
             
             cadastroMobileBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
             cadastroMobileBtn.href = '#';
@@ -86,15 +86,8 @@ class Header extends HTMLElement {
         e.preventDefault();
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
-        window.location.href = '/Front-end/src/home/home.html';
+        window.location.href = '/home';
     }
 }
-
-
-// function logout() {
-//     localStorage.removeItem('userId');
-//     localStorage.removeItem('userRole');
-//     window.location.href = '/Front-end/src/login/login.html';
-// }
 
 customElements.define('header-component', Header);

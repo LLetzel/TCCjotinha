@@ -42,6 +42,9 @@ router.get("/agendamento", (req, res) => {
 router.get("/cadastro", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/cadastro/cadastro.html"));
 });
+router.get("/cadastro2", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../../Front-end/src/cadastro/cadastro2.html"));
+});
 
 router.get("/cardetails", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/cardetails/cardetails.html"));

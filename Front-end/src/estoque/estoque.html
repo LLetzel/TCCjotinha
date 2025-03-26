@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque - JOTINHA VEICULOS</title>
-    <link rel="stylesheet" href="estoque.css">
-    <link rel="stylesheet" href="/Front-end/src/components/header/header.css">
-    <link rel="shortcut icon" href="/Front-end/img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="/src/estoque/estoque.css">
+    <link rel="stylesheet" href="/src/components/header/header.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
 </head>
 <body>
@@ -52,7 +52,7 @@
                     <!-- Veículo 1 -->
                     <div class="vehicle-card" data-aos="fade-up">
                         <div class="vehicle-image">
-                            <img src="../../img/carrosdisponiveis.jpeg" alt="Veículo">
+                            <img src="/img/carrosdisponiveis.jpeg" alt="Veículo">
                         </div>
                         <div class="vehicle-info">
                             <h3>Volkswagen T-Cross</h3>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="vehicle-price">
                                 <span class="price">R$ 120.000</span>
-                                <a href="/Front-end/src/cardetails/cardetails.html" class="details-btn">Ver Detalhes</a>
+                                <a href="/cardetails" class="details-btn">Ver Detalhes</a>
                             </div>
                         </div>
                     </div>
@@ -77,8 +77,8 @@
 
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
-    <script src="/Front-end/src/components/footer/footer.js" type="text/javascript" defer></script>
-    <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
+    <script src="/src/components/footer/footer.js" type="text/javascript" defer></script>
+    <script src="/src/components/header/header.js" type="text/javascript" defer></script>
     <script>
         AOS.init({
             duration: 800,
@@ -86,6 +86,6 @@
             once: true
         });
     </script>
-    <script src="estoque.js"></script>
+    <script src="/src/estoque/estoque.js"></script>
 </body>
 </html>

@@ -1,61 +1,61 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     let dadosPessoais = JSON.parse(localStorage.getItem("cadastroDadosPessoais"));
+document.addEventListener("DOMContentLoaded", function () {
+    let dadosPessoais = JSON.parse(localStorage.getItem("cadastroDadosPessoais"));
 
-//     if (!dadosPessoais) {
-//         alert("Erro ao carregar os dados do cadastro. Retornando à primeira página.");
-//         window.location.href = "./cadastro.html";
-//         return;
-//     }
+    if (!dadosPessoais) {
+        alert("Erro ao carregar os dados do cadastro. Retornando à primeira página.");
+        window.location.href = "./cadastro.html";
+        return;
+    }
 
-//     document.querySelector('.cadastro-form').addEventListener("submit", function (event) {
-//         event.preventDefault();
+    document.querySelector('.cadastro-form').addEventListener("submit", function (event) {
+        event.preventDefault();
 
-//         let telefone = document.querySelector("#telefone").value;
-//         let email = document.querySelector("#email").value;
-//         let senha = document.querySelector("#senha").value;
-//         let confirmPassword = document.querySelector("#confirmar_senha").value;
+        let telefone = document.querySelector("#telefone").value;
+        let email = document.querySelector("#email").value;
+        let senha = document.querySelector("#senha").value;
+        let confirmPassword = document.querySelector("#confirmar_senha").value;
 
-//         if (!telefone || !email || !senha || !confirmPassword) {
-//             alert("Preencha todos os campos.");
-//             return;
-//         }
+        if (!telefone || !email || !senha || !confirmPassword) {
+            alert("Preencha todos os campos.");
+            return;
+        }
 
-//         if (senha !== confirmPassword) {
-//             alert("As senhas não coincidem.");
-//             return;
-//         }
+        if (senha !== confirmPassword) {
+            alert("As senhas não coincidem.");
+            return;
+        }
 
-//         let dadosCompletos = {
-//             ...dadosPessoais, // Recupera os dados armazenados na tela 1
-//             telefone,
-//             email,
-//             senha,
-//             confirmPassword
-//         };
+        let dadosCompletos = {
+            ...dadosPessoais, // Recupera os dados armazenados na tela 1
+            telefone,
+            email,
+            senha,
+            confirmPassword
+        };
 
-//         fetch("http://localhost:3000/cadastro", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify(dadosCompletos),
-//         })
-//             .then((res) => res.json())
-//             .then((data) => {
-//                 if (data.success) {
-//                     alert("Cadastro realizado com sucesso!");
-//                     localStorage.removeItem("cadastroDadosPessoais"); // Limpa os dados após o cadastro
-//                     window.location.href = "/Front-end/src/login/login.html";
-//                 } else {
-//                     alert(data.response);
-//                 }
-//             })
-//             .catch((err) => {
-//                 console.error("Erro na requisição:", err);
-//                 alert("Erro ao conectar-se com o servidor.");
-//             });
-//     });
-// });
+        fetch("http://localhost:3000/cadastro", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dadosCompletos),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Cadastro realizado com sucesso!");
+                    localStorage.removeItem("cadastroDadosPessoais"); // Limpa os dados após o cadastro
+                    window.location.href = "/login";
+                } else {
+                    alert(data.response);
+                }
+            })
+            .catch((err) => {
+                console.error("Erro na requisição:", err);
+                alert("Erro ao conectar-se com o servidor.");
+            });
+    });
+});
 
 
 document.addEventListener('DOMContentLoaded', () => {
