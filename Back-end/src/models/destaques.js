@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/sequelize');
 
-const CarrosDestaques = sequelize.define('destaques', {
+const Interesse = sequelize.define('interesses_agendamentos', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -9,19 +9,14 @@ const CarrosDestaques = sequelize.define('destaques', {
         autoIncrement: true,
     },
 
-    id_carro: {
-        type: Sequelize.INTEGER,
+    interesse: {
+        type: Sequelize.STRING(50),
         allowNull: false,
         unique: true,
-    },
-    descricao_curta: {
-        type: Sequelize.STRING(100),
-        allowNull: true,
-        
     }
 }, {
-    timestamps: false, // Remove campos createdAt e updatedAt
-    freezeTableName: true, // Usa o nome exato da tabela (não pluraliza)
-})
+    timestamps: false, 
+    freezeTableName: true,
+});
 
-module.exports = CarrosDestaques;
+module.exports = Interesse;

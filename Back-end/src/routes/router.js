@@ -10,6 +10,7 @@ const authController = require('../controllers/auth.js')
 const carsController = require('../controllers/carsController.js')
 const upload = require('../utils/multer.js');
 const nodemailer = require("nodemailer");
+const agendamentoRoutes = require("./agendamentoRotes.js");
 require("dotenv").config({ path: "../.env" });
 
 // pages
@@ -68,7 +69,7 @@ router.get("/sobrenos", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/sobrenos/sobrenos.html"));
 });
 
-
+router.use('/agendamento', agendamentoRoutes)
 
 // usuário
 router.post('/cadastro', authController.register);
