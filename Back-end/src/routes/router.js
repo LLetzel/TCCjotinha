@@ -6,11 +6,11 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const authController = require('../controllers/auth.js')
-const carsController = require('../controllers/carsController.js')
+const authController = require('../controllers/auth.js');
+const carsController = require('../controllers/carsController.js');
 const upload = require('../utils/multer.js');
 const nodemailer = require("nodemailer");
-const agendamentoRoutes = require("./agendamentoRotes.js");
+const agendamentoController = require('../controllers/agendamentoController');
 require("dotenv").config({ path: "../.env" });
 
 // pages
@@ -64,12 +64,9 @@ router.get("/perfil", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/perfil/perfil.html"));
 });
 
-
 router.get("/sobrenos", (req, res) => {
     res.sendFile(path.join(__dirname, "../../../Front-end/src/sobrenos/sobrenos.html"));
 });
-
-router.use('/agendamento', agendamentoRoutes)
 
 // usuário
 router.post('/cadastro', authController.register);
@@ -78,7 +75,6 @@ router.get('/usuario/:id', authController.mostrarUser );
 router.get('/usuarios', authController.mostrarUsers);
 router.delete('/deletarUsuario/:id', authController.deleteUser);
 router.put('/atualizarUsuario/:id', authController.updateUsers);
-
 
 // carros
 router.post('/RegistroCarro',
@@ -96,40 +92,32 @@ router.put('/AtualizarCarro/:id' , carsController.atualizarCar);
 router.get('/Carros', carsController.mostrarCarros);
 router.get('/Carro/:id', carsController.mostrarCarro);
 
-
 // Destaques
 router.get('/mostrarDestaques', carsController.MostrarDestaques);
 router.post(`/adicionarDestaque`, carsController.AdicionarDestaques);
 router.delete(`/removerDestaque/:id`, carsController.DeletarDestaque);
 
-
 // agendamento
+router.get('/agendamento/get', agendamentoController.getAgendamentos); //  obter
+router.post('/agendamento/post', agendamentoController.postAgendamentos); // postar
+router.patch('/agendamento/patch', agendamentoController.patchAgendamentos); //atualizar
 
-
-//contato
+// contato
 router.post("/contato", async (req, res) => {
     try {
         const { name, email, phone, subject, message } = req.body;
-        // console.log(req.body);
-        // Validação dos campos obrigatórios
         if (!name || !email || !phone || !subject || !message) {
             return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
         }
-        // console.log(process.env.EMAIL_PASS);
-        // console.log(process.env.EMAIL_USER);
 
-        // Configuração do transporte de e-mail (usando variáveis de ambiente)
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.EMAIL_USER, // Definido no .env
-                pass: process.env.EMAIL_PASS // App Password do Gmail
-
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
         
-
-        // Configuração do e-mail
         const mailOptions = {
             from: `"${name}" <${email}>`,
             to: "gabrielledelimaq@gmail.com",
@@ -145,16 +133,12 @@ router.post("/contato", async (req, res) => {
             `
         };
 
-        // Enviar o e-mail
         await transporter.sendMail(mailOptions);
-
         res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
     } catch (error) {
         console.error("Erro ao enviar e-mail:", error);
         res.status(500).json({ mensagem: "Não foi possível enviar o e-mail, tente novamente" });
     }
 });
-
-
 
 module.exports = router;
