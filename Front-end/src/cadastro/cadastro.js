@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redirect with animation
             setTimeout(() => {
                 submitBtn.classList.remove('loading');
-                window.location.href = './cadastro2.html';
+                window.location.href = './cadastro2';
             }, 1000);
         }
     });
