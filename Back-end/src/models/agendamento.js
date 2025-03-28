@@ -23,9 +23,15 @@ const Agendamento = sequelize.define('Agendamento', {
             key: 'id'
         }
     },
-    data_hora: {
+    data: {
         type: Sequelize.DATE,
         allowNull: false
+    },
+
+    hora:{
+        type: Sequelize.STRING,
+        allowNull: false,
+        
     },
     interesse_id: {
         type: Sequelize.INTEGER,
