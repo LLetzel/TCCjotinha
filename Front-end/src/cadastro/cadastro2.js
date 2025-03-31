@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!dadosPessoais) {
         alert("Erro ao carregar os dados do cadastro. Retornando à primeira página.");
-        window.location.href = "./cadastro.html";
+        window.location.href = "/cadastro";
         return;
     }
 
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert('Cadastro realizado com sucesso!');
                     localStorage.removeItem('cadastroDadosPessoais'); // Limpa os dados locais
-                    window.location.href = '../login/login.html'; // Redireciona para página de sucesso
+                    window.location.href = '/login'; // Redireciona para página de sucesso
                 } else {
                     alert(`Erro: ${result.message}`);
                 }

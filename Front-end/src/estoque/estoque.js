@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const FIPE_API = 'https://parallelum.com.br/fipe/api/v1/carros';
     const marcaSelect = document.getElementById('marca');
     const searchInput = document.querySelector('.search-bar input');
@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Array to store all vehicles
     let allVehicles = [];
-    
+
     // Load brands from FIPE API
     async function loadBrands() {
         try {
             const response = await fetch(`${FIPE_API}/marcas`);
             const brands = await response.json();
-            
+
             brands.forEach(brand => {
                 const option = document.createElement('option');
                 option.value = brand.codigo;
@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const filteredVehicles = allVehicles.filter(vehicle => {
             const matchesSearch = vehicle.name.toLowerCase().includes(searchTerm) ||
-                                vehicle.brand.toLowerCase().includes(searchTerm);
+                vehicle.brand.toLowerCase().includes(searchTerm);
             const matchesBrand = !selectedBrand || vehicle.brandCode === selectedBrand;
             const matchesYear = !selectedYear || vehicle.year === selectedYear;
-            
+
             let matchesPrice = true;
             if (selectedPrice) {
                 const price = parseFloat(vehicle.price.replace(/[^0-9]/g, ''));
@@ -54,33 +54,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Display vehicles in grid
-    function displayVehicles(vehicles) {
+    async function displayVehicles() {
+
+        const response = await fetch('http://localhost:3000/Carros', {
+            method: 'GET',
+            credentials: 'include'
+        })
+
+        const carros = await response.json();
+        allVehicles = carros.cars;
+
+        console.log(allVehicles);
+
+
+
         vehiclesGrid.innerHTML = '';
-        
-        vehicles.forEach(vehicle => {
-            const card = `
-                <div class="vehicle-card" data-aos="fade-up">
-                    <div class="vehicle-image">
-                        <img src="${vehicle.image}" alt="${vehicle.name}">
-                        <span class="vehicle-badge">${vehicle.year}</span>
-                    </div>
-                    <div class="vehicle-info">
-                        <h3>${vehicle.name}</h3>
-                        <div class="vehicle-details">${vehicle.brand} • ${vehicle.year}</div>
-                        <div class="vehicle-features">
-                            <span><i class="fas fa-tachometer-alt"></i>${vehicle.mileage} km</span>
-                            <span><i class="fas fa-gas-pump"></i>${vehicle.fuel}</span>
-                            <span><i class="fas fa-cog"></i>${vehicle.transmission}</span>
+        //criar um card para cada veiculo
+        allVehicles.forEach(vehicle => {
+            const card = document.createElement('div');
+            card.classList.add('card', 'col-md-4', 'mb-4');
+            card.innerHTML = `
+             <div class="vehicle-card" data-aos="fade-up">
+                        <div class="vehicle-image">
+                            <img src=${vehicle.imagem1} alt=${vehicle.modelo}>
                         </div>
-                        <div class="vehicle-price">
-                            <span class="price">R$ ${vehicle.price}</span>
-                            <a href="/cardetails" class="details-btn">Ver Detalhes</a>
+                        <div class="vehicle-info">
+                            <h3>${vehicle.modelo}</h3>
+                            <p class="vehicle-details">${vehicle.quilometragem} Km • ${vehicle.ano} •  ${vehicle.cambio}</p>
+                            <div class="vehicle-features">
+                                <span><i class="fas fa-gas-pump"></i> ${vehicle.combustivel}</span>
+                                <span><i class="fas fa-car"></i> ${vehicle.tipo.tipo}</span>
+                                <span><i class="fas fa-palette"></i> ${vehicle.cor}</span>
+                            </div>
+                            <div class="vehicle-price">
+                                <span class="price">R$ ${vehicle.preco}</span>
+                                <a href="/cardetails" class="details-btn">Ver Detalhes</a>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            `;
-            vehiclesGrid.insertAdjacentHTML('beforeend', card);
+                    </div>`;
+            vehiclesGrid.appendChild(card);
         });
+
     }
 
     // Event listeners
@@ -93,23 +107,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     loadBrands();
 
-    // Mock data - Replace with your actual data
-    allVehicles = [
-        {
-            id: 1,
-            name: 'T-Cross 200 TSI',
-            brand: 'Volkswagen',
-            brandCode: '59',
-            year: '2023',
-            price: '120.000',
-            mileage: '15.000',
-            fuel: 'Flex',
-            transmission: 'Automático',
-            image: '/img/carrosdisponiveis.jpeg'
-        },
-        // Add more vehicles here
-    ];
+    displayVehicles()
 
-    // Initial display
-    displayVehicles(allVehicles);
+    // // Mock data - Replace with your actual data
+    // allVehicles = [
+    //     {
+    //         id: 1,
+    //         name: 'T-Cross 200 TSI',
+    //         brand: 'Volkswagen',
+    //         brandCode: '59',
+    //         year: '2023',
+    //         price: '120.000',
+    //         mileage: '15.000',
+    //         fuel: 'Flex',
+    //         transmission: 'Automático',
+    //         image: '/img/carrosdisponiveis.jpeg'
+    //     },
+    //     // Add more vehicles here
+    // ];
+
+    // // Initial display
+    // displayVehicles(allVehicles);
 });

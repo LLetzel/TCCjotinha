@@ -117,8 +117,6 @@ router.post("/contato", async (req, res) => {
         if (!name || !email || !phone || !subject || !message) {
             return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
         }
-        // console.log(process.env.EMAIL_PASS);
-        // console.log(process.env.EMAIL_USER);
 
         // Configuração do transporte de e-mail (usando variáveis de ambiente)
         const transporter = nodemailer.createTransport({

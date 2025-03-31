@@ -150,13 +150,28 @@ exports.MostrarDestaques = async (req, res) => {
 
 };
 
+// Função para adicionar carro em destaque (limite de 3 carros)
 exports.AdicionarDestaques = async (req, res) => {
     try {
-        const car = await CarrosDestaques.create(req.body);
-        return res.status(200).send('Sucesso ao adicionar Destaque')
-    }
-    catch (err) {
-        return res.status(500).send(err)
+        const { id_carro} = req.body;
+
+        // Verifica quantos destaques já existem
+        const countDestaques = await CarrosDestaques.count();
+        if (countDestaques >= 3) {
+            return res.status(400).send("Limite de 3 carros em destaque atingido.");
+        }
+
+        // Verifica se o carro já está em destaque
+        const carroExistente = await CarrosDestaques.findOne({ where: { id_carro } });
+        if (carroExistente) {
+            return res.status(400).send("Este carro já está em destaque.");
+        }
+
+        // Adiciona o carro em destaque
+        await CarrosDestaques.create({ id_carro});
+        return res.status(200).send("Carro adicionado aos destaques com sucesso.");
+    } catch (err) {
+        return res.status(500).send("Erro ao adicionar destaque: " + err);
     }
 };
 
@@ -164,6 +179,10 @@ exports.DeletarDestaque = async (req, res) => {
     try {
         const { id } = req.params;
         const car = await CarrosDestaques.destroy({ where: { id } });
+        if (!car) {
+            return res.status(404).send('Destaque não encontrado')
+            ;
+        }
         return res.status(200).send('Sucesso ao excluir destaque')
     }
     catch (err) {

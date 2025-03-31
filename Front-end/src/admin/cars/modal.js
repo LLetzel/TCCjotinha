@@ -1,6 +1,5 @@
 const modal = document.getElementById('carModal');
 const carForm = document.getElementById('carForm');
-let editingCarId = null;
 
 
 // abrir modal
@@ -126,80 +125,6 @@ carForm.addEventListener('submit', async (e) => {
 
 
 
-async function updateFeaturedDisplay(featured) {
-    const container = document.querySelector('.featured-grid');
-    container.innerHTML = '';
-
-    // Add featured cars
-    featured.forEach(car => {
-        container.innerHTML += `
-            <div class="featured-slot">
-                <div class="featured-car">
-                    <img src="${car.imagem1 || '../../img/no-image.jpg'}" alt="${car.modelo}">
-                    <div class="featured-details">
-                        <h3>${car.marca} ${car.modelo}</h3>
-                        <p>R$ ${car.preco.toLocaleString()}</p>
-                    </div>
-                    <button class="remove-featured" onclick="removeFeatured(${car.id})">
-                        <i class="fas fa-star"></i>
-                    </button>
-                </div>
-            </div>
-        `;
-    });
-
-    // Add empty slots
-    const emptySlots = 3 - featured.length;
-    for (let i = 0; i < emptySlots; i++) {
-        container.innerHTML += `
-            <div class="featured-slot empty">
-                <div class="empty-state">
-                    <i class="fas fa-plus-circle"></i>
-                    <p>Selecione um carro da lista</p>
-                </div>
-            </div>
-        `;
-    }
-}
-
-async function toggleFeatured(carId) {
-    try {
-        const featured = document.querySelector(`button[onclick="toggleFeatured(${carId})"]`);
-        if (featured.classList.contains('featured')) {
-            await removeFeatured(carId);
-        } else {
-            await addFeatured(carId);
-        }
-
-        loadCars(); // Refresh display
-    } catch (error) {
-        console.error('Erro ao alterar destaque:', error);
-    }
-}
-
-
-
-let featuredCars = [];
-
-function toggleFeatured(carId) {
-    if (featuredCars.includes(carId)) {
-        removeFeatured(carId);
-    } else {
-        addFeatured(carId);
-    }
-}
-
-function addFeatured(carId) {
-    if (featuredCars.length >= 3) {
-        alert('Máximo de 3 carros em destaque atingido');
-        return;
-    }
-
-    featuredCars.push(carId);
-    updateFeaturedDisplay();
-    saveFeaturedCars();
-}
-
 // Função para formatar preço em Real
 function formatarPreco(preco) {
     return parseFloat(preco).toLocaleString('pt-BR', {
@@ -207,6 +132,8 @@ function formatarPreco(preco) {
         currency: 'BRL'
     });
 }
+
+//--------------------------------------------------------
 
 // Função atualizada para listar carros
 async function ListarCarros() {
@@ -249,9 +176,9 @@ async function ListarCarros() {
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <button class="edit-btn" onclick="openModal(${carro.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                    <button class="destaque-btn" onclick="marcarComoDestaque(${carro.id})">
+                                <i class="fas fa-star"></i>
+                    </button>
                         <button class="delete-btn" onclick="deleteCar(${carro.id})">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -302,11 +229,84 @@ async function deleteCar(id) {
     }
 }
 
+async function marcarComoDestaque(id_carro) {
+    try {
+        // Primeiro, verificar se o carro já está em destaque
+        const responseCheck = await fetch('http://localhost:3000/mostrarDestaques', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        
+        if (!responseCheck.ok) {
+            throw new Error('Erro ao verificar destaques');
+        }
+
+        const destaques = await responseCheck.json();
+        const carroJaDestaque = destaques.find(d => d.id_carro === id_carro);
+
+        if (carroJaDestaque) {
+            // Se já está em destaque, remove
+            await fetch(`http://localhost:3000/removerDestaque/${carroJaDestaque.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            alert('Carro removido dos destaques!', 'sucesso');
+        } else {
+            // Se não está em destaque, adiciona
+            const response = await fetch('http://localhost:3000/AdicionarDestaque', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    id_carro: id_carro
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Erro ao marcar como destaque');
+            }
+
+            alert('Carro marcado como destaque!', 'sucesso');
+        }
+
+        // Atualiza a lista de carros para refletir as mudanças
+        await ListarCarros();
+
+    } catch (error) {
+        console.error('Erro:', error);
+        alert(error.message, 'erro');
+    }
+}
+
+// Atualizar a função ListarCarros para incluir o estado do destaque no botão
+function atualizarBotaoDestaque(carroId, destaques) {
+    try {
+        fetch ('http://localhost:3000/mostrarDestaques', {
+            method: 'GET',
+            credentials: 'include'
+        }) 
+    
+        const botao = document.querySelector(`button[onclick="marcarComoDestaque(${carroId})"]`);
+    if (botao) {
+        const estaDestaque = destaques.some(d => d.id_carro === id_carro);
+        botao.classList.toggle('active', estaDestaque);
+    }
+    } catch (error) {
+        console.error('Erro ao verificar destaques:', error);
+    }
+   
+}
+
+
+
 window.onload = async () => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('userRole');
     if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
-        window.location.href = '/Front-end/src/login/login.html';
+        window.location.href = '/login';
         return;
     }
-    }; 
+    };
