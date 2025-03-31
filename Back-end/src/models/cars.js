@@ -3,6 +3,7 @@ const sequelize = require('../config/sequelize');
 
 const statusCarros = require('./statuscars'); // Importe o modelo de statusCarros
 const tipos_carros = require('./tipocars'); // Importe o modelo de tiposCarros
+const destaques = require('./destaques'); // Importe o modelo de destaques
 
 const Cars = sequelize.define('carros', {
     id: {
@@ -79,13 +80,18 @@ const Cars = sequelize.define('carros', {
     tipo_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-    }
+    },
+    // destaques: {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    // }
 }, {
     timestamps: false,
     freezeTableName: true, 
 });
 
 // **Definição das associações**
+// Cars.belongsTo(destaques, { foreignKey: 'destaque', as: 'id_carro' });
 Cars.belongsTo(statusCarros, { foreignKey: 'status_id', as: 'status' });
 Cars.belongsTo(tipos_carros, { foreignKey: 'tipo_id', as: 'tipo' });
 

@@ -449,17 +449,17 @@ option {
     transition: all 0.3s ease;
 }
 
-.destaque-btn i {
+
+.fa-star{
     color: rgba(201, 48, 44, 0.5); /* Cor base semi-transparente */
     transition: all 0.3s ease;
 }
 
-.destaque-btn.active {
-    color: white !important;
-    background-color: #dc3545 !important;
-    
-    border: 2px solid #dc3545;
+.desfa-star{
+    color: #FFFF; 
+    transition: all 0.3s ease;
 }
+
 
 
 .destaque-btn:hover {

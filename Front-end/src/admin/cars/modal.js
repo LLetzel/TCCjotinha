@@ -147,7 +147,7 @@ async function ListarCarros() {
         
 
         const carros = await response.json();
-        console.log('Carros:', carros);
+        console.log('Carros:', carros.cars);
         carr = carros.cars
 
         // Selecionar tbody da tabela
@@ -155,10 +155,9 @@ async function ListarCarros() {
         
         // Limpar conteúdo atual da tabela
         tbody.innerHTML = '';
-
+        const estrela = true ? 'fa-star' : 'desfa-star';
         // Usar map para criar as linhas da tabela
         const linhasHTML = carr.map(carro => 
-
             `
             <tr>
                 <td>
@@ -172,12 +171,12 @@ async function ListarCarros() {
                 <td>
                     <span class="status-badge ${carro.status_id === 1 ? 'disponivel' : 'vendido'}">
                         ${carro.status_id === 1 ? 'Disponível' : 'Vendido'}
-                    </span>
+                        </span>
                 </td>
                 <td>
                     <div class="action-buttons">
                     <button class="destaque-btn" onclick="marcarComoDestaque(${carro.id})">
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star ${estrela}"></i>
                     </button>
                         <button class="delete-btn" onclick="deleteCar(${carro.id})">
                             <i class="fas fa-trash"></i>
@@ -243,6 +242,7 @@ async function marcarComoDestaque(id_carro) {
 
         const destaques = await responseCheck.json();
         const carroJaDestaque = destaques.find(d => d.id_carro === id_carro);
+        
 
         if (carroJaDestaque) {
             // Se já está em destaque, remove
@@ -250,6 +250,7 @@ async function marcarComoDestaque(id_carro) {
                 method: 'DELETE',
                 credentials: 'include'
             });
+            
             alert('Carro removido dos destaques!', 'sucesso');
         } else {
             // Se não está em destaque, adiciona
@@ -280,27 +281,6 @@ async function marcarComoDestaque(id_carro) {
         alert(error.message, 'erro');
     }
 }
-
-// Atualizar a função ListarCarros para incluir o estado do destaque no botão
-function atualizarBotaoDestaque(carroId, destaques) {
-    try {
-        fetch ('http://localhost:3000/mostrarDestaques', {
-            method: 'GET',
-            credentials: 'include'
-        }) 
-    
-        const botao = document.querySelector(`button[onclick="marcarComoDestaque(${carroId})"]`);
-    if (botao) {
-        const estaDestaque = destaques.some(d => d.id_carro === id_carro);
-        botao.classList.toggle('active', estaDestaque);
-    }
-    } catch (error) {
-        console.error('Erro ao verificar destaques:', error);
-    }
-   
-}
-
-
 
 window.onload = async () => {
     const userId = localStorage.getItem('userId');

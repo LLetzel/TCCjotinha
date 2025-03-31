@@ -51,7 +51,11 @@ exports.mostrarCarros = async (req, res) => {
                 {
                     model: tipos_carros,
                     as: 'tipo'
-                }
+                },
+                // {
+                //     model: CarrosDestaques,
+                //     as: 'id_carro'
+                // }
             ]
         });
 
