@@ -81,6 +81,7 @@ const Cars = sequelize.define('carros', {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
+    // Removido campo "destaques" pois não existe na tabela e conflita com a associação
     // destaques: {
     //     type: Sequelize.INTEGER,
     //     allowNull: false,
@@ -91,7 +92,7 @@ const Cars = sequelize.define('carros', {
 });
 
 // **Definição das associações**
-// Cars.belongsTo(destaques, { foreignKey: 'destaque', as: 'id_carro' });
+Cars.hasOne(destaques, { foreignKey: 'id_carro', as: 'destaqueData' });
 Cars.belongsTo(statusCarros, { foreignKey: 'status_id', as: 'status' });
 Cars.belongsTo(tipos_carros, { foreignKey: 'tipo_id', as: 'tipo' });
 

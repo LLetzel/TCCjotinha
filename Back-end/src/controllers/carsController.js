@@ -52,13 +52,12 @@ exports.mostrarCarros = async (req, res) => {
                     model: tipos_carros,
                     as: 'tipo'
                 },
-                // {
-                //     model: CarrosDestaques,
-                //     as: 'id_carro'
-                // }
+                {
+                    model: CarrosDestaques,
+                    as: 'destaqueData'
+                }
             ]
         });
-
         return res.status(200).json({ cars });
     } catch (err) {
         console.error('Error no servidor:' + err);
@@ -76,12 +75,16 @@ exports.mostrarCarro = async (req, res) => {
         const car = await Cars.findByPk(id, {
             include: [
                 {
-                    model: statusCars,
+                    model: statusCarros,
                     as: 'status'
                 },
                 {
-                    model: tipoCars,
+                    model: tipos_carros,
                     as: 'tipo'
+                },
+                {
+                    model: CarrosDestaques,
+                    as: 'destaqueData'
                 }
             ]
         });
@@ -193,4 +196,3 @@ exports.DeletarDestaque = async (req, res) => {
         return res.status(500).send(err)
     }
 }
-

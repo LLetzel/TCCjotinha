@@ -144,18 +144,16 @@ async function ListarCarros() {
             credentials: 'include'
         });
 
-        
-
         const carros = await response.json();
         console.log('Carros:', carros.cars);
-        carr = carros.cars
+        const carr = carros.cars;
 
         // Selecionar tbody da tabela
         const tbody = document.querySelector('.cars-table tbody');
         
         // Limpar conteúdo atual da tabela
         tbody.innerHTML = '';
-        const estrela = true ? 'fa-star' : 'desfa-star';
+        
         // Usar map para criar as linhas da tabela
         const linhasHTML = carr.map(carro => 
             `
@@ -171,22 +169,22 @@ async function ListarCarros() {
                 <td>
                     <span class="status-badge ${carro.status_id === 1 ? 'disponivel' : 'vendido'}">
                         ${carro.status_id === 1 ? 'Disponível' : 'Vendido'}
-                        </span>
+                    </span>
                 </td>
                 <td>
                     <div class="action-buttons">
-                    <button class="destaque-btn" onclick="marcarComoDestaque(${carro.id})">
-                                <i class="fas fa-star ${estrela}"></i>
-                    </button>
+                        <button class="destaque-btn" onclick="marcarComoDestaque(${carro.id})">
+                            <i class="fas fa-star ${carro.destaqueData !== null ? 'desfa-star' : ''}"></i>
+                        </button>
                         <button class="delete-btn" onclick="deleteCar(${carro.id})">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 </td>
             </tr>
-        `).join('');
+            `
+        ).join('');
         
- 
         // Inserir as linhas na tabela
         tbody.innerHTML = linhasHTML;   
         

@@ -96,7 +96,7 @@ option {
 
 .edit-btn,
 .delete-btn {
-    padding: 0.5rem;
+    color: #fff;
     border-radius: 6px;
     border: none;
     cursor: pointer;
@@ -109,8 +109,12 @@ option {
 }
 
 .delete-btn {
-    background: #dc3545;
-    color: var(--text-color);
+    background: #e73030;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .edit-btn:hover,
@@ -443,30 +447,54 @@ option {
 .destaque-btn {
     background: transparent;
     border: none;
-    padding: 8px;
+    padding: 6px;
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s ease;
 }
 
-
-.fa-star{
-    color: rgba(201, 48, 44, 0.5); /* Cor base semi-transparente */
+/* Estilo para a estrela quando não está marcada */
+.fa-star {
+    color: rgba(201, 48, 44, 0.5);
+    background: transparent;
+    padding: 8px;
+    border-radius: 4px;
     transition: all 0.3s ease;
 }
 
-.desfa-star{
-    color: #FFFF; 
+/* Estilo para a estrela quando está marcada (similar ao botão de deletar) */
+.desfa-star {
+    color: #fff;
+    background: #e73030;
+    padding: 8px;
+    border-radius: 4px;
     transition: all 0.3s ease;
 }
 
-
-
-.destaque-btn:hover {
-    background: rgba(201, 48, 44, 0.1);
-}
-
-.destaque-btn:hover i {
+/* Hover para ambas as estrelas */
+.destaque-btn:hover .fa-star,
+.destaque-btn:hover .desfa-star {
     transform: scale(1.1);
+    background: rgba(201, 48, 44, 0.2);
 }
 
+.destaque-btn,
+.delete-btn {
+    /* Definindo um tamanho fixo para que ambos fiquem iguais */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Ajuste no hover para manter a consistência visual */
+.destaque-btn:hover,
+.delete-btn:hover {
+    background: rgba(201, 48, 44, 0.2);
+}
