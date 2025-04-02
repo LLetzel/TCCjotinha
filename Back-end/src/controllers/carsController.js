@@ -157,7 +157,7 @@ exports.MostrarDestaques = async (req, res) => {
 // Função para adicionar carro em destaque (limite de 3 carros)
 exports.AdicionarDestaques = async (req, res) => {
     try {
-        const { id_carro} = req.body;
+        const {id_carro} = req.body;
 
         // Verifica quantos destaques já existem
         const countDestaques = await CarrosDestaques.count();

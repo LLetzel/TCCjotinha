@@ -28,7 +28,7 @@ exports.getAgendamentos = async (req, res) => {
 };
 
 // Função para criar agendamentos (POST)
-exports.postAgendamentos = async (req, res) => {
+exports.postAgendamentos = async (req, res) => {    
     try {
         const { id_usuario, id_carro, interesse_id, data, hora, observacoes, status_id } = req.body;
         
