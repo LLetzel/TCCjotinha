@@ -127,11 +127,8 @@ router.post(`/adicionarDestaque`, carsController.AdicionarDestaques);
 router.delete(`/removerDestaque/:id`, carsController.DeletarDestaque);
 
 // agendamento
-router.get("/agendamento/get", agendamentoController.getAgendamentos); //  obter
 router.post("/agendamento/post", agendamentoController.postAgendamentos); // postar
-router.patch("/agendamento/patch", agendamentoController.patchAgendamentos); //atualizar
-router.delete("/agendamento/delete", agendamentoController.deleteAgendamentos); //deletar
-
+router.get("/agendamento/get", agendamentoController.getAgendamentos);
 // contato
 router.post("/contato", async (req, res) => {
     try {
