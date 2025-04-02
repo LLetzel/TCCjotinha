@@ -8,26 +8,26 @@ class Header extends HTMLElement {
             <header>
                 <div class="container">
                     <div class="logo">
-                        <a href="/Front-end/src/home/home.html">
-                            <img src="/Front-end/img/logonome.png" alt="Logo">
+                        <a href="/src/home/home.html">
+                            <img src="/img/logonome.png" alt="Logo">
                         </a>
                     </div>
 
                     <nav class="nav-menu">
-                        <a href="/Front-end/src/home/home.html">Início</a>
-                        <a href="/Front-end/src/estoque/estoque.html">Estoque</a>
-                        <a href="/Front-end/src/sobrenos/sobrenos.html">Sobre nós</a>
-                        <a href="/Front-end/src/contato/contato.html">Contato</a>
-                        <a href="/Front-end/src/consignar/consignar.html">Consignar</a>
+                        <a href="/src/home/home.html">Início</a>
+                        <a href="/src/estoque/estoque.html">Estoque</a>
+                        <a href="/src/sobrenos/sobrenos.html">Sobre nós</a>
+                        <a href="/src/contato/contato.html">Contato</a>
+                        <a href="/src/consignar/consignar.html">Consignar</a>
                         <div class="auth-links-mobile">
-                            <a id="loginMobile" href="/Front-end/src/login/login.html">Login</a>
-                            <a id="cadastroMobile" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
+                            <a id="loginMobile" href="/src/login/login.html">Login</a>
+                            <a id="cadastroMobile" href="/src/cadastro/cadastro.html">Cadastrar-se</a>
                         </div>
                     </nav>
 
                     <div class="auth-links-desktop">
-                        <a id="login" href="/Front-end/src/login/login.html">Login</a>
-                        <a id="cadastro" href="/Front-end/src/cadastro/cadastro.html">Cadastrar-se</a>
+                        <a id="login" href="/src/login/login.html">Login</a>
+                        <a id="cadastro" href="/src/cadastro/cadastro.html">Cadastrar-se</a>
                     </div>
 
                     <button class="menu-toggle">
@@ -52,7 +52,7 @@ class Header extends HTMLElement {
 
             // Update desktop buttons
             loginBtn.innerHTML = '<i class="fas fa-user-circle"></i> Perfil';
-            loginBtn.href = '/Front-end/src/perfil/perfil.html';
+            loginBtn.href = '/src/perfil/perfil.html';
             
             cadastroBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
             cadastroBtn.href = '#';
@@ -60,7 +60,7 @@ class Header extends HTMLElement {
 
             // Update mobile buttons
             loginMobileBtn.innerHTML = '<i class="fas fa-user-circle"></i> Perfil';
-            loginMobileBtn.href = '/Front-end/src/perfil/perfil.html';
+            loginMobileBtn.href = '/src/perfil/perfil.html';
             
             cadastroMobileBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
             cadastroMobileBtn.href = '#';
@@ -86,7 +86,7 @@ class Header extends HTMLElement {
         e.preventDefault();
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
-        window.location.href = '/Front-end/src/home/home.html';
+        window.location.href = '/src/home/home.html';
     }
 }
 

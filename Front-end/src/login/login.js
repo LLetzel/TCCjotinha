@@ -47,11 +47,11 @@ function entrar() {
                         
                         if (data.response.tipo_id === 1) {
                             localStorage.setItem('userRole', data.response.tipo_id);
-                            window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
+                            window.location.href = '/dashboard';
                             return;
                         } else {
                             localStorage.setItem('userRole', data.response.tipo_id);
-                            window.location.href = '/Front-end/src/home/home.html';
+                            window.location.href = '/home';
                             return;
                         }
                         // if (data.response.tipo_id === 2) {

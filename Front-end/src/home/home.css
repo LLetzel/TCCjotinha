@@ -57,7 +57,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('/Front-end/img/loja.jpg'); /* Adicione a imagem aqui */
+    background-image: url('/img/loja.jpg'); /* Adicione a imagem aqui */
     background-size: cover; /* Faz a imagem cobrir toda a área */
     background-position: center; /* Centraliza a imagem */
     background-repeat: no-repeat; /* Evita que a imagem se repita */

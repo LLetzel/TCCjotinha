@@ -5,6 +5,7 @@ const router = require('./routes/router');
 const cors = require('cors')
 const session = require('express-session');
 const { token } = require('./config.json')
+const path = require('path');
 
 // require('dotenv').config();
 
@@ -32,9 +33,11 @@ sequelize.authenticate()
 // Criando uma instância do express
 const app = express();
 
+app.use(express.static('../../../Front-end/'));
+
 app.use(session({
     secret: token, // Substitua por uma chave secreta forte
-    resave: false,
+    resave: false,  
     saveUninitialized: true,
     cookie: { 
         secure: false,

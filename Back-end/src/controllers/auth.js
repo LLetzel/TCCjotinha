@@ -228,3 +228,83 @@ exports.mostrarUsers = async (req, res) => {
       })
   }
 }
+
+
+exports.infoPerfil = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    console.log(userId);
+
+    if (!userId) {
+        return res.status(401).json({ mensagem: "Usuário não autenticado" });
+    }
+
+    const sql = "SELECT nome, email, cpf, nascimento, telefone FROM usuarios WHERE id = ?";
+    const [results] = await promisePool.execute(sql, [userId]);
+
+    if (results.length > 0) {
+        res.json(results[0]); // Retorna o usuário encontrado
+    } else {
+        res.status(404).json({ mensagem: "Usuário não encontrado" });
+    }
+  } catch (err) {
+      console.error("Erro ao buscar usuário:", err);
+      res.status(500).json({ mensagem: "Erro ao buscar informações" });
+  }
+};
+
+
+exports.atualizarUser = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { nome, email, telefone, senha, cpf, nascimento, sexo} = req.body;
+      const user = await User.update({ nome, email, telefone, senha, cpf, nascimento, sexo }, { where: { id } });
+      if (!user) {
+          return res.status(404).json({
+              message: 'Usuário não encontrado'
+          });
+      }
+      return res.status(200).json({ message: 'Usuário atualizado com sucesso' });
+  }
+  catch (err) {
+      console.error('Error no servidor:' + err);
+      return res.status(500).json({
+          success: false,
+          response: 'Erro interno no servidor'
+      });
+  }
+}
+
+exports.mudarTelefone = async (req, res) => {
+    const { telefone } = req.body; 
+    
+    const userId = req.params.id;
+
+    if (!telefone) {
+        return res.status(400).json({ mensagem: "O telefone não pode estar vazio." });
+    }
+
+    
+    if (!userId) {
+        return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    const sql = "UPDATE usuarios SET telefone = ? WHERE id = ?";
+
+    try {
+       
+        const [result] = await promisePool.query(sql, [telefone, userId]);
+
+        
+        if (result.affectedRows > 0) {
+            res.json({ mensagem: "Telefone atualizado com sucesso!" });
+        } else {
+            res.status(404).json({ mensagem: "Usuário não encontrado." });
+        }
+    } catch (err) {
+        console.error("Erro ao atualizar telefone:", err);
+        res.status(500).json({ mensagem: "Erro ao atualizar telefone.", erro: err.message });
+        // res.status(500).json({ mensagem: "Erro ao atualizar telefone." });
+    }
+};
