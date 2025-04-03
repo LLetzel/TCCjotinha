@@ -19,6 +19,7 @@ router.post('/cadastro', authController.register);
 router.post('/login', authController.login);
 router.get('/usuario/:id', authController.mostrarUser);
 router.get('/usuarios', authController.mostrarUsers);
+router.get('/infoPerfil/:userId', authController.infoPerfil);
 router.put('/telefone/:id', authController.atualizarUser);
 
 

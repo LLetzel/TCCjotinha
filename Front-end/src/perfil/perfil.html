@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - JOTINHA VEICULOS</title>
     <link rel="stylesheet" href="perfil.css">
-    <link rel="stylesheet" href="/Front-end/src/components/footer/footer.css">
-    <link rel="stylesheet" href="/Front-end/src/components/header/header.css">
-    <link rel="shortcut icon" href="/Front-end/img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="src/components/footer/footer.css">
+    <link rel="stylesheet" href="src/components/header/header.css">
+    <link rel="shortcut icon" href="img/image.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
 </head>
 
@@ -20,15 +20,13 @@
                 <div class="profile-header">
                     <div class="profile-cover">
                         <div class="profile-avatar">
-                            <img src="../../img/profile.jpg" alt="Profile Picture">
-                            <button class="edit-avatar">
-                                <i class="fas fa-camera"></i>
-                            </button>
+                            <img src="../../img/perfilred.png" alt="Profile Picture">
+                            
                         </div>
                     </div>
                     <div class="profile-info">
-                        <h1>Lucas Letzel</h1>
-                        <p>usuario@email.com</p>
+                        <h1 id="nome"></h1>
+                        <p id="email"></p>
                     </div>
                 </div>  
 
@@ -53,19 +51,19 @@
                             <div class="info-grid">
                                 <div class="info-item">
                                     <label>Nome Completo</label>
-                                    <p>Lucas Dias Letzel</p>
+                                    <p></p>
                                 </div>
                                 <div class="info-item">
                                     <label>CPF</label>
-                                    <p>123.456.789-00</p>
+                                    <p></p>
                                 </div>
                                 <div class="info-item">
                                     <label>Data de Nascimento</label>
-                                    <p>01/01/1990</p>
+                                    <p></p>
                                 </div>
                                 <div class="info-item">
                                     <label>Telefone</label>
-                                    <p>(11) 98765-4321</p>
+                                    <p></p>
                                 </div>
                             </div>
                             <button class="edit-btn">
@@ -175,37 +173,13 @@
         </div>
     </div>
 
-    <!-- Change Avatar Modal -->
-    <div id="changeAvatarModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Alterar Foto de Perfil</h2>
-            <form id="avatarForm">
-                <div class="avatar-preview">
-                    <img id="avatarPreview" src="/img/perfilred.png" alt="Preview">
-                </div>
-                <div class="form-group">
-                    <label for="avatarInput" class="file-input-label">
-                        <i class="fas fa-upload"></i>
-                        Escolher Foto
-                    </label>
-                    <input type="file" id="avatarInput" accept="image/*" hidden>
-                </div>
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-save"></i>
-                    Salvar Foto
-                </button>
-            </form>
-        </div>
-    </div>
-
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
-    <script src="/Front-end/src/components/footer/footer.js" type="text/javascript" defer></script>
-    <script src="/Front-end/src/components/header/header.js" type="text/javascript" defer></script>
+    <script src="src/components/footer/footer.js" type="text/javascript" defer></script>
+    <script src="src/components/header/header.js" type="text/javascript" defer></script>
     <script>
         AOS.init();
     </script>
-    <script src="perfil.js" type="text/javascript" defer></script>
+    <script src="../perfil/perfil.js" type="text/javascript" defer></script>
 </body>
 </html>

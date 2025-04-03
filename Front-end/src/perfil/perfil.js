@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tab.classList.remove('active');
         });
 
+
         // Remove active class from all buttons
         navBtns.forEach(btn => btn.classList.remove('active'));
 
@@ -43,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modals = {
         editPersonal: document.getElementById('editPersonalModal'),
         changePassword: document.getElementById('changePasswordModal'),
-        changeAvatar: document.getElementById('changeAvatarModal')
     };
 
     function openModal(modalId) {
@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal triggers
     document.querySelector('.edit-btn').addEventListener('click', () => openModal('editPersonal'));
-    document.querySelector('.edit-avatar').addEventListener('click', () => openModal('changeAvatar'));
     document.querySelector('.settings-btn').addEventListener('click', () => openModal('changePassword'));
 
     // Close buttons
@@ -126,3 +125,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const nomeElement = document.getElementById('nome');
+    const emailElement = document.getElementById('email');
+    const cpfElement = document.getElementById('cpf');
+    const nascimentoElement = document.getElementById('nascimento');
+    const telefoneElement = document.getElementById('telefone');
+  
+    const userId = localStorage.getItem('userId');
+  
+    if (userId) {
+      fetch(`http://localhost:3000/infoPerfil/${userId}`)
+        .then(response => {
+          console.log("Status da resposta:", response.status);
+          if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("Dados recebidos:", data);
+          if (data && data.nome) {
+            nomeElement.textContent = data.nome;
+            emailElement.textContent = data.email;
+            cpfElement.textContent = data.cpf;
+            nascimentoElement.textContent = data.nascimento;
+            telefoneElement.textContent = data.telefone;
+          } else {
+            console.error("Dados inválidos ou vazios:", data);
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao buscar perfil:', error);
+          // Verifique se:
+          // 1. O servidor back-end está rodando e acessível.
+          // 2. O endpoint http://localhost:3000/infoPerfil/:userId retorna JSON corretamente.
+          // 3. Não há problemas relacionados ao CORS.
+        });
+    } else {
+      console.error('ID de usuário não localizado');
+    }
+  });
