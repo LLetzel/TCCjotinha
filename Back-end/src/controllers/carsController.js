@@ -8,6 +8,7 @@ const statusCarros = require('../models/statuscars');
 const tipos_carros = require('../models/tipocars');
 const CarrosDestaques = require('../models/destaques')
 
+
 exports.createCar = async (req, res) => {
     try {
         const carData = { marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5, status_id, tipo_id } = req.body;
@@ -146,21 +147,27 @@ exports.atualizarCar = async (req, res) => {
 }
 
 
+
 exports.MostrarDestaques = async (req, res) => {
     try {
-        const cars = await CarrosDestaques.findAll();
-        return res.status(200).json(cars);
-    }
-    catch (err) {
-        console.error('Error no servidor:' + err);
-    }
+        const destaques = await CarrosDestaques.findAll({
+            include: {
+                model: Cars,
+                as: 'carro',
+            },
+        });
 
+        return res.status(200).json(destaques);
+    } catch (err) {
+        console.error('Erro no servidor:' + err);
+        return res.status(500).json({ message: 'Erro no servidor' });
+    }
 };
 
 // Função para adicionar carro em destaque (limite de 3 carros)
 exports.AdicionarDestaques = async (req, res) => {
     try {
-        const {id_carro} = req.body;
+        const { id_carro } = req.body;
 
         // Verifica quantos destaques já existem
         const countDestaques = await CarrosDestaques.count();
@@ -175,7 +182,7 @@ exports.AdicionarDestaques = async (req, res) => {
         }
 
         // Adiciona o carro em destaque
-        await CarrosDestaques.create({ id_carro});
+        await CarrosDestaques.create({ id_carro });
         return res.status(200).send("Carro adicionado aos destaques com sucesso.");
     } catch (err) {
         return res.status(500).send("Erro ao adicionar destaque: " + err);
@@ -188,7 +195,7 @@ exports.DeletarDestaque = async (req, res) => {
         const car = await CarrosDestaques.destroy({ where: { id } });
         if (!car) {
             return res.status(404).send('Destaque não encontrado')
-            ;
+                ;
         }
         return res.status(200).send('Sucesso ao excluir destaque')
     }

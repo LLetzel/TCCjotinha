@@ -92,7 +92,7 @@ const Cars = sequelize.define('carros', {
 });
 
 // **Definição das associações**
-Cars.hasOne(destaques, { foreignKey: 'id_carro', as: 'destaqueData' });
+// Cars.hasOne(destaques, { foreignKey: 'id_carro', as: 'destaqueData' });
 Cars.belongsTo(statusCarros, { foreignKey: 'status_id', as: 'status' });
 Cars.belongsTo(tipos_carros, { foreignKey: 'tipo_id', as: 'tipo' });
 
