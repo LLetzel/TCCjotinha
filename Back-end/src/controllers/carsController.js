@@ -1,12 +1,10 @@
-const Cars = require('../models/cars');
 const { Op } = require('sequelize');
+const { Cars, CarrosDestaques, statusCarros, tipos_carros, } = require('../models');
+
 
 const { where } = require('sequelize');
 const { response } = require('express');
 const { spliceStr, singularize, removeTicks } = require('sequelize/lib/utils');
-const statusCarros = require('../models/statuscars');
-const tipos_carros = require('../models/tipocars');
-const CarrosDestaques = require('../models/destaques')
 
 exports.createCar = async (req, res) => {
     try {
@@ -146,15 +144,21 @@ exports.atualizarCar = async (req, res) => {
 }
 
 
-exports.MostrarDestaques = async (req, res) => {
-    try {
-        const cars = await CarrosDestaques.findAll();
-        return res.status(200).json(cars);
-    }
-    catch (err) {
-        console.error('Error no servidor:' + err);
-    }
 
+exports.MostrarDestaques = async (req, res) => {
+  try {
+    const destaques = await CarrosDestaques.findAll({
+      include: {
+        model: Cars,
+        as: 'carro',
+      },
+    });
+
+    return res.status(200).json(destaques);
+  } catch (err) {
+    console.error('Erro no servidor:' + err);
+    return res.status(500).json({ message: 'Erro no servidor' });
+  }
 };
 
 // Função para adicionar carro em destaque (limite de 3 carros)

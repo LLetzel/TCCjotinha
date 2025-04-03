@@ -1,4 +1,31 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
+    try {
+        const response = await fetch('http://localhost:3000/mostrarDestaques', {
+            method: 'GET',
+            credentials: 'include',
+        }); // ajuste a rota conforme necessário
+        const data = await response.json();
+        const destaques = data.id_carro;
+        console.log('data:', data);
+
+        for (var i = 0; i < data.length; i++) {
+            carro = data[i]
+            document.querySelector(".cards").innerHTML = document.querySelector(".cards").innerHTML +
+            `
+                <div class="card">
+                    <img src="${carro.carro.imagem1 || '../../img/no-image.jpg'}" alt="${carro.carro.modelo}">
+                    <div class="card__content">
+                        <p class="card__title">${carro.marca} ${carro.carro.modelo}</p>
+                        <p class="card__description">${carro.carro.descricao || 'Descrição indisponível'}</p>
+                        <button onclick="window.location.href='/cardetails?id=${carro.carro.id}';" class="card__button">Ver mais</button>
+                    </div>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Erro ao carregar destaques:', error);
+    }
+
     const swiper = new Swiper(".mySwiper", {
         effect: "fade", // fade effect between slides
         loop: true, // infinite loop
@@ -29,44 +56,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-
-// let userId = localStorage.getItem('userId');
-
-// window.onload = () => {
-//      verificar();
-// }
-
-// function verificar() {
-//     if (userId == null || userId == undefined) {
-//         window.location.href = '/Front-end/src/login/login.html';
-//         return;
-//     }
-//     fetch(`http://localhost:3000/usuario/${userId}`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         credentials: 'include'
-//     })
-//         .then(res => res.json())
-//         .then(data => {
-            
-//             if (data) {
-//                 console.log(data);
-                
-//                 if (data.response.tipo_id === 1) {
-//                     window.location.href = '/Front-end/src/admin/dashboard/dashboard.html';
-//                     return;
-//                 }
-//                 if (data.response.tipo_id === 2) {
-//                     return;
-//                 }
-
-//             } 
-//             return console.log('Erro ao verificar o usuário');
-//         })
-//         .catch((err) => {
-//             console.log('erro de conexão com o servidor', err);
-//             alert('Erro de conexão com o servidor');
-//         });
-// }
