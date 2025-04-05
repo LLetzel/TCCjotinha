@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/src/components/footer/footer.css">
     <link rel="stylesheet" href="/src/components/header/header.css">
     <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,22 +19,14 @@
     <header-component></header-component>
 
     <main>
+        <div class="background-image"></div>
         <div class="back-link">
             <a href="/estoque" title="Voltar">
                 <i class="fas fa-arrow-left"></i>
             </a>
         </div>
         <div class="car-container">
-            <section class="car-carousel" data-aos="fade-up">
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <!-- Images will be dynamically inserted here -->
-                    </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </section>
+            
 
             <section class="car-info" data-aos="fade-up" data-aos-delay="200">
                 <div class="car-header">
@@ -75,34 +70,6 @@
                     <p id="carDescription">Carregando descrição...</p>
                 </div>
 
-                <div class="features-section" data-aos="fade-up" data-aos-delay="400">
-                    <h2>Características</h2>
-                    <div class="features-grid" id="featuresGrid">
-                        <!-- Features will be dynamically inserted here -->
-                    </div>
-                </div>
-
-                <div class="additional-info" data-aos="fade-up" data-aos-delay="500">
-                    <h2>Informações Adicionais</h2>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>Cor:</strong>
-                            <span id="additionalColor">--</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Final Placa:</strong>
-                            <span id="licensePlate">--</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Portas:</strong>
-                            <span id="additionalDoors">--</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>IPVA:</strong>
-                            <span id="additionalIpva">--</span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="action-buttons" data-aos="fade-up" data-aos-delay="600">
                     <a href="/agendamento" class="schedule-btn" id="scheduleButton">
@@ -128,5 +95,6 @@
     <script>
         AOS.init();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>
 </html>

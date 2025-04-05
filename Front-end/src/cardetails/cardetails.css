@@ -122,10 +122,25 @@ nav a:hover {
     color: var(--primary-color);
 }
 
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/img/loja.jpg'); /* Troque pelo caminho da sua imagem */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1; /* Deixa atrás de tudo */
+    filter: brightness(0.15); /* Escurece a imagem */
+}
+
+
 /* Main Container Styles */
 .car-container {
     max-width: 1400px;
-    margin: 2rem auto;
+    margin: 5rem auto;
     padding: 0 2rem;
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -134,26 +149,98 @@ nav a:hover {
 }
 
 /* Carousel Section */
-.car-carousel {
-    background: var(--background-dark);
-    border-radius: 20px;
-    padding: 1.5rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-}
 
 .swiper {
+    width: 100%; /* ADICIONE ISSO */
     height: 50vh;
-
     border-radius: 15px;
     overflow: hidden;
 }
 
+.swiper-slide {
+    width: 100%; /* ADICIONE ISSO */
+}
+
 .swiper-slide img {
-    width: 100%;
+    width: 100%; /* CORRIJA AQUI */
     height: 100%;
     object-fit: cover;
     filter: contrast(1.1);
+}
+
+
+/* Botões de navegação melhorados */
+.swiper-button-next,
+.swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: -25px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    z-index: 15;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-family: swiper-icons;
+    font-size: 20px !important;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.1);
+}
+
+/* Paginação (bolinhas) aprimorada */
+.swiper-pagination {
+    bottom: 15px !important;
+    text-align: center;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 20;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(201, 48, 44, 0.5);
+    opacity: 1;
+    margin: 0 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet:hover {
+    transform: scale(1.2);
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--primary-color);
+    transform: scale(1.2);
 }
 
 /* Car Info Section */
@@ -173,11 +260,13 @@ nav a:hover {
 
 .car-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.8rem;
 }
 
 .car-header h1 {
@@ -187,7 +276,7 @@ nav a:hover {
 }
 
 .price {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--primary-color);
     font-weight: bold;
 }
@@ -215,30 +304,7 @@ nav a:hover {
     font-size: 1.2rem;
 }
 
-/* Features Section */
-.features-section {
-    margin: 2rem 0;
-}
 
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-}
-
-.feature-item i {
-    color: var(--primary-color);
-    font-size: 0.9rem;
-}
 
 /* Action Buttons */
 .action-buttons {
@@ -448,8 +514,50 @@ nav a:hover {
     }
 }
 
-.car-info, .car-carousel {
+.car-info {
     animation: fadeIn 0.6s ease-out;
+}
+.main-swiper {
+    width: 100%;
+    height: 50vh;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.main-swiper .swiper-slide img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.thumbs-swiper {
+    height: 100px;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.thumbs-swiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: opacity 0.3s;
+}
+
+.thumbs-swiper .swiper-slide-thumb-active {
+    opacity: 1;
+    border: 2px solid var(--primary-color);
+}
+
+.thumbs-swiper .swiper-slide img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 @keyframes fadeIn {
@@ -465,12 +573,12 @@ nav a:hover {
 
 .back-link {
     position: absolute;
-    top: calc(10vh + 20px);
+    top: 20px; /* Deixa no topo fixo */
     left: 30px;
     z-index: 99;
-}
-
-.back-link a {
+  }
+  
+  .back-link a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -483,28 +591,26 @@ nav a:hover {
     color: var(--text-color);
     text-decoration: none;
     transition: all 0.3s ease;
-}
-
-.back-link a:hover {
+  }
+  
+  .back-link a:hover {
     background: var(--primary-color);
     transform: translateX(-5px);
     box-shadow: 0 5px 15px rgba(201, 48, 44, 0.2);
-}
-
-.back-link i {
+  }
+  
+  .back-link i {
     font-size: 1.2rem;
-}
+  }
+  
 
 main {
+    margin-top: 30px;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Adjust layout to ensure buttons stay at bottom */
-.car-content {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 10px; /* Space for scrollbar */
-}
 
 ::-webkit-scrollbar {
     width: 16px;

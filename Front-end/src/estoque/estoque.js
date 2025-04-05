@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="vehicle-price">
                                 <span class="price">R$ ${vehicle.preco}</span>
-                                <a href="/cardetails" class="details-btn">Ver Detalhes</a>
+                                <a href="/cardetails?id=${vehicle.id}" class="details-btn">Ver Detalhes</a>
                             </div>
                         </div>
                     </div>`;

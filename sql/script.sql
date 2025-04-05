@@ -124,3 +124,7 @@ CREATE TABLE IF NOT EXISTS `propostas` (
   FOREIGN KEY (`id_carro`) REFERENCES `carros`(`id`),
   FOREIGN KEY (`status_id`) REFERENCES `status_propostas`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------------------------------
+
