@@ -26,7 +26,6 @@ function entrar() {
     .then(data => {
         if (data.success) {
             localStorage.setItem('userId', data.user.id);
-            console.log(data.user.id);
 
             // const userRole = Number(localStorage.getItem('userRole'));
 
@@ -47,10 +46,13 @@ function entrar() {
                         
                         if (data.response.tipo_id === 1) {
                             localStorage.setItem('userRole', data.response.tipo_id);
+                            localStorage.setItem('user', StrJSON.stringifying(data.response));
+                            
                             window.location.href = '/dashboard';
                             return;
                         } else {
                             localStorage.setItem('userRole', data.response.tipo_id);
+                            localStorage.setItem('user', JSON.stringify(data.response));
                             window.location.href = '/home';
                             return;
                         }

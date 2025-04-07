@@ -126,45 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-    const nomeElement = document.getElementById('nome');
-    const emailElement = document.getElementById('email');
-    const cpfElement = document.getElementById('cpf');
-    const nascimentoElement = document.getElementById('nascimento');
-    const telefoneElement = document.getElementById('telefone');
-  
-    const userId = localStorage.getItem('userId');
-  
-    if (userId) {
-      fetch(`http://localhost:3000/infoPerfil/${userId}`)
-        .then(response => {
-          console.log("Status da resposta:", response.status);
-          if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.statusText}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log("Dados recebidos:", data);
-          if (data && data.nome) {
-            nomeElement.textContent = data.nome;
-            emailElement.textContent = data.email;
-            cpfElement.textContent = data.cpf;
-            nascimentoElement.textContent = data.nascimento;
-            telefoneElement.textContent = data.telefone;
-          } else {
-            console.error("Dados inválidos ou vazios:", data);
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao buscar perfil:', error);
-          // Verifique se:
-          // 1. O servidor back-end está rodando e acessível.
-          // 2. O endpoint http://localhost:3000/infoPerfil/:userId retorna JSON corretamente.
-          // 3. Não há problemas relacionados ao CORS.
-        });
+document.addEventListener("DOMContentLoaded", async () => {
+    
+    const personalInfoItems = document.querySelectorAll(".info-grid .info-item p");
+    const navInfoItems = document.querySelectorAll(".profile-container .profile-info p, h1");
+    
+    const cadastroDadosPessoaisStr = localStorage.getItem("user");
+    if (cadastroDadosPessoaisStr) {
+        const cadastroDadosPessoais = JSON.parse(cadastroDadosPessoaisStr);
+        console.log(cadastroDadosPessoais);
+        personalInfoItems[0].textContent = cadastroDadosPessoais.nome;
+        personalInfoItems[1].textContent = cadastroDadosPessoais.cpf;
+        personalInfoItems[2].textContent = cadastroDadosPessoais.nascimento;
+        personalInfoItems[3].textContent = cadastroDadosPessoais.telefone;
+        navInfoItems[0].textContent = cadastroDadosPessoais.nome;
+        navInfoItems[1].textContent = cadastroDadosPessoais.email;
     } else {
-      console.error('ID de usuário não localizado');
+        console.warn("Dados pessoais não encontrados no localStorage.");
     }
-  });
+
+
+    
+    
+});
+
