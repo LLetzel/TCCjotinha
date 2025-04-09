@@ -200,3 +200,5 @@ document.getElementById('editPersonalForm').addEventListener('submit', async (e)
     editModal.classList.remove('show');
     setTimeout(() => editModal.style.display = 'none', 300);
 });
+
+
