@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Tab Management
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
     const navBtns = document.querySelectorAll('.nav-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -125,14 +127,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    async function fetchUserData() {
+        try { 
+            const response = await fetch(`http://localhost:3000/usuario/${userId}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const Dados = await response.json();
+            const userData = Dados.response;
+            console.log(userData);
+
+
+    
+            document.getElementById('userName').textContent = userData.nome;
+            document.getElementById('userName2').textContent = userData.nome;
+            document.getElementById('userCpf').textContent = userData.cpf;
+            document.getElementById('userNascimento').textContent = userData.nascimento;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('userPhone').textContent = userData.telefone;
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
+    
+    if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
+        window.location.href = '/login';
+    } else {
+        fetchUserData();
+    }
 });
+
+
 
 
 window.onload = async () => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('userRole');
     if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
-        window.location.href = '/Front-end/src/login/login.html';
+        window.location.href = '/login';
         return;
     }
     }; 

@@ -1,97 +1,150 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        // Obtém o id do carro a partir dos parâmetros da URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const carId = urlParams.get('id');
-        if (!carId) {
-            alert('ID do carro não encontrado na URL.');
-            return;
-        }
-        
-        // Busca os dados do carro no backend
-        const response = await fetch(`http://localhost:3000/Carro/${carId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
-        
-        if (!response.ok) {
-            throw new Error('Erro ao buscar os dados do carro.');
-        }
-        
-        // Extração dos dados do carro (suporte para endpoint que retorne { car: {…} } ou {…})
-        const data = await response.json();
-        const car = data.car || data;
-        
-        // Preenche os elementos do cardetails front com os dados do banco
-        document.querySelector('#carTitle').textContent = `${car.marca} ${car.modelo}`;
-        document.querySelector('#carPrice').textContent = `R$ ${Number(car.preco).toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        })}`;
-        document.querySelector('#carYear').textContent = `Ano: ${car.ano}`;
-        document.querySelector('#carKm').textContent = `${car.quilometragem} km`;
-        document.querySelector('#carFuel').textContent = `Combustível: ${car.combustivel}`;
-        document.querySelector('#carTransmission').textContent = `Câmbio: ${car.cambio}`;
-        document.querySelector('#carIpva').textContent = `IPVA: ${car.ipva}`;
-        document.querySelector('#carDoors').textContent = `Portas: ${car.portas || 4}`;
-        document.querySelector('#carColor').textContent = `Cor: ${car.cor}`;
-        document.querySelector('#carDescription').textContent = car.descricao;
-        
-        // Informações adicionais, se houver
-        document.querySelector('#additionalColor').textContent = car.cor;
-        document.querySelector('#additionalDoors').textContent = car.portas || 4;
-        document.querySelector('#additionalIpva').textContent = car.ipva;
-        document.querySelector('#licensePlate').textContent = car.placa || '--';
-        
-        // Caso tenha características extras (ex: tipo do carro)
-        const featuresGrid = document.querySelector('#featuresGrid');
-        featuresGrid.innerHTML = '';
-        if (car.tipo && car.tipo.tipo) {
-            const featureItem = document.createElement('div');
-            featureItem.classList.add('feature-item');
-            featureItem.innerHTML = `<i class="fas fa-car"></i><span>${car.tipo.tipo}</span>`;
-            featuresGrid.appendChild(featureItem);
-        }
-        
-        // Preenche o carrossel de imagens com as imagens disponíveis do carro
-        const swiperWrapper = document.querySelector('.swiper-wrapper');
-        swiperWrapper.innerHTML = '';
-        const imageFields = ['imagem1', 'imagem2', 'imagem3', 'imagem4', 'imagem5'];
-        imageFields.forEach(field => {
-            if (car[field]) {
-                const slide = document.createElement('div');
-                slide.classList.add('swiper-slide');
-                slide.innerHTML = `<img src="${car[field]}" alt="${car.modelo}" style="width: 100%; height: auto; object-fit: cover;">`;
-                swiperWrapper.appendChild(slide);
+
+// ----------------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const CarContainer = document.querySelector('.car-container');
+
+
+
+    async function fetchCarDetails() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const carId = urlParams.get('id');
+
+            if (!carId) {
+                alert('ID do carro não encontrado na URL.');
+                return;
             }
-        });
-        
-        // Inicializa o slider do carrossel
-        const swiper = new Swiper(".mySwiper", {
-            effect: "fade",
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
+
+            console.log('Car ID:', carId);
+            const response = await fetch(`http://localhost:3000/Carro/${carId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const carro = await response.json();
+            oneVehicle = carro.car
+            console.log(oneVehicle);
+
+
+            
+            CarContainer.innerHTML = `
+            
+            <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="${oneVehicle.imagem1}" alt="${oneVehicle.marca} ${oneVehicle.modelo}">
+      </div>
+      <div class="swiper-slide">
+        <img src="${oneVehicle.imagem2}" alt="${oneVehicle.marca} ${oneVehicle.modelo}">
+      </div>
+      <div class="swiper-slide">
+        <img src="${oneVehicle.imagem3}" alt="${oneVehicle.marca} ${oneVehicle.modelo}">
+      </div>
+      <div class="swiper-slide">
+        <img src="${oneVehicle.imagem4}" alt="${oneVehicle.marca} ${oneVehicle.modelo}">
+      </div>
+      <div class="swiper-slide">
+        <img src="${oneVehicle.imagem5}" alt="${oneVehicle.marca} ${oneVehicle.modelo}">
+      </div>
+    </div>
+   <!-- Botões -->
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+
+<!-- Paginação -->
+<div class="swiper-pagination"></div>
+  </div>
+
+            <section class="car-info" data-aos="fade-up" data-aos-delay="200">
+            <div class="car-header">
+                <h1>${oneVehicle.marca} ${oneVehicle.modelo}</h1>
+                <p class="price">R$ ${Number(oneVehicle.preco).toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}</p> 
+            </div>
+            <div class="car-details-grid">
+                    <div class="detail-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="carYear">Ano: ${oneVehicle.ano}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span id="carKm">${oneVehicle.quilometragem} km</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gas-pump"></i>
+                        <span id="carFuel">Combustível: ${oneVehicle.combustivel}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-cogs"></i>
+                        <span id="carTransmission">Câmbio: ${oneVehicle.cambio}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span id="carIpva">IPVA: ${oneVehicle.ipva}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-car-side"></i>
+                        <span id="carDoors">Portas: 4</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-palette"></i>
+                        <span id="carColor">Cor: ${oneVehicle.cor}</span>
+                    </div>
+                </div>
+
+
+                
+
+                <div class="action-buttons" data-aos="fade-up" data-aos-delay="600">
+                    <a href="/agendamento" class="schedule-btn" id="scheduleButton">
+                        <i class="fas fa-calendar-alt"></i>
+                        Agendar Visita
+                    </a>
+
+                </div>
+            </section>
+        </div>
+                `;
+                
+                
+
+        // depois disso, precisa inicializar o Swiper novamente:
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 1,         // Número de slides visíveis (pode mudar no responsive depois)
+            spaceBetween: 30,         // Espaço entre os slides
+            loop: true,               // Deixa o carrossel em loop infinito
+            navigation: {             // Botões de navegação
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
             },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
+            autoplay: {               // Ativa o autoplay
+              delay: 3000,            // 3 segundos
+              disableOnInteraction: false,  // Continua mesmo se o usuário interagir
             },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            speed: 800,
-        });
-    } catch (error) {
-        console.error('Erro ao carregar os detalhes do carro:', error);
-        const errorMessage = document.getElementById('errorMessage');
-        if (errorMessage) {
-            errorMessage.style.display = 'block';
+            breakpoints: {            // Responsividade 📱
+              0: {  // Telas pequenas
+                slidesPerView: 1,
+              },
+              768: {  // Tablets
+                slidesPerView: 1,
+              },
+              1024: {  // Desktop
+                slidesPerView: 1,
+              }
+            }
+          });
+
+
         }
+        catch {
+            console.error('Erro ao buscar os dados do carro');
+        }
+
     }
-});
+
+    fetchCarDetails();
+})
