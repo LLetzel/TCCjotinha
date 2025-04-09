@@ -108,24 +108,4 @@ document.addEventListener('DOMContentLoaded', function () {
     loadBrands();
 
     displayVehicles()
-
-    // // Mock data - Replace with your actual data
-    // allVehicles = [
-    //     {
-    //         id: 1,
-    //         name: 'T-Cross 200 TSI',
-    //         brand: 'Volkswagen',
-    //         brandCode: '59',
-    //         year: '2023',
-    //         price: '120.000',
-    //         mileage: '15.000',
-    //         fuel: 'Flex',
-    //         transmission: 'Automático',
-    //         image: '/img/carrosdisponiveis.jpeg'
-    //     },
-    //     // Add more vehicles here
-    // ];
-
-    // // Initial display
-    // displayVehicles(allVehicles);
 });
