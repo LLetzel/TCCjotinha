@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários | Jotinha Veículos</title>
+    <link rel="stylesheet" href="/src/admin/dashboard/dashboard.css">
+    <link rel="stylesheet" href="/src/admin/user/user.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+</head>
+<body>
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="admin-container">
+<aside class="sidebar">
+    <div class="logo">
+        <img src="/img/logonome.png" alt="Jotinha Veículos">
+    </div>  
+    <nav>
+        <a href="/dashboardAdm">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="/carsAdm">
+            <i class="fas fa-car"></i>
+            <span>Estoque</span>
+        </a>
+        <a href="/userAdm">
+            <i class="fas fa-users"></i>
+            <span>Usuários</span>
+        </a>
+        <a id="logoutBtn" class="logout-link" onclick="fazerLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span>
+        </a>
+    </nav>
+</aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Gerenciar Usuários</h1>
+            </header>
+
+            <div class="table-container">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Tipo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        
+
+                        
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Role Change Modal -->
+    <div id="roleModal" class="modal">
+        <div class="modal-content">
+            <h2>Alterar Tipo de Usuário</h2>
+            <div class="user-info">
+                <p>Nome: <span id="userName"></span></p>
+                <p>Email: <span id="userEmail"></span></p>
+            </div>  
+            <form id="roleForm">
+                <div class="form-group">
+                    <label>Tipo de Usuário</label>
+                    <select id="userRole" required>
+                        <option value='2'>Cliente</option>
+                        <option value='1'>Administrador</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeRoleModal()">Cancelar</button>
+                    <button type="submit" class="save-btn" onclick="alterarRole()">Salvar</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+
+    <script src="/src/admin/user/user.js"></script>
+    <script src="/src/admin/dashboard/dashboard.js"></script>
+</body>
+</html>

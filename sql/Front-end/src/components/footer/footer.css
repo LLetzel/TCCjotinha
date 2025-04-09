@@ -1,0 +1,163 @@
+footer {
+    width: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 40px 20px 20px;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-sections {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-logo {
+    width: 200px;
+    height: auto;
+}
+
+.footer-info p {
+    color: #f6f6f6;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-links h3, .footer-social h3 {
+    color: #c9302c;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    color: #f6f6f6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #c9302c;
+}
+
+.social-media {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.media {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #f6f6f6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.media i {
+    font-size: 20px;
+    width: 24px;
+}
+
+.media:hover {
+    color: #c9302c;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    text-align: center;
+}
+
+.rights {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@media screen and (max-width: 900px) {
+    footer {
+        padding: 30px 15px 15px;
+    }
+
+    .footer-sections {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-info {
+        align-items: center;
+    }
+
+    .footer-logo {
+        width: 150px;
+    }
+
+    .footer-links {
+        align-items: center;
+    }
+
+    .social-media {
+        align-items: center;
+    }
+
+    .media {
+        justify-content: center;
+        width: 100%;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 5px;
+    }
+
+    .media:hover {
+        background: rgba(201, 48, 44, 0.2);
+    }
+
+    .footer-bottom {
+        margin-top: 30px;
+    }
+
+    .rights {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .footer-logo {
+        width: 120px;
+    }
+
+    .footer-sections {
+        gap: 25px;
+    }
+
+    .media {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .media i {
+        font-size: 24px;
+    }
+}

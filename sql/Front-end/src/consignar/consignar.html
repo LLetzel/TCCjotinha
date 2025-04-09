@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consignar - JOTINHA VEICULOS</title>
+    <link rel="stylesheet" href="/src/consignar/consignar.css">
+    <link rel="stylesheet" href="/src/components/header/header.css">
+    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/imask/6.4.3/imask.min.js"></script>
+</head>
+<body>
+    <div class="fundo-img">
+        <header-component></header-component>
+
+        <main>
+            <div class="consign-container" data-aos="fade-up">
+                <h1>Consigne seu Veículo</h1>
+                <p class="subtitle">Preencha os dados abaixo para avaliarmos seu veículo</p>
+
+                <form id="consignForm" class="consign-form">
+                    <div class="form-section" data-aos="fade-up">
+                        <h2>Dados do Veículo</h2>
+                        
+                        <div class="form-group">
+                            <label for="marca">Marca:</label>
+                            <select id="marca" name="marca" required>
+                                <option value="">Selecione a marca</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modelo">Modelo:</label>
+                            <select id="modelo" name="modelo" required disabled>
+                                <option value="">Selecione o modelo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ano">Ano:</label>
+                            <select id="ano" name="ano" required disabled>
+                                <option value="">Selecione o ano</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quilometragem">Quilometragem:</label>
+                            <input type="number" id="quilometragem" name="quilometragem" required>
+                        </div>
+
+                        <div class="fipe-result" id="fipeResult">
+                            <h3>Valor FIPE:</h3>
+                            <p class="fipe-value">R$ --</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preco">Valor oferecido:</label>
+                            <input type="text" id="preco" name="preco" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section" data-aos="fade-up" data-aos-delay="100">
+                        <h2>Estado do Veículo</h2>
+                        
+                        <div class="condition-grid">
+                            <div class="condition-item">
+                                <label>Estado Geral:</label>
+                                <div class="rating">
+                                    <input type="radio" name="estado" value="5" id="estado5"><label for="estado5">5</label>
+                                    <input type="radio" name="estado" value="4" id="estado4"><label for="estado4">4</label>
+                                    <input type="radio" name="estado" value="3" id="estado3"><label for="estado3">3</label>
+                                    <input type="radio" name="estado" value="2" id="estado2"><label for="estado2">2</label>
+                                    <input type="radio" name="estado" value="1" id="estado1"><label for="estado1">1</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="observacoes">Observações:</label>
+                                <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section" data-aos="fade-up" data-aos-delay="200">
+                        <h2>Fotos do Veículo</h2>
+                        <div class="upload-area">
+                            <input type="file" id="fotos" name="fotos" multiple accept="image/*">
+                            <label for="fotos" class="upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Arraste as fotos ou clique para selecionar</span>
+                            </label>
+                            <div id="preview" class="preview-grid"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Enviar Proposta</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script src="/src/components/header/header.js" type="text/javascript" defer></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="/src/consignar/consignar.js"></script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+:root {
+    --primary-color: #c9302c;
+    --hover-color: #A61211;
+    --text-color: #F6F6F6;
+    --background-dark: rgba(0, 0, 0, 0.85);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --gradient: linear-gradient(135deg, rgba(201, 48, 44, 0.15) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-style: italic;
+    font-weight: bold;
+}
+
+body {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    color: var(--text-color);
+    background-color: #161616;
+    padding-top: 10vh;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Update header and container styles */
+header {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    padding: 10px 10px 0px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: large;
+}
+
+.logo img {
+    width: 15vw;
+    margin-right: 3vw;
+}
+
+nav {
+    display: flex;
+}
+
+nav a {
+    margin: 0 15px;
+    color: #F6F6F6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #c9302c;
+}
+
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.auth-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.auth-links a:hover {
+    color: var(--primary-color);
+}
+
+#login, #cadastro {
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+#login {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+}
+
+#cadastro {
+    background-color: var(--primary-color);
+}
+
+#login:hover {
+    background-color: var(--primary-color);
+}
+
+#cadastro:hover {
+    background-color: var(--hover-color);
+}
+
+.divisoria {
+    width: 110%;
+    height: 4px;
+    background-color: #A71313;
+    top: 0;
+    bottom: 0;
+    padding-left: 10px;
+}
+
+.fundo-img::before {
+    color: var(--primary-color);
+}
+
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/img/loja.jpg'); /* Troque pelo caminho da sua imagem */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1; /* Deixa atrás de tudo */
+    filter: brightness(0.15); /* Escurece a imagem */
+}
+
+
+/* Main Container Styles */
+.car-container {
+    max-width: 1400px;
+    margin: 5rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Carousel Section */
+
+.swiper {
+    width: 100%; /* ADICIONE ISSO */
+    height: 50vh;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.swiper-slide {
+    width: 100%; /* ADICIONE ISSO */
+}
+
+.swiper-slide img {
+    width: 100%; /* CORRIJA AQUI */
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.1);
+}
+
+
+/* Botões de navegação melhorados */
+.swiper-button-next,
+.swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: -25px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    z-index: 15;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-family: swiper-icons;
+    font-size: 20px !important;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.1);
+}
+
+/* Paginação (bolinhas) aprimorada */
+.swiper-pagination {
+    bottom: 15px !important;
+    text-align: center;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 20;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(201, 48, 44, 0.5);
+    opacity: 1;
+    margin: 0 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet:hover {
+    transform: scale(1.2);
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+/* Car Info Section */
+.car-info {
+    background: var(--gradient);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    height: calc(88vh - 4rem); /* Subtract padding */
+    overflow-y: auto;
+    position: sticky;
+    top: 12vh;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.car-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.8rem;
+}
+
+.car-header h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.price {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Details Grid */
+.car-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.detail-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.detail-item i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--gradient);
+    position: sticky;
+    bottom: 0;
+}
+
+.schedule-btn, .contact-btn {
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.schedule-btn {
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 1.2rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.contact-btn {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+}
+
+.schedule-btn:hover, .contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(201, 48, 44, 0.2);
+}
+
+.schedule-btn:hover {
+    background: var(--hover-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(201, 48, 44, 0.3);
+}
+
+.schedule-btn i {
+    font-size: 1.2rem;
+}
+
+.car-description {
+    margin: 2rem 0;
+}
+
+.car-description h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.features {
+    margin: 2rem 0;
+}
+
+.features h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.feature-item i {
+    color: var(--primary-color);
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.schedule-btn,
+.contact-btn {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.schedule-btn {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.contact-btn {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.schedule-btn:hover,
+.contact-btn:hover {
+    transform: translateY(-5px);
+    background-color: var(--hover-color);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .car-container {
+        grid-template-columns: 1fr;
+    }
+
+    .car-info {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .car-details-container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .car-container {
+        padding: 1rem;
+    }
+
+    .swiper {
+        height: 40vh;
+    }
+
+    .car-title {
+        font-size: 2rem;
+    }
+
+    .price {
+        font-size: 1.5rem;
+    }
+
+    .specs-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .schedule-btn {
+        padding: 1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .car-details-grid,
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animations */
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.car-info {
+    animation: fadeIn 0.6s ease-out;
+}
+.main-swiper {
+    width: 100%;
+    height: 50vh;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.main-swiper .swiper-slide img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.thumbs-swiper {
+    height: 100px;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.thumbs-swiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: opacity 0.3s;
+}
+
+.thumbs-swiper .swiper-slide-thumb-active {
+    opacity: 1;
+    border: 2px solid var(--primary-color);
+}
+
+.thumbs-swiper .swiper-slide img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.back-link {
+    position: absolute;
+    top: 20px; /* Deixa no topo fixo */
+    left: 30px;
+    z-index: 99;
+  }
+  
+  .back-link a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .back-link a:hover {
+    background: var(--primary-color);
+    transform: translateX(-5px);
+    box-shadow: 0 5px 15px rgba(201, 48, 44, 0.2);
+  }
+  
+  .back-link i {
+    font-size: 1.2rem;
+  }
+  
+
+main {
+    margin-top: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+
+::-webkit-scrollbar {
+    width: 16px;
+    background: #000000;
+    border-radius: 8px;
+    border: 1px solid rgba(166, 18, 17, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #A61211, #c9302c);
+    border-radius: 8px;
+    border: 2px solid #000000;
+    box-shadow: 0 0 15px rgba(166, 18, 17, 0.7);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(145deg, #c9302c, #A61211);
+    border: 2px solid #000000;
+    box-shadow: 0 0 20px rgba(166, 18, 17, 0.9);
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+    border-radius: 8px;
+    box-shadow: inset 0 0 6px rgba(166, 18, 17, 0.4);
+}
