@@ -124,6 +124,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Seleciona todos os ícones de toggle de senha na tela de cadastro (senha e confirmar senha)
+    const toggleIcons = document.querySelectorAll('.toggle-password');
+
+    toggleIcons.forEach((icon) => {
+        icon.addEventListener('click', () => {
+            // Seleciona o input de senha associado ao ícone (buscando dentro do mesmo container)
+            const input = icon.closest('.input-wrapper').querySelector('input');
+
+            if (!input) {
+                console.error('Input de senha não encontrado.');
+                return;
+            }
+
+            // Alterna o atributo "type" entre "password" e "text"
+            const isPassword = input.getAttribute('type') === 'password';
+            input.setAttribute('type', isPassword ? 'text' : 'password');
+
+            // Alterna os ícones entre "fa-eye" e "fa-eye-slash"
+            if (isPassword) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
 });
 
 function validateForm() {
@@ -141,4 +169,3 @@ function validateForm() {
 
     return isValid;
 }
-

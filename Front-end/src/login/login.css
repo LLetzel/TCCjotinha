@@ -292,6 +292,22 @@ input[type="text"] {
     font-size: 0.9rem;
 }
 
+.continue-sem-conta {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .continue-sem-conta a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .continue-sem-conta a:hover {
+    color: var(--hover-color);
+  }
+
 /* Social Login */
 .social-login {
     display: flex;

@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const session = require('express-session');
+// const User = require('../models/user');
+// const session = require('express-session');
 
 function entrar() {
     const emailInput = document.querySelector('#email');
@@ -85,3 +85,27 @@ function entrar() {
     
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const togglePassword = document.querySelector('#togglePassword');
+    const senhaInput = document.querySelector('#senha');
+
+    if (!togglePassword || !senhaInput) {
+        console.error('Elemento de senha ou ícone de toggle não encontrado.');
+        return;
+    }
+
+    togglePassword.addEventListener('click', () => {
+        // Alterna o tipo do input entre 'password' e 'text'
+        const isPassword = senhaInput.getAttribute('type') === 'password';
+        senhaInput.setAttribute('type', isPassword ? 'text' : 'password');
+        
+        // Alterna os ícones: se for 'text', add fa-eye-slash; se for 'password', add fa-eye
+        if (isPassword) {
+            togglePassword.classList.remove('fa-eye');
+            togglePassword.classList.add('fa-eye-slash');
+        } else {
+            togglePassword.classList.remove('fa-eye-slash');
+            togglePassword.classList.add('fa-eye');
+        }
+    });
+});
