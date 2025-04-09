@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p class="vehicle-details">${vehicle.quilometragem} Km • ${vehicle.ano} • ${vehicle.cambio}</p>
                         <div class="vehicle-features">
                             <span><i class="fas fa-gas-pump"></i> ${vehicle.combustivel}</span>
-                            <span><i class="fas fa-car"></i> ${vehicle.tipo?.tipo || ''}</span>
                             <span><i class="fas fa-palette"></i> ${vehicle.cor}</span>
                         </div>
                         <div class="vehicle-price">

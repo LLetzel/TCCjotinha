@@ -1,34 +1,52 @@
 document.addEventListener("DOMContentLoaded", async function() {
+
+    // Função auxiliar para formatar o preço no padrão BRL
+    function formatPrice(value) {
+        return value.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+    }
+
     try {
         const response = await fetch('http://localhost:3000/mostrarDestaques', {
             method: 'GET',
             credentials: 'include',
-        }); // ajuste a rota conforme necessário
+        });
         const data = await response.json();
-        const destaques = data.id_carro;
         console.log('data:', data);
 
-        for (var i = 0; i < data.length; i++) {
-            carro = data[i]
-            document.querySelector(".cards").innerHTML = document.querySelector(".cards").innerHTML +
-            `
-                <div class="card">
-                    <img src="${carro.carro.imagem1 || '../../img/no-image.jpg'}" alt="${carro.carro.modelo}">
-                    <div class="card__content">
-                        <p class="card__title">${carro.marca} ${carro.carro.modelo}</p>
-                        <p class="card__description">${carro.carro.descricao || 'Descrição indisponível'}</p>
-                        <button onclick="window.location.href='/cardetails?id=${carro.carro.id}';" class="card__button">Ver mais</button>
+        const cardsContainer = document.querySelector(".cards");
+        // Para cada destaque, cria um card utilizando a mesma estrutura dos cards da página estoque
+        data.forEach(carro => {
+            cardsContainer.innerHTML += `
+                <div class="vehicle-card">
+                    <div class="vehicle-image">
+                        <img src="${carro.carro.imagem1 || '../../img/no-image.jpg'}" alt="${carro.carro.modelo}">
+                    </div>
+                    <div class="vehicle-info">
+                        <h3>${carro.carro.marca} ${carro.carro.modelo}</h3>
+                        <p class="vehicle-details">${carro.carro.quilometragem} Km • ${carro.carro.ano} • ${carro.carro.cambio}</p>
+                        <div class="vehicle-features">
+                            <span><i class="fas fa-gas-pump"></i> ${carro.carro.combustivel}</span>
+                            <span><i class="fas fa-palette"></i> ${carro.carro.cor}</span>
+                        </div>
+                        <div class="vehicle-price">
+                            <span class="price">${formatPrice(parseFloat(carro.carro.preco))}</span>
+                            <a href="/cardetails?id=${carro.carro.id}" class="details-btn">Ver Detalhes</a>
+                        </div>
                     </div>
                 </div>
             `;
-        }
+        });
     } catch (error) {
         console.error('Erro ao carregar destaques:', error);
     }
 
+    // Inicializa o swiper conforme a configuração atual
     const swiper = new Swiper(".mySwiper", {
-        effect: "fade", // fade effect between slides
-        loop: true, // infinite loop
+        effect: "fade", // efeito de fade entre os slides
+        loop: true, // loop infinito
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
@@ -41,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
         },
-        speed: 800, // transition speed
+        speed: 800, // velocidade da transição
         grabCursor: true,
         fadeEffect: {
             crossFade: true

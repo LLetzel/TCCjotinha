@@ -94,11 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span id="carColor">Cor: ${oneVehicle.cor}</span>
                     </div>
                 </div>
-
-
                 
+                <div class="car-description" >
+                    <h2>Descrição</h2>
+                    <p>${oneVehicle.descricao}</p>
+                    </p>
+                </div>
 
-                <div class="action-buttons" data-aos="fade-up" data-aos-delay="600">
+                <div class="action-buttons" >
                     <a href="/agendamento" class="schedule-btn" id="scheduleButton">
                         <i class="fas fa-calendar-alt"></i>
                         Agendar Visita
