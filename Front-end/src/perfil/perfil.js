@@ -150,3 +150,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     
 });
 
+document.getElementById('editPersonalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const newPhone = document.getElementById('editPhone').value;
+   
+    
+    const cadastroStr = localStorage.getItem("user");
+  
+    if (!cadastroStr) {
+        console.warn("Dados do usuário não encontrados no localStorage.");
+        return;
+    }
+    const cadastroDadosPessoais = JSON.parse(cadastroStr);
+    const userId = cadastroDadosPessoais.id;
+
+ 
+    
+    try {
+        const response = await fetch(`http://localhost:3000/telefone/${userId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ telefone: newPhone }),
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            // Atualiza a interface com o novo telefone
+            const personalInfoItems = document.querySelectorAll(".info-grid .info-item p");
+            personalInfoItems[3].textContent = newPhone;
+            
+            // Atualize também os dados salvos no localStorage
+            cadastroDadosPessoais.telefone = newPhone;
+            localStorage.setItem("cadastroDadosPessoais", JSON.stringify(cadastroDadosPessoais));
+            
+            alert(result.message);
+        } else {
+            alert(result.message || "Erro ao atualizar telefone.");
+        }
+    } catch (err) {
+        console.error("Erro na requisição:", err);
+        alert("Erro ao atualizar telefone.");
+    }
+
+    // Fecha o modal após salvar
+    const editModal = document.getElementById('editPersonalModal');
+    editModal.classList.remove('show');
+    setTimeout(() => editModal.style.display = 'none', 300);
+});

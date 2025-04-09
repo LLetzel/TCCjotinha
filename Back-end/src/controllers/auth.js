@@ -276,35 +276,3 @@ exports.atualizarUser = async (req, res) => {
   }
 }
 
-exports.mudarTelefone = async (req, res) => {
-    const { telefone } = req.body; 
-    
-    const userId = req.params.id;
-
-    if (!telefone) {
-        return res.status(400).json({ mensagem: "O telefone não pode estar vazio." });
-    }
-
-    
-    if (!userId) {
-        return res.status(401).json({ mensagem: "Usuário não autenticado." });
-    }
-
-    const sql = "UPDATE usuarios SET telefone = ? WHERE id = ?";
-
-    try {
-       
-        const [result] = await promisePool.query(sql, [telefone, userId]);
-
-        
-        if (result.affectedRows > 0) {
-            res.json({ mensagem: "Telefone atualizado com sucesso!" });
-        } else {
-            res.status(404).json({ mensagem: "Usuário não encontrado." });
-        }
-    } catch (err) {
-        console.error("Erro ao atualizar telefone:", err);
-        res.status(500).json({ mensagem: "Erro ao atualizar telefone.", erro: err.message });
-        // res.status(500).json({ mensagem: "Erro ao atualizar telefone." });
-    }
-};
