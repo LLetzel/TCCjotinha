@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const FIPE_API = 'https://parallelum.com.br/fipe/api/v1/carros';
     const marcaSelect = document.getElementById('marca');
     const searchInput = document.querySelector('.search-bar input');
     const searchButton = document.querySelector('.search-bar button');
@@ -7,27 +6,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const anoSelect = document.getElementById('ano');
     const precoSelect = document.getElementById('preco');
 
-    // Array to store all vehicles
     let allVehicles = [];
 
-    // Load brands from FIPE API
-    async function loadBrands() {
-        try {
-            const response = await fetch(`${FIPE_API}/marcas`);
-            const brands = await response.json();
-
-            brands.forEach(brand => {
-                const option = document.createElement('option');
-                option.value = brand.codigo;
-                option.textContent = brand.nome;
-                marcaSelect.appendChild(option);
-            });
-        } catch (error) {
-            console.error('Erro ao carregar marcas:', error);
-        }
+    // Formata o valor do preço para o padrão BRL
+    function formatPrice(value) {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    // Filter vehicles
+    // Popula o select de marcas com as marcas únicas dos veículos do banco
+    function populateBrands(vehicles) {
+        const brandSet = new Set();
+        vehicles.forEach(vehicle => {
+            if (vehicle.marca) {
+                // Armazena em lowercase para consistência
+                brandSet.add(vehicle.marca.toLowerCase());
+            }
+        });
+        // Define a opção padrão
+        marcaSelect.innerHTML = '<option value="">Todas as marcas</option>';
+        brandSet.forEach(brand => {
+            const option = document.createElement('option');
+            option.value = brand;
+            // Exemplo: Capitaliza a primeira letra para exibição
+            option.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
+            marcaSelect.appendChild(option);
+        });
+    }
+
+    // Filtra os veículos com base na busca, marca, ano e preço
     function filterVehicles() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedBrand = marcaSelect.value;
@@ -35,16 +41,24 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedPrice = precoSelect.value;
 
         const filteredVehicles = allVehicles.filter(vehicle => {
-            const matchesSearch = vehicle.name.toLowerCase().includes(searchTerm) ||
-                vehicle.brand.toLowerCase().includes(searchTerm);
-            const matchesBrand = !selectedBrand || vehicle.brandCode === selectedBrand;
-            const matchesYear = !selectedYear || vehicle.year === selectedYear;
+            const matchesSearch =
+                vehicle.modelo.toLowerCase().includes(searchTerm) ||
+                vehicle.marca.toLowerCase().includes(searchTerm);
+            const matchesBrand =
+                !selectedBrand || vehicle.marca.toLowerCase() === selectedBrand;
+            const matchesYear =
+                !selectedYear || vehicle.ano.toString() === selectedYear;
 
             let matchesPrice = true;
             if (selectedPrice) {
-                const price = parseFloat(vehicle.price.replace(/[^0-9]/g, ''));
-                const [min, max] = selectedPrice.split('-').map(Number);
-                matchesPrice = price >= min && (!max || price <= max);
+                const price = parseFloat(vehicle.preco);
+                if (selectedPrice.includes('+')) {
+                    const min = parseFloat(selectedPrice.replace('+', ''));
+                    matchesPrice = price >= min;
+                } else {
+                    const [min, max] = selectedPrice.split('-').map(p => parseFloat(p));
+                    matchesPrice = price >= min && price <= max;
+                }
             }
 
             return matchesSearch && matchesBrand && matchesYear && matchesPrice;
@@ -53,79 +67,60 @@ document.addEventListener('DOMContentLoaded', function () {
         displayVehicles(filteredVehicles);
     }
 
-    // Display vehicles in grid
-    async function displayVehicles() {
+    // Busca os veículos do banco e popula a grid e os filtros
+    async function loadVehicles() {
+        try {
+            const response = await fetch('http://localhost:3000/Carros', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const carros = await response.json();
+            allVehicles = carros.cars;
 
-        const response = await fetch('http://localhost:3000/Carros', {
-            method: 'GET',
-            credentials: 'include'
-        })
-
-        const carros = await response.json();
-        allVehicles = carros.cars;
-
-        console.log(allVehicles);
-
-
-
-        vehiclesGrid.innerHTML = '';
-        //criar um card para cada veiculo
-        allVehicles.forEach(vehicle => {
-            const card = document.createElement('div');
-            card.classList.add('card', 'col-md-4', 'mb-4');
-            card.innerHTML = `
-             <div class="vehicle-card" data-aos="fade-up">
-                        <div class="vehicle-image">
-                            <img src=${vehicle.imagem1} alt=${vehicle.modelo}>
-                        </div>
-                        <div class="vehicle-info">
-                            <h3>${vehicle.modelo}</h3>
-                            <p class="vehicle-details">${vehicle.quilometragem} Km • ${vehicle.ano} •  ${vehicle.cambio}</p>
-                            <div class="vehicle-features">
-                                <span><i class="fas fa-gas-pump"></i> ${vehicle.combustivel}</span>
-                                <span><i class="fas fa-car"></i> ${vehicle.tipo.tipo}</span>
-                                <span><i class="fas fa-palette"></i> ${vehicle.cor}</span>
-                            </div>
-                            <div class="vehicle-price">
-                                <span class="price">R$ ${vehicle.preco}</span>
-                                <a href="/cardetails?id=${vehicle.id}" class="details-btn">Ver Detalhes</a>
-                            </div>
-                        </div>
-                    </div>`;
-            vehiclesGrid.appendChild(card);
-        });
-
+            displayVehicles(allVehicles);
+            populateBrands(allVehicles);
+        } catch (error) {
+            console.error('Erro ao carregar veículos:', error);
+        }
     }
 
-    // Event listeners
+    // Renderiza os veículos na grid
+    function displayVehicles(vehicles) {
+        vehiclesGrid.innerHTML = '';
+        vehicles.forEach(vehicle => {
+            const card = document.createElement('div');
+            card.classList.add('card', 'col-md-4', 'mb-4');
+
+            card.innerHTML = `
+                <div class="vehicle-card">
+                    <div class="vehicle-image">
+                        <img src="${vehicle.imagem1}" alt="${vehicle.modelo}">
+                    </div>
+                    <div class="vehicle-info">
+                        <h3>${vehicle.modelo}</h3>
+                        <p class="vehicle-details">${vehicle.quilometragem} Km • ${vehicle.ano} • ${vehicle.cambio}</p>
+                        <div class="vehicle-features">
+                            <span><i class="fas fa-gas-pump"></i> ${vehicle.combustivel}</span>
+                            <span><i class="fas fa-car"></i> ${vehicle.tipo?.tipo || ''}</span>
+                            <span><i class="fas fa-palette"></i> ${vehicle.cor}</span>
+                        </div>
+                        <div class="vehicle-price">
+                            <span class="price">${formatPrice(parseFloat(vehicle.preco))}</span>
+                            <a href="/cardetails?id=${vehicle.id}" class="details-btn">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            vehiclesGrid.appendChild(card);
+        });
+    }
+
+    // Eventos para filtrar os veículos conforme a interação do usuário
     searchInput.addEventListener('input', filterVehicles);
     searchButton.addEventListener('click', filterVehicles);
     marcaSelect.addEventListener('change', filterVehicles);
     anoSelect.addEventListener('change', filterVehicles);
     precoSelect.addEventListener('change', filterVehicles);
 
-    // Initialize
-    loadBrands();
-
-    displayVehicles()
-
-    // // Mock data - Replace with your actual data
-    // allVehicles = [
-    //     {
-    //         id: 1,
-    //         name: 'T-Cross 200 TSI',
-    //         brand: 'Volkswagen',
-    //         brandCode: '59',
-    //         year: '2023',
-    //         price: '120.000',
-    //         mileage: '15.000',
-    //         fuel: 'Flex',
-    //         transmission: 'Automático',
-    //         image: '/img/carrosdisponiveis.jpeg'
-    //     },
-    //     // Add more vehicles here
-    // ];
-
-    // // Initial display
-    // displayVehicles(allVehicles);
+    loadVehicles();
 });

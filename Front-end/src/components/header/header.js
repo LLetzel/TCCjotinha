@@ -8,7 +8,7 @@ class Header extends HTMLElement {
             <header>
                 <div class="container">
                     <div class="logo">
-                        <a href="/Front-end/src/home/home.html">
+                        <a href="/home">
                             <img src="/img/logonome.png" alt="Logo">
                         </a>
                     </div>
@@ -20,7 +20,7 @@ class Header extends HTMLElement {
                         <a href="/contato">Contato</a>
                         <a href="/consignar">Consignar</a>
                         <div class="auth-links-mobile">
-                            <a id="loginMobile" href="/login.">Login</a>
+                            <a id="loginMobile" href="/login">Login</a>
                             <a id="cadastroMobile" href="/cadastro">Cadastrar-se</a>
                         </div>
                     </nav>
