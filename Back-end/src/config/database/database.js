@@ -1,8 +1,8 @@
-const { password, database, host, port, dialect, logging } = require('./dbConfig.json');
+const { username, password, database, host, port, dialect, logging } = require('./dbConfig.json');
 
 module.exports = {
   development: {
-    username: process.env.DB_USER || 'root', // usuário do banco de dados
+    username, // usuário do banco de dados
     password, // senha do banco de dados
     database, // nome do banco de dados
     host, // endereço do servidor

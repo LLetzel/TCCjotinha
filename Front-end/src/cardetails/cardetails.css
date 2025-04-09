@@ -118,7 +118,6 @@ nav a:hover {
 }
 
 .fundo-img::before {
-    weight: bold;
     color: var(--primary-color);
 }
 
@@ -162,7 +161,7 @@ nav a:hover {
 }
 
 .swiper-slide img {
-    width: 100%;
+    width: 100%; /* CORRIJA AQUI */
     height: 100%;
     object-fit: cover;
     filter: contrast(1.1);

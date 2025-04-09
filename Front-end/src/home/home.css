@@ -424,118 +424,49 @@ body::before {
     }
 }
 
-/* Car Types Section */
-.car-types {
-    padding: 6rem 2rem;
+
+/* Nova seção: Concessionária */
+.concessionaria {
     background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(166, 18, 17, 0.1));
     backdrop-filter: blur(10px);
     margin: 4rem auto;
     border-radius: 30px;
     width: 90%;
     max-width: 1400px;
+    padding: 3rem 2rem;
+    text-align: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.car-types h2 {
-    font-size: 3.2rem;
+.concessionaria h2 {
+    font-size: 3rem;
     color: var(--text-color);
-    text-align: center;
-    margin-bottom: 4rem;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    position: relative;
-    padding-bottom: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
 }
 
-.car-types h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
+.concessionaria p {
+    font-size: 1.2rem;
+    color: rgba(246, 246, 246, 0.8);
+    margin-bottom: 2rem;
+}
+
+.btn-agendamento {
+    padding: 1rem 2rem;
     background: var(--primary-color);
-    border-radius: 2px;
-}
-
-.types {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.type {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 25px;
-    padding: 3rem 2rem;
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.type::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(201, 48, 44, 0.1));
-    opacity: 0;
-    transition: all 0.4s ease;
-}
-
-.type:hover::before {
-    opacity: 1;
-}
-
-.type-icon {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 2rem;
-    position: relative;
-}
-
-.type img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    filter: drop-shadow(0 10px 15px rgba(201, 48, 44, 0.3));
-}
-
-.type h3 {
-    font-size: 2rem;
+    border: none;
+    border-radius: 8px;
     color: var(--text-color);
-    margin: 1.5rem 0;
-    transition: all 0.3s ease;
-}
-
-.type p {
-    color: rgba(255, 255, 255, 0.8);
     font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.type:hover {
-    transform: translateY(-15px);
-    background: rgba(201, 48, 44, 0.1);
-    border-color: var(--primary-color);
-    box-shadow: 0 20px 40px rgba(201, 48, 44, 0.2);
-}
-
-.type:hover img {
-    transform: scale(1.15) rotate(5deg);
-}
-
-.type:hover h3 {
-    color: var(--primary-color);
+.btn-agendamento:hover {
+    background: var(--hover-color);
+    transform: translateY(-2px);
 }
 
 /* Carousel Section */

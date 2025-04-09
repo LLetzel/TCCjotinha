@@ -122,7 +122,5 @@ document.addEventListener('DOMContentLoaded', function () {
     anoSelect.addEventListener('change', filterVehicles);
     precoSelect.addEventListener('change', filterVehicles);
 
-
-    displayVehicles()
     loadVehicles();
 });

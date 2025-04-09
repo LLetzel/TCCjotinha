@@ -1,4 +1,3 @@
-
 // ----------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     const CarContainer = document.querySelector('.car-container');
@@ -148,3 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchCarDetails();
 })
+
+
+
