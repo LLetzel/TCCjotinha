@@ -1,66 +1,90 @@
 // ✅ Garante que o código só será executado depois que a página estiver totalmente carregada
 document.addEventListener("DOMContentLoaded", function () {
-  // 📅 Configurando o calendário (Flatpickr) no campo de data
   flatpickr("#date", {
-    dateFormat: "d/m/Y", // Define o formato da data como dia/mês/ano
-    minDate: "today", // Impede que o usuário selecione datas passadas
+    dateFormat: "d/m/Y", 
+    minDate: "today", 
     disable: [
       function (date) {
-        return date.getDay() === 0; // ❌ Bloqueia os domingos
+        return date.getDay() === 0; 
       },
     ],
     locale: {
-      firstDayOfWeek: 1, // 📆 Define a segunda-feira como o primeiro dia da semana
+      firstDayOfWeek: 1, 
     },
   });
 
-  // 📞 Aplicando a máscara para o campo de telefone (deixa no formato correto enquanto o usuário digita)
-  $("#phone").mask("(00) 00000-0000"); // Exemplo: (11) 98765-4321
-
-  // 📌 Captura o evento de envio do formulário
   const form = document.getElementById("appointmentForm");
   form.addEventListener("submit", function (e) {
-    e.preventDefault(); // ❌ Impede que a página recarregue ao enviar o formulário
+    e.preventDefault(); 
 
-    // 🔄 Adiciona um efeito de carregamento no botão de envio
-    const submitBtn = form.querySelector(".submit-btn");
-    const originalText = submitBtn.innerHTML; // Salva o texto original do botão
-    submitBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Processando...'; // Muda o botão para um estado de "carregando"
-    submitBtn.disabled = true; // 🔒 Impede que o usuário clique várias vezes no botão
+    
+    const submitBtn = form.querySelector("#agendarButton");
+    const originalText = submitBtn.innerHTML; 
 
-    // ⏳ Simula o envio do formulário (como se estivesse enviando os dados para um servidor)
-    setTimeout(() => {
-      // ✅ Exibe uma notificação de sucesso
-      showNotification("Agendamento realizado com sucesso!");
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...'; 
+    submitBtn.disabled = true; 
 
-      // 🗑️ Limpa o formulário para o próximo agendamento
-      form.reset();
 
+    const dataInput = document.getElementById("date");
+    const horaInput = document.getElementById("time");
+    const interesseInput = document.getElementById("interest");
+    const observacoesInput = document.getElementById("comments");
+
+    const data = dataInput.value;
+    const hora = horaInput.value;
+    const interesse = interesseInput.value;
+    const observacoes = observacoesInput.value;
+    const userId = localStorage.getItem("userId");
+
+    if (!data || !hora || !interesse || !userId) {
+      alert("Preencha todos os campos obrigatórios.");
+      
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+      return;
+    }
+
+    fetch("http://localhost:3000/agendamento/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_usuario: userId,
+        data: data,
+        hora: hora,
+        interesse: interesse,
+        observacoes: observacoes,
+      }),
+      credentials: "include",
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.message) {
+        alert(data.message); 
+        form.reset(); 
+      } else {
+        alert("Erro ao agendar. Tente novamente.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro:", error);
+      alert("Erro ao conectar ao servidor. Tente novamente."); // ❌ Erro de conexão
+    })
+    .finally(() => {
       // 🔄 Restaura o botão ao estado original
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
-    }, 1500); // Aguarda 1.5 segundos antes de finalizar o processo
+    });
   });
 });
 
-// 🔔 Função para exibir uma notificação animada na tela
-function showNotification(message) {
-  const notification = document.createElement("div"); // Cria um elemento <div>
-  notification.className = "notification"; // Adiciona a classe CSS de notificação
-  notification.innerHTML = `
-        <i class="fas fa-check-circle"></i> <!-- Ícone de sucesso -->
-        <span>${message}</span> <!-- Exibe a mensagem personalizada -->
-    `;
+// 🔒 Verifica o login do usuário ao carregar a página
+window.onload = async () => {
+  const userId = localStorage.getItem('userId');
+  const userRole = localStorage.getItem('userRole');
 
-  document.body.appendChild(notification); // Adiciona a notificação ao corpo da página
-
-  // 🎬 Adiciona a classe 'show' para fazer a notificação aparecer suavemente
-  setTimeout(() => notification.classList.add("show"), 100);
-
-  // ⏳ Remove a notificação automaticamente após 3 segundos
-  setTimeout(() => {
-    notification.classList.remove("show"); // Remove o efeito visual
-    setTimeout(() => notification.remove(), 300); // Remove o elemento do DOM
-  }, 3000);
-}
+  if (!userId || userId === 'undefined' || userRole == 1 || userId == null) {
+    window.location.href = '/login'; // 🚪 Redireciona para login se não estiver autenticado
+  }
+};

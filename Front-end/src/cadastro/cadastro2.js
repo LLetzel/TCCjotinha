@@ -138,11 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Alterna o atributo "type" entre "password" e "text"
             const isPassword = input.getAttribute('type') === 'password';
             input.setAttribute('type', isPassword ? 'text' : 'password');
 
-            // Alterna os ícones entre "fa-eye" e "fa-eye-slash"
             if (isPassword) {
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');

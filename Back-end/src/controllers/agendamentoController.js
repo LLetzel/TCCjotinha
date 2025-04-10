@@ -30,10 +30,10 @@ exports.getAgendamentos = async (req, res) => {
 // Função para criar agendamentos (POST)
 exports.postAgendamentos = async (req, res) => {    
     try {
-        const { id_usuario, id_carro, interesse_id, data, hora, observacoes, status_id } = req.body;
+        const { id_usuario, id_carro, interesse, data, hora, observacoes } = req.body;
         
         // Validação dos campos obrigatórios
-        if (!id_usuario || !id_carro || !interesse_id || !data || !hora || !observacoes || !status_id) {
+        if (!id_usuario || !interesse || !data || !hora ) {
             return res.status(400).json({ message: 'Preencha todos os campos' });
         }
 
@@ -45,16 +45,13 @@ exports.postAgendamentos = async (req, res) => {
 
         // Verificando se os IDs existem
         const userExists = await checkIfExists('id', User, id_usuario);
-        const carExists = await checkIfExists('id', Cars, id_carro);
-        const statusExists = await checkIfExists('id', statusCarros, status_id);
-        const interesseExists = await checkIfExists('id', Interesse, interesse_id);
 
-        if (!userExists || !carExists || !statusExists || !interesseExists) {
+        if (!userExists) {
             return res.status(400).json({ message: 'Dados inválidos' });
         }
 
         // Criando o agendamento
-        const create = await Agendamento.create({ id_usuario, id_carro, interesse_id, data, hora, observacoes, status_id });
+        const create = await Agendamento.create({ id_usuario, id_carro, interesse, data, hora, observacoes });
         return res.status(201).json({ message: 'Agendamento criado com sucesso!', data: create });
     } catch (error) {
         return res.status(500).json({ message: 'Erro ao criar agendamento', error });
