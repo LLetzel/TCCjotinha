@@ -8,6 +8,8 @@ const { spliceStr, singularize, removeTicks } = require("sequelize/lib/utils");
 const { verifyEncrypt, encrypting } = require("../utils/encrypt.js");
 const Role = require("../models/role.js");
 const session = require("express-session");
+const nodemailer = require("nodemailer");
+require("dotenv").config({ path: "../.env" });
 
 exports.login = async (req, res) => {
   try {
@@ -159,73 +161,73 @@ exports.register = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const user = await User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                response: "Usuário não encontrado",
-            });
-        }
-        await user.destroy();
-        return res.status(200).json({
-            success: true,
-            response: "Usuário deletado com sucesso",
-        });
-    } catch (err) {
-        console.error("Error no servidor:" + err);
-        return res.status(500).json({
-            success: false,
-            response: "Erro interno no servidor",
-        });
+  const id = req.params.id;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        response: "Usuário não encontrado",
+      });
     }
+    await user.destroy();
+    return res.status(200).json({
+      success: true,
+      response: "Usuário deletado com sucesso",
+    });
+  } catch (err) {
+    console.error("Error no servidor:" + err);
+    return res.status(500).json({
+      success: false,
+      response: "Erro interno no servidor",
+    });
+  }
 }
 
 
 exports.mostrarUser = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const user = await User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                response: "Usuário não encontrado",
-            });
-        }
-        return res.status(200).json({
-            success: true,
-            response: user,
-        });
-    } catch (err) {
-        console.error("Error no servidor:" + err);
-        return res.status(500).json({
-            success: false,
-            response: "Erro interno no servidor",
-        });
+  try {
+    const id = req.params.id;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        response: "Usuário não encontrado",
+      });
     }
+    return res.status(200).json({
+      success: true,
+      response: user,
+    });
+  } catch (err) {
+    console.error("Error no servidor:" + err);
+    return res.status(500).json({
+      success: false,
+      response: "Erro interno no servidor",
+    });
+  }
 }
 
 
 exports.mostrarUsers = async (req, res) => {
   try {
     const users = await User.findAll();
-    if (!users){
+    if (!users) {
       return res.status(404).json({
-        success:false,
+        success: false,
         response: "Usuários não encontrados",
       })
-      }
-      return res.status(200).json({
+    }
+    return res.status(200).json({
       success: true,
       response: users
-      });
-  } catch (err){
-      console.error("Error no servidor:" + err);
-      return res.status(500).json({
-        success: false,
-        response: "Erro interno no servidor",
-      })
+    });
+  } catch (err) {
+    console.error("Error no servidor:" + err);
+    return res.status(500).json({
+      success: false,
+      response: "Erro interno no servidor",
+    })
   }
 }
 
@@ -237,42 +239,85 @@ exports.infoPerfil = async (req, res) => {
     console.log(userId);
 
     if (!userId) {
-        return res.status(401).json({ mensagem: "Usuário não autenticado" });
+      return res.status(401).json({ mensagem: "Usuário não autenticado" });
     }
 
     const sql = "SELECT nome, email, cpf, nascimento, telefone FROM usuarios WHERE id = ?";
     const [results] = await promisePool.execute(sql, [userId]);
 
     if (results.length > 0) {
-        res.json(results[0]); // Retorna o usuário encontrado
+      res.json(results[0]); // Retorna o usuário encontrado
     } else {
-        res.status(404).json({ mensagem: "Usuário não encontrado" });
+      res.status(404).json({ mensagem: "Usuário não encontrado" });
     }
   } catch (err) {
-      console.error("Erro ao buscar usuário:", err);
-      res.status(500).json({ mensagem: "Erro ao buscar informações" });
+    console.error("Erro ao buscar usuário:", err);
+    res.status(500).json({ mensagem: "Erro ao buscar informações" });
   }
 };
 
 
 exports.atualizarUser = async (req, res) => {
   try {
-      const { id } = req.params;
-      const { nome, email, telefone, senha, cpf, nascimento, sexo} = req.body;
-      const user = await User.update({ nome, email, telefone, senha, cpf, nascimento, sexo }, { where: { id } });
-      if (!user) {
-          return res.status(404).json({
-              message: 'Usuário não encontrado'
-          });
-      }
-      return res.status(200).json({ message: 'Usuário atualizado com sucesso' });
+    const { id } = req.params;
+    const { nome, email, telefone, senha, cpf, nascimento, sexo } = req.body;
+    const user = await User.update({ nome, email, telefone, senha, cpf, nascimento, sexo }, { where: { id } });
+    if (!user) {
+      return res.status(404).json({
+        message: 'Usuário não encontrado'
+      });
+    }
+    return res.status(200).json({ message: 'Usuário atualizado com sucesso' });
   }
   catch (err) {
-      console.error('Error no servidor:' + err);
-      return res.status(500).json({
-          success: false,
-          response: 'Erro interno no servidor'
-      });
+    console.error('Error no servidor:' + err);
+    return res.status(500).json({
+      success: false,
+      response: 'Erro interno no servidor'
+    });
   }
 }
 
+exports.consignar = async (req, res) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    // Preparar os anexos com base nos arquivos enviados via multer
+    const attachments = req.files && req.files.fotos ? req.files.fotos.map(file => ({
+      filename: file.originalname,
+      content: file.buffer,
+      contentType: file.mimetype
+    })) : [];
+
+    const mailOptions = {
+      from: `"Jotinha veiculos" <${process.env.EMAIL_USER}>`,
+      to: "gabrielledelimaq@gmail.com",
+      subject: "Nova mensagem de contato: proposta de consignação",
+      html: `
+                <h2>Nova mensagem de contato</h2>
+                <p><strong>Marca:</strong> ${req.body.marca}</p>
+                <p><strong>Modelo:</strong> ${req.body.modelo}</p>
+                <p><strong>Ano:</strong> ${req.body.ano}</p>
+                <p><strong>Quilometragem:</strong> ${req.body.quilometragem}</p>
+                <p><strong>fipeResult:</strong> ${req.body.fipeResult}</p>
+                <p><strong>Preço:</strong> ${req.body.preco}</p>
+                <p><strong>Estado do veículo:</strong> ${req.body.rating}</p>
+                <p><strong>Observações:</strong> ${req.body.observacoes}</p>
+                <p><strong>Fotos enviadas:</strong> ${attachments.length > 0 ? attachments.map(att => att.filename).join(", ") : "Nenhuma"}</p>
+            `,
+      attachments: attachments  // Inclua os arquivos como anexos
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao enviar e-mail:", error);
+    res.status(500).json({ mensagem: "Não foi possível enviar o e-mail, tente novamente" });
+  }
+};

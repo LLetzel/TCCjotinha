@@ -146,3 +146,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+document.getElementById("consignForm").addEventListener("submit", async function(event) {
+    event.preventDefault(); // Evita recarregar a página
+
+    const marca = document.getElementById("marca").value;
+    const modelo = document.getElementById("modelo").value;
+    const ano = document.getElementById("ano").value;
+    const quilometragem = document.getElementById("quilometragem").value;
+    const fipeResult = document.getElementById("fipeResult").value;
+    const preco = document.getElementById("preco").value;
+    const rating = document.getElementById("rating").value;
+    const observacoes = document.getElementById("observacoes").value;
+    const fotos = document.getElementById("fotos").value;
+    
+
+    const resposta = await fetch(`http://localhost:3000/consignar/${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ marca, modelo, ano, quilometragem, fipeResult, preco, rating, observacoes, fotos })
+    });
+
+    const resultado = await resposta.json();
+    alert(resultado.message); // Exibe o resultado
+});

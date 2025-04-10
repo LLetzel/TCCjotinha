@@ -12,7 +12,8 @@ const authController = require('../controllers/auth.js')
 const carsController = require('../controllers/carsController.js')
 const nodemailer = require("nodemailer");
 require("dotenv").config({ path: "../.env" });
-const upload = require('../utils/multer.js');
+const multer = require('multer');
+const upload = multer();
 
 // usuário
 router.post('/cadastro', authController.register);
@@ -21,6 +22,10 @@ router.get('/usuario/:id', authController.mostrarUser);
 router.get('/usuarios', authController.mostrarUsers);
 router.get('/infoPerfil/:userId', authController.infoPerfil);
 router.put('/telefone/:id', authController.atualizarUser);
+router.post('/consignar/:id', 
+    multer().fields([{ name: 'fotos', maxCount: 5 }]),
+    authController.consignar
+  );
 
 // carros
 router.post('/RegistroCarro',

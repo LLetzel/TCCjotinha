@@ -6,6 +6,7 @@ const cors = require('cors')
 const session = require('express-session');
 const { token } = require('./config.json')
 const path = require('path');
+const multer = require('multer');
 
 // require('dotenv').config();
 
@@ -66,6 +67,7 @@ app.use(cors({
 
 // Definindo o middleware para aceitar dados no formato JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
 // Definindo a porta em que o servidor irá ouvir
