@@ -103,6 +103,7 @@ router.get("/usuario/:id", authController.mostrarUser);
 router.get("/usuarios", authController.mostrarUsers);
 router.delete("/deletarUsuario/:id", authController.deleteUser);
 router.put("/atualizarUsuario/:id", authController.updateUsers);
+router.put("/atualizarSenha/:id", authController.alterarSenha);
 
 // carros
 router.post(

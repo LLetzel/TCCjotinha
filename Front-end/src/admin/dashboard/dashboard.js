@@ -158,9 +158,26 @@ async function loadAppointments(dateSelected) {
     try {
         const response = await fetch('http://localhost:3000/agendamento/get');
         const result = await response.json();
+        const userId = result[0].id_usuario; // ID do usuário logado
+
+        const interesse = result[0].interesse; 
+        console.log('Interesse do usuário:', interesse); // Verifica o interesse do usuário logado
+
+        console.log('ID do usuário:', userId); // Verifica o ID do usuário logado
 
         
+        const reqUser = await fetch(`http://localhost:3000/usuario/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const resultUser = await reqUser.json();
+        nomeUser= resultUser.response.nome; // Nome do usuário logado
 
+
+        console.log('Nome do usuário:', nomeUser); 
+        console.log('Usuário:', resultUser.response); 
         console.log('Resposta do backend:', result);
 
         let agendamentos = [];
@@ -181,8 +198,8 @@ async function loadAppointments(dateSelected) {
 
         console.log('Horários agendados no dia:', bookedSlots);
 
-        const morning = generateTimeSlots(8, 12, bookedSlots);
-        const afternoon = generateTimeSlots(13, 18, bookedSlots);
+        const morning = generateTimeSlots(8, 12, bookedSlots, nomeUser, interesse);
+        const afternoon = generateTimeSlots(13, 18, bookedSlots, nomeUser, interesse);
 
         renderTimeSlots('morningSlots', morning);
         renderTimeSlots('afternoonSlots', afternoon);
@@ -192,8 +209,7 @@ async function loadAppointments(dateSelected) {
     }
 }
 
-// Atualizar a geração dos horários
-function generateTimeSlots(start, end, bookedSlots) {
+function generateTimeSlots(start, end, bookedSlots, clientName, appointmentType) {
     const slots = [];
     for (let i = start; i <= end; i++) {
         const time = `${i}:00`;
@@ -202,12 +218,13 @@ function generateTimeSlots(start, end, bookedSlots) {
         slots.push({
             time: time,
             status: isBooked ? 'booked' : 'available',
-            clientName: isBooked ? 'Cliente Agendado' : '',
-            appointmentType: isBooked ? 'Test Drive' : ''
+            clientName: isBooked ? clientName : 'Erro ao Buscar Nome',
+            appointmentType: isBooked ? appointmentType : 'Erro ao buscar Interesse',
         });
     }
     return slots;
 }
+
 
 function renderTimeSlots(containerId, slots) {
     const container = document.getElementById(containerId);

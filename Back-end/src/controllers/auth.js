@@ -253,3 +253,27 @@ exports.updateUsers = async (req, res) => {
     alert(error.message);
   }
 }
+
+
+exports.alterarSenha = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        response: "Usuário não encontrado",
+        });
+    }
+    const senha = req.body.senha;
+
+    const hashedPassword = await encrypting(senha);
+    const userUpdated = await user.update({ senha: hashedPassword });
+    return res.status(200).json({
+      success: true,
+      response: userUpdated,
+      });
+      } catch (error) {
+    console.error("Error no servidor:" + error);
+    }
+    }
