@@ -1,7 +1,7 @@
 // ✅ Garante que o código só será executado depois que a página estiver totalmente carregada
 document.addEventListener("DOMContentLoaded", function () {
   flatpickr("#date", {
-    dateFormat: "d/m/Y", 
+    dateFormat: "Y-m-d", // d/m/Y
     minDate: "today", 
     disable: [
       function (date) {
