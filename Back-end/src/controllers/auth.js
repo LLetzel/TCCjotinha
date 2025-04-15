@@ -8,6 +8,7 @@ const { spliceStr, singularize, removeTicks } = require("sequelize/lib/utils");
 const { verifyEncrypt, encrypting } = require("../utils/encrypt.js");
 const Role = require("../models/role.js");
 const session = require("express-session");
+const bcrypt = require('bcrypt');
 
 exports.login = async (req, res) => {
   try {
@@ -258,22 +259,38 @@ exports.updateUsers = async (req, res) => {
 exports.alterarSenha = async (req, res) => {
   try {
     const id = req.params.id;
+    const { senhaAtual, senha } = req.body;
+
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({
         success: false,
         response: "Usuário não encontrado",
-        });
+      });
     }
-    const senha = req.body.senha;
 
+    // Verifica se a senha atual está correta
+    const isMatch = await bcrypt.compare(senhaAtual, user.senha);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        response: "Senha atual incorreta",
+      });
+    }
+
+    // Criptografa a nova senha
     const hashedPassword = await encrypting(senha);
     const userUpdated = await user.update({ senha: hashedPassword });
+
     return res.status(200).json({
       success: true,
       response: userUpdated,
-      });
-      } catch (error) {
+    });
+  } catch (error) {
     console.error("Error no servidor:" + error);
-    }
-    }
+    return res.status(500).json({
+      success: false,
+      response: "Erro no servidor",
+    });
+  }
+};

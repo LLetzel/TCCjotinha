@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const Dados = await response.json();
             const userData = Dados.response;
             console.log(userData);
-
+            
 
     
             document.getElementById('userName').textContent = userData.nome;
@@ -156,51 +156,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-async function mudarSenha() {
+async function mudarSenha(event) {
+    event.preventDefault();
+
     const senhaAtual = document.getElementById('currentPassword').value;
     const novaSenha = document.getElementById('newPassword').value;
     const confirmarSenha = document.getElementById('confirmPassword').value;
 
-    if (senhaAtual === '' || novaSenha === '' || confirmarSenha === '') {
+    if (!senhaAtual || !novaSenha || !confirmarSenha) {
         alert('Preencha todos os campos!');
         return;
     }
+
     if (novaSenha !== confirmarSenha) {
         alert('As senhas não coincidem!');
         return;
     }
+
     if (senhaAtual === novaSenha) {
         alert('A nova senha deve ser diferente da senha atual!');
         return;
     }
-    
-    const userId = localStorage.getItem('userId');
 
-    const data = await fetch (`http://localhost:3000/usuario/${userId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-       
-        });
-    const response = await data.json();
-    console.log(data)
-    const userData = response.response;
-    const userSenha = userData.senha;
-    if (senhaAtual === userSenha) {
-        const data = await fetch (`http://localhost:3000/atualizarSenha/${userId}`, {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('Usuário não autenticado.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                senha: novaSenha    
-                })
-                });
-        const response = await data.json();
+                senhaAtual: senhaAtual,
+                senha: novaSenha
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.response || 'Erro ao alterar senha');
+        }
+
         alert('Senha alterada com sucesso!');
-        console.log(response);
-
-            }
-
+        console.log('Resposta:', data);
+        document.getElementById('changePasswordForm').reset();
+    } catch (error) {
+        alert(`Erro: ${error.message}`);
+        console.error('Erro ao alterar senha:', error);
     }
+}
