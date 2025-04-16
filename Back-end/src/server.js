@@ -5,6 +5,8 @@ const router = require('./routes/router');
 const cors = require('cors')
 const session = require('express-session');
 const { token } = require('./config.json')
+require('dotenv').config();
+const cookieParser = require('cookie-parser');
 // require('dotenv').config();
 
 // Testando a conexão com o banco de dados
@@ -27,7 +29,7 @@ sequelize.authenticate()
 const app = express();
 
 app.use(session({
-    secret: token, // Substitua por uma chave secreta forte
+    secret: token, // Substitua por uma chave secreta cors 
     resave: false,
     saveUninitialized: true,
     cookie: { 
@@ -39,12 +41,14 @@ app.use(session({
 }));
 
 
-// app.use(cors({
-//          origin: "http://127.0.0.1:5501", // Permite apenas essa origem acessar
-//          methods: ["GET", "POST", "DELETE", "PUT"], // Permite apenas esses métodos
-//          allowedHeaders: ["Content-Type", "Authorization"], // Define cabeçalhos permitidos
-//          credentials: true // Permite envio de cookies e headers de autenticação
-//      }))
+app.use(cors({
+    origin: 'http://localhost:5500', // ou o domínio do seu frontend
+    credentials: true,
+    allowedHeaders: ['Authorization', 'Content-Type']
+     }))
+
+
+app.use (cookieParser())
 
 // Definindo o middleware para aceitar dados no formato JSON
 app.use(express.json());
