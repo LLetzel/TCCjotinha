@@ -278,6 +278,8 @@ exports.atualizarUser = async (req, res) => {
   }
 }
 
+
+
 exports.consignar = async (req, res) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -295,12 +297,22 @@ exports.consignar = async (req, res) => {
       contentType: file.mimetype
     })) : [];
 
+    const userName = req.body.userName || "Não informado";
+    const userEmail = req.body.userEmail || "Não informado";
+    const userTelefone = req.body.userTelefone || "Não informado";
+    const userCPF = req.body.userCPF || "Não informado";
+    
+
     const mailOptions = {
       from: `"Jotinha veiculos" <${process.env.EMAIL_USER}>`,
       to: "gabrielledelimaq@gmail.com",
       subject: "Nova mensagem de contato: proposta de consignação",
       html: `
-                <h2>Nova mensagem de contato</h2>
+                <h2>Nova mensagem de consignação</h2>
+                <p><strong>Nome do Usuário:</strong> ${userName}</p>
+                <p><strong>Email do Usuário:</strong> ${userEmail}</p>
+                <p><strong>Telefone do Usuário:</strong> ${userTelefone}</p>
+                <p><strong>CPF do Usuário:</strong> ${userCPF}</p>
                 <p><strong>Marca:</strong> ${req.body.marca}</p>
                 <p><strong>Modelo:</strong> ${req.body.modelo}</p>
                 <p><strong>Ano:</strong> ${req.body.ano}</p>
@@ -315,9 +327,9 @@ exports.consignar = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
+    res.status(200).json({ message: "E-mail enviado com sucesso!" });
   } catch (error) {
     console.error("Erro ao enviar e-mail:", error);
-    res.status(500).json({ mensagem: "Não foi possível enviar o e-mail, tente novamente" });
+    res.status(500).json({ message: "Não foi possível enviar o e-mail, tente novamente" });
   }
 };
