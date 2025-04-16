@@ -1,7 +1,6 @@
 //Importar os módulos necessários
 const User = require("../models/user.js");
 const { Op } = require("sequelize");
-const jwt = require('jsonwebtoken'); // Importe a biblioteca jwt
 const { where } = require("sequelize");
 const { response } = require("express");
 const { spliceStr, singularize, removeTicks } = require("sequelize/lib/utils");
@@ -9,6 +8,17 @@ const { verifyEncrypt, encrypting } = require("../utils/encrypt.js");
 const Role = require("../models/role.js");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+
+function generateToken(payload) {
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+}
+
+
 
 exports.login = async (req, res) => {
   try {
@@ -36,27 +46,19 @@ exports.login = async (req, res) => {
       });
     }
 
-    req.session.regenerate((err) => {
-      if (err) {
-        console.error("Erro ao regenerar sessão:", err);
-        return res.status(500).send("Erro interno do servidor", err);
-      }
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.tipo_id }, "letzellindao");
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false, // true se for HTTPS
+      sameSite: 'Lax', // ou 'Strict'/'None' se necessário
+      maxAge: 24 * 60 * 60 * 1000 // 1 dia
     });
-
-    req.session.user = {
-      id: user.id,
-    };
-
-    req.session.role = {
-      tipo_id: user.tipo_id,
-    };
-
+    
     return res.status(200).json({
-      success: true,
-      response: "Login bem-sucedido!",
-      user: req.session.user,
+      message: 'Login bem-sucedido',
+      user: { id: user.id, email: user.email, role: user.tipo_id }
     });
-
 
   } catch (err) {
     console.error("Error no servidor:" + err);
@@ -249,7 +251,7 @@ exports.updateUsers = async (req, res) => {
     return res.status(200).json({
       success: true,
       response: userUpdated
-      });
+    });
   } catch (error) {
     alert(error.message);
   }

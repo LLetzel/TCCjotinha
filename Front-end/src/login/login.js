@@ -1,6 +1,3 @@
-// const User = require('../models/user');
-// const session = require('express-session');
-
 function entrar() {
     const emailInput = document.querySelector('#email');
     const senhaInput = document.querySelector('#senha');
@@ -13,77 +10,51 @@ function entrar() {
         return;
     }
 
+    submitButton.classList.add('loading');
+    submitButton.disabled = true;
+
     fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, senha }),
-        credentials: 'include'
+        credentials: 'include', // Isso permite enviar e receber cookies!
+        body: JSON.stringify({ email, senha })
     })
-        .then(res => res.json())
-    
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Usuário ou senha inválidos');
+        }
+        return res.json();
+    })
     .then(data => {
-        if (data.success) {
-            localStorage.setItem('userId', data.user.id);
-            console.log(data.user.id);
+        // Agora o token está no cookie, então só usa os dados do user que vieram no response
+        const userId = data.user.id;
+        const userRole = data.user.role;
 
-            // const userRole = Number(localStorage.getItem('userRole'));
+        // // Você ainda pode guardar o ID e a role se quiser (não é tão sensível)
+        // localStorage.setItem('userId', userId);
+        // localStorage.setItem('userRole', userRole);
 
-            let userId = localStorage.getItem('userId');
-
-            fetch(`http://localhost:3000/usuario/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            })
-                .then(res => res.json())
-                .then(data => {
-                    
-                    if (data) {
-                        console.log(data);
-                        
-                        if (data.response.tipo_id === 1) {
-                            localStorage.setItem('userRole', data.response.tipo_id);
-                            window.location.href = '/dashboardAdm';
-                            return;
-                        } else {
-                            localStorage.setItem('userRole', data.response.tipo_id);
-                            window.location.href = '/home';
-                            return;
-                        }
-                        // if (data.response.tipo_id === 2) {
-                        //     window.location.href = '/Front-end/src/home/home.html';
-                        //     return;
-                        // }
-        
-                    } 
-                    return console.log('Erro ao verificar o usuário');
-                })
-                .catch((err) => {
-                    console.log('erro de conexão com o servidor', err);
-                    alert('Erro de conexão com o servidor');
-                });
-            
-
+        // Redirecionamento baseado no papel
+        if (userRole === 1) {
+            window.location.href = '/dashboardAdm';
         } else {
-            alert(data.response || 'Erro ao fazer login');
+            window.location.href = '/home';
         }
     })
-        .catch((err) => {
-            
-            console.log('erro de conexão com o servidor', err);
-            alert('Erro de conexão com o servidor');
-        });
-
-    emailInput.value = '';
-    senhaInput.value = '';
-    submitButton.classList.remove('loading');
-    submitButton.disabled = false;
-    
+    .catch((err) => {
+        console.error('Erro:', err.message);
+        alert(err.message || 'Erro de conexão com o servidor');
+    })
+    .finally(() => {
+        emailInput.value = '';
+        senhaInput.value = '';
+        submitButton.classList.remove('loading');
+        submitButton.disabled = false;
+    });
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const togglePassword = document.querySelector('#togglePassword');
@@ -98,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Alterna o tipo do input entre 'password' e 'text'
         const isPassword = senhaInput.getAttribute('type') === 'password';
         senhaInput.setAttribute('type', isPassword ? 'text' : 'password');
-        
-        // Alterna os ícones: se for 'text', add fa-eye-slash; se for 'password', add fa-eye
+
+        // Alterna os ícones
         if (isPassword) {
             togglePassword.classList.remove('fa-eye');
             togglePassword.classList.add('fa-eye-slash');
@@ -109,3 +80,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+    
+

@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function() {
 
+    
     // Função auxiliar para formatar o preço no padrão BRL
     function formatPrice(value) {
         return value.toLocaleString('pt-BR', {

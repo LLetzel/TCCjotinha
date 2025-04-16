@@ -12,6 +12,7 @@ const upload = require("../utils/multer.js");
 const nodemailer = require("nodemailer");
 const agendamentoController = require("../controllers/agendamentoController");
 require("dotenv").config({ path: "../.env" });
+const authMiddleware = require('../middleware/authMiddleware.js');
 
 // pages
 router.use(express.static(path.join(__dirname, "../../../Front-end")));
@@ -66,7 +67,7 @@ router.get("/cardetails", (req, res) => {
   );
 });
 
-router.get("/consignar", (req, res) => {
+router.get("/consignar", authMiddleware, (req, res) => {
   res.sendFile(
     path.join(__dirname, "../../../Front-end/src/consignar/consignar.html")
   );

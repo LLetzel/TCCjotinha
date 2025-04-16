@@ -1,11 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
     const marcaSelect = document.getElementById('marca');
     const modeloSelect = document.getElementById('modelo');
     const anoSelect = document.getElementById('ano');
     const fipeResult = document.getElementById('fipeResult');
     const form = document.getElementById('consignForm');
     const precoInput = document.getElementById('preco');
-    
+
     // API FIPE base URL
     const FIPE_API = 'https://parallelum.com.br/fipe/api/v1/carros';
 
@@ -22,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     // Evento de mudança da marca
-    marcaSelect.addEventListener('change', function() {
+    marcaSelect.addEventListener('change', function () {
         modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
         anoSelect.innerHTML = '<option value="">Selecione o ano</option>';
         modeloSelect.disabled = false;
-        
+
         if (this.value) {
             fetch(`${FIPE_API}/marcas/${this.value}/modelos`)
                 .then(response => response.json())
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Evento de mudança do modelo
-    modeloSelect.addEventListener('change', function() {
+    modeloSelect.addEventListener('change', function () {
         anoSelect.innerHTML = '<option value="">Selecione o ano</option>';
         anoSelect.disabled = false;
 
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Evento de mudança do ano - buscar valor FIPE
-    anoSelect.addEventListener('change', function() {
+    anoSelect.addEventListener('change', function () {
         if (this.value) {
             fetch(`${FIPE_API}/marcas/${marcaSelect.value}/modelos/${modeloSelect.value}/anos/${this.value}`)
                 .then(response => response.json())
@@ -75,16 +76,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fotos');
     const previewGrid = document.getElementById('preview');
 
-    fileInput.addEventListener('change', function() {
+    fileInput.addEventListener('change', function () {
         previewGrid.innerHTML = '';
-        
+
         [...this.files].forEach(file => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 const div = document.createElement('div');
                 div.className = 'preview-item';
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     div.innerHTML = `
                         <img src="${e.target.result}" alt="Preview">
                         <button type="button" class="remove-btn">
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Envio do formulário
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
         const submitBtn = this.querySelector('.submit-btn');
         const spinner = submitBtn.querySelector('.loading-spinner');
@@ -122,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Prevenir envio do formulário ao pressionar Enter
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             return false;
@@ -149,10 +150,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 window.onload = async () => {
-    const userId = localStorage.getItem('userId');
-    const userRole = localStorage.getItem('userRole');
-    if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
+    const token = localStorage.getItem('token');
+    if (!token || token == 'undefined') {
         window.location.href = '/login';
         return;
     }
-    }; 
+}; 
