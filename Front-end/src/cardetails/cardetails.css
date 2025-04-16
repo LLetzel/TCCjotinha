@@ -6,14 +6,21 @@
     --card-bg: rgba(255, 255, 255, 0.05);
     --gradient: linear-gradient(135deg, rgba(201, 48, 44, 0.15) 0%, rgba(0, 0, 0, 0.2) 100%);
 }
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: auto;
+    font-style: normal;
+  }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-style: italic;
     font-weight: bold;
+    font-family: "Montserrat", sans-serif;
 }
+
 
 body {
     font-family: 'Trebuchet MS', Arial, sans-serif;

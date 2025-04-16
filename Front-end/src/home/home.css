@@ -7,13 +7,21 @@
 }
 
 
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: auto;
+    font-style: normal;
+  }
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-style: italic;
     font-weight: bold;
+    font-family: "Montserrat", sans-serif;
 }
+
 
 ::-webkit-scrollbar {
     width: 16px;

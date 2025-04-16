@@ -1,6 +1,3 @@
-// const User = require('../models/user');
-// const session = require('express-session');
-
 function entrar() {
     const emailInput = document.querySelector('#email');
     const senhaInput = document.querySelector('#senha');
@@ -28,8 +25,6 @@ function entrar() {
             localStorage.setItem('userId', data.user.id);
             console.log(data.user.id);
 
-            // const userRole = Number(localStorage.getItem('userRole'));
-
             let userId = localStorage.getItem('userId');
 
             fetch(`http://localhost:3000/usuario/${userId}`, {
@@ -54,10 +49,6 @@ function entrar() {
                             window.location.href = '/home';
                             return;
                         }
-                        // if (data.response.tipo_id === 2) {
-                        //     window.location.href = '/Front-end/src/home/home.html';
-                        //     return;
-                        // }
         
                     } 
                     return console.log('Erro ao verificar o usuário');
@@ -78,8 +69,6 @@ function entrar() {
             alert('Erro de conexão com o servidor');
         });
 
-    emailInput.value = '';
-    senhaInput.value = '';
     submitButton.classList.remove('loading');
     submitButton.disabled = false;
     
@@ -95,11 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     togglePassword.addEventListener('click', () => {
-        // Alterna o tipo do input entre 'password' e 'text'
         const isPassword = senhaInput.getAttribute('type') === 'password';
         senhaInput.setAttribute('type', isPassword ? 'text' : 'password');
         
-        // Alterna os ícones: se for 'text', add fa-eye-slash; se for 'password', add fa-eye
         if (isPassword) {
             togglePassword.classList.remove('fa-eye');
             togglePassword.classList.add('fa-eye-slash');

@@ -8,8 +8,17 @@
     --apple-color: #000000;
 }
 
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: auto;
+    font-style: normal;
+  }
+
+
+
 body {
-    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
