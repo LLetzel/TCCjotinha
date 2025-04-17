@@ -148,8 +148,25 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching user data:', error);
         }
     }
+
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
+
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log('userRole real:', decryptedRole);
+
+        if (decryptedRole == '1') {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            alert('Você não tem permissão para acessar esta página.');
+            window.location.href = '/login';
+        }
+    }   
     
-    if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
+    if (!userId || userId == 'undefined' || userId == null) {
         alert('Você não tem acesso a essa página');
         window.location.href = '/login';
     } else {
