@@ -1,14 +1,23 @@
-function entrar() {
+function entrar(event) {
+    event.preventDefault();
+
     const emailInput = document.querySelector('#email');
     const senhaInput = document.querySelector('#senha');
     const email = emailInput.value;
     const senha = senhaInput.value;
     const submitButton = document.querySelector('.submit-btn');
+    const spinner = submitButton.querySelector('.loading-spinner');
+    const btnText = submitButton.querySelector('.btn-text');
 
     if (!email || !senha) {
         alert('Preencha todos os campos');
         return;
     }
+
+    // Ativa o loading: mostra spinner e esconde texto
+    submitButton.disabled = true;
+    btnText.style.display = 'none';
+    spinner.style.display = 'inline-block';
 
     fetch('http://localhost:3000/login', {
         method: 'POST',
@@ -19,60 +28,53 @@ function entrar() {
         credentials: 'include'
     })
         .then(res => res.json())
-    
-    .then(data => {
-        if (data.success) {
-            localStorage.setItem('userId', data.user.id);
-            console.log(data.user.id);
+        .then(data => {
+            if (data.success) {
+                localStorage.setItem('userId', data.user.id);
 
-            let userId = localStorage.getItem('userId');
-
-            fetch(`http://localhost:3000/usuario/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            })
-                .then(res => res.json())
-                .then(data => {
-                    
-                    if (data) {
-                        console.log(data);
-                        
-                        if (data.response.tipo_id === 1) {
-                            localStorage.setItem('userRole', data.response.tipo_id);
-                            window.location.href = '/dashboardAdm';
-                            return;
-                        } else {
-                            localStorage.setItem('userRole', data.response.tipo_id);
-                            window.location.href = '/home';
-                            return;
-                        }
-        
-                    } 
-                    return console.log('Erro ao verificar o usuário');
+                fetch(`http://localhost:3000/usuario/${data.user.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
                 })
-                .catch((err) => {
-                    console.log('erro de conexão com o servidor', err);
-                    alert('Erro de conexão com o servidor');
-                });
-            
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data) {
+                            localStorage.setItem('userRole', data.response.tipo_id);
 
-        } else {
-            alert(data.response || 'Erro ao fazer login');
-        }
-    })
-        .catch((err) => {
-            
-            console.log('erro de conexão com o servidor', err);
+                            if (data.response.tipo_id === 1) {
+                                window.location.href = '/dashboardAdm';
+                            } else {
+                                window.location.href = '/home';
+                            }
+                        } else {
+                            console.log('Erro ao verificar o usuário');
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Erro de conexão com o servidor', err);
+                        alert('Erro de conexão com o servidor');
+                    });
+            } else {
+                alert(data.response || 'Erro ao fazer login');
+            }
+        })
+        .catch(err => {
+            console.log('Erro de conexão com o servidor', err);
             alert('Erro de conexão com o servidor');
+        })
+        .finally(() => {
+            // Desativa loading: mostra texto e esconde spinner
+            spinner.style.display = 'none';
+            btnText.style.display = 'inline';
+            submitButton.disabled = false;
         });
-
-    submitButton.classList.remove('loading');
-    submitButton.disabled = false;
-    
 }
+
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const togglePassword = document.querySelector('#togglePassword');
