@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
+        alert('Você não tem acesso a essa página');
         window.location.href = '/login';
     } else {
         fetchUserData();

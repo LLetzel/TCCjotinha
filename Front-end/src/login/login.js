@@ -1,32 +1,33 @@
 function entrar(event) {
-    event.preventDefault();
+    event.preventDefault(); // evita o reload da página
+    
+    try {
+        const emailInput = document.querySelector('#email');
+        const senhaInput = document.querySelector('#senha');
+        const email = emailInput.value;
+        const senha = senhaInput.value;
+        const submitButton = document.querySelector('.submit-btn');
+        const spinner = submitButton.querySelector('.loading-spinner');
+        const btnText = submitButton.querySelector('.btn-text');
 
-    const emailInput = document.querySelector('#email');
-    const senhaInput = document.querySelector('#senha');
-    const email = emailInput.value;
-    const senha = senhaInput.value;
-    const submitButton = document.querySelector('.submit-btn');
-    const spinner = submitButton.querySelector('.loading-spinner');
-    const btnText = submitButton.querySelector('.btn-text');
+        if (!email || !senha) {
+            alert('Preencha todos os campos');
+            return;
+        }
 
-    if (!email || !senha) {
-        alert('Preencha todos os campos');
-        return;
-    }
+        // Ativar loading
+        submitButton.disabled = true;
+        btnText.style.visibility = 'hidden';
+        spinner.style.display = 'inline-block';
 
-    // Ativa o loading: mostra spinner e esconde texto
-    submitButton.disabled = true;
-    btnText.style.display = 'none';
-    spinner.style.display = 'inline-block';
-
-    fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, senha }),
-        credentials: 'include'
-    })
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, senha }),
+            credentials: 'include'
+        })
         .then(res => res.json())
         .then(data => {
             if (data.success) {
@@ -39,9 +40,27 @@ function entrar(event) {
                     },
                     credentials: 'include'
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data) {
+                .then(res => res.json())
+                .then(data => {
+                    if (data) {
+                        try {
+                            const tipoId = data.response.tipo_id;
+                            const secretKey = 'letzellindo'; // guarde com segurança
+
+                            // Criptografar o tipoId (userRole)
+                            const encryptedRole = CryptoJS.AES.encrypt(tipoId.toString(), secretKey).toString();
+                            localStorage.setItem('userRole', encryptedRole);
+                            localStorage.setItem('userId', data.response.id);
+
+                            // Redirecionar
+                            if (tipoId === 1) {
+                                window.location.href = '/dashboardAdm';
+                            } else {
+                                window.location.href = '/home';
+                            }
+
+                        } catch (cryptoError) {
+                            console.error('Erro ao criptografar userRole:', cryptoError);
                             localStorage.setItem('userRole', data.response.tipo_id);
 
                             if (data.response.tipo_id === 1) {
@@ -49,34 +68,39 @@ function entrar(event) {
                             } else {
                                 window.location.href = '/home';
                             }
-                        } else {
-                            console.log('Erro ao verificar o usuário');
                         }
-                    })
-                    .catch(err => {
-                        console.log('Erro de conexão com o servidor', err);
-                        alert('Erro de conexão com o servidor');
-                    });
+                    } else {
+                        console.log('Erro ao verificar o usuário');
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro de conexão com o servidor na segunda requisição:', err);
+                    alert('Erro de conexão com o servidor na segunda requisição');
+                });
             } else {
                 alert(data.response || 'Erro ao fazer login');
             }
         })
         .catch(err => {
-            console.log('Erro de conexão com o servidor', err);
-            alert('Erro de conexão com o servidor');
+            console.error('Erro de conexão com o servidor na primeira requisição:', err);
+            alert('Erro de conexão com o servidor na primeira requisição');
         })
         .finally(() => {
-            // Desativa loading: mostra texto e esconde spinner
+            // Restaurar botão
             spinner.style.display = 'none';
-            btnText.style.display = 'inline';
+            btnText.style.visibility = 'visible';
             submitButton.disabled = false;
         });
+    } catch (generalError) {
+        console.error('Erro geral na função entrar:', generalError);
+        alert('Ocorreu um erro ao processar o login');
+    }
 }
 
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
+
     const togglePassword = document.querySelector('#togglePassword');
     const senhaInput = document.querySelector('#senha');
 
@@ -88,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     togglePassword.addEventListener('click', () => {
         const isPassword = senhaInput.getAttribute('type') === 'password';
         senhaInput.setAttribute('type', isPassword ? 'text' : 'password');
-        
+
         if (isPassword) {
             togglePassword.classList.remove('fa-eye');
             togglePassword.classList.add('fa-eye-slash');

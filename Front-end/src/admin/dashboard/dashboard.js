@@ -124,17 +124,6 @@ async function contarCarros() {
 // Chamar a função quando a página carregar
 document.addEventListener('DOMContentLoaded', contarCarros);
 
-window.onload = async () => {
-    const userId = localStorage.getItem('userId');
-    const userRole = localStorage.getItem('userRole');
-    if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
-        window.location.href = '/login';
-        return;
-    }
-    };
-
-
-
 
 // Funções principais
 async function initializeDashboard() {
@@ -239,3 +228,22 @@ function renderTimeSlots(containerId, slots) {
         </div>
     `).join('');
 }
+
+window.onload = async () => {
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
+
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log('userRole real:', decryptedRole);
+
+        if (decryptedRole !== '1') {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            alert('Você não tem permissão para acessar esta página.');
+            window.location.href = '/login';
+        }
+    }
+};
