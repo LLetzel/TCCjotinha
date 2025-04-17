@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "pwa-node",
+        "request": "launch",
+        "name": "Iniciar API Node.js",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder}/Back-end/src/server.js",
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "outFiles": ["${workspaceFolder}/**/*.js"]
+      }
+    ]
+  }
+  

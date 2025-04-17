@@ -8,8 +8,6 @@ const { token } = require('./config.json')
 const path = require('path');
 const multer = require('multer');
 
-// require('dotenv').config();
-
 // Testando a conexão com o banco de dados
 sequelize.authenticate()
     .then(() => {

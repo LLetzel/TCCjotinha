@@ -278,10 +278,9 @@ exports.atualizarUser = async (req, res) => {
   }
 }
 
-
-
 exports.consignar = async (req, res) => {
   try {
+    // Configurar o transportador do Nodemailer (Gmail)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -291,45 +290,48 @@ exports.consignar = async (req, res) => {
     });
 
     // Preparar os anexos com base nos arquivos enviados via multer
-    const attachments = req.files && req.files.fotos ? req.files.fotos.map(file => ({
-      filename: file.originalname,
-      content: file.buffer,
-      contentType: file.mimetype
-    })) : [];
+    const attachments = req.files && req.files.fotos
+      ? req.files.fotos.map(file => ({
+          filename: file.originalname,
+          path: file.path, // Usar o caminho no disco (diskStorage)
+          contentType: file.mimetype
+        }))
+      : [];
 
+    // Dados do formulário
     const userName = req.body.userName || "Não informado";
     const userEmail = req.body.userEmail || "Não informado";
     const userTelefone = req.body.userTelefone || "Não informado";
     const userCPF = req.body.userCPF || "Não informado";
-    
 
     const mailOptions = {
-      from: `"Jotinha veiculos" <${process.env.EMAIL_USER}>`,
+      from: `"Jotinha Veículos" <${process.env.EMAIL_USER}>`,
       to: "gabrielledelimaq@gmail.com",
       subject: "Nova mensagem de contato: proposta de consignação",
       html: `
-                <h2>Nova mensagem de consignação</h2>
-                <p><strong>Nome do Usuário:</strong> ${userName}</p>
-                <p><strong>Email do Usuário:</strong> ${userEmail}</p>
-                <p><strong>Telefone do Usuário:</strong> ${userTelefone}</p>
-                <p><strong>CPF do Usuário:</strong> ${userCPF}</p>
-                <p><strong>Marca:</strong> ${req.body.marca}</p>
-                <p><strong>Modelo:</strong> ${req.body.modelo}</p>
-                <p><strong>Ano:</strong> ${req.body.ano}</p>
-                <p><strong>Quilometragem:</strong> ${req.body.quilometragem}</p>
-                <p><strong>fipeResult:</strong> ${req.body.fipeResult}</p>
-                <p><strong>Preço:</strong> ${req.body.preco}</p>
-                <p><strong>Estado do veículo:</strong> ${req.body.rating}</p>
-                <p><strong>Observações:</strong> ${req.body.observacoes}</p>
-                <p><strong>Fotos enviadas:</strong> ${attachments.length > 0 ? attachments.map(att => att.filename).join(", ") : "Nenhuma"}</p>
-            `,
-      attachments: attachments  // Inclua os arquivos como anexos
+        <h2>Nova mensagem de consignação</h2>
+        <p><strong>Nome do Usuário:</strong> ${userName}</p>
+        <p><strong>Email do Usuário:</strong> ${userEmail}</p>
+        <p><strong>Telefone do Usuário:</strong> ${userTelefone}</p>
+        <p><strong>CPF do Usuário:</strong> ${userCPF}</p>
+        <p><strong>Marca:</strong> ${req.body.marca}</p>
+        <p><strong>Modelo:</strong> ${req.body.modelo}</p>
+        <p><strong>Ano:</strong> ${req.body.ano}</p>
+        <p><strong>Quilometragem:</strong> ${req.body.quilometragem}</p>
+        <p><strong>fipeResult:</strong> ${req.body.fipeResult}</p>
+        <p><strong>Preço:</strong> ${req.body.preco}</p>
+        <p><strong>Estado do veículo:</strong> ${req.body.rating}</p>
+        <p><strong>Observações:</strong> ${req.body.observacoes}</p>
+        <p><strong>Fotos enviadas:</strong> ${attachments.length > 0 ? attachments.map(att => att.filename).join(", ") : "Nenhuma"}</p>
+      `,
+      attachments: attachments
     };
 
     await transporter.sendMail(mailOptions);
+
     res.status(200).json({ message: "E-mail enviado com sucesso!" });
   } catch (error) {
-    console.error("Erro ao enviar e-mail:", error);
+    console.error("Erro ao enviar e-mail:", error.message, error.response);
     res.status(500).json({ message: "Não foi possível enviar o e-mail, tente novamente" });
   }
 };
