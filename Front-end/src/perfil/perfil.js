@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Tab Management
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
     const navBtns = document.querySelectorAll('.nav-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = btn.getAttribute('data-tab');
             switchTab(targetId);
         });
-    });
+    })
 
     // Modal Management
     const modals = {
@@ -125,14 +127,104 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    async function fetchUserData() {
+        try { 
+            const response = await fetch(`http://localhost:3000/usuario/${userId}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const Dados = await response.json();
+            const userData = Dados.response;
+            console.log(userData);
+            
+
+    
+            document.getElementById('userName').textContent = userData.nome;
+            document.getElementById('userName2').textContent = userData.nome;
+            document.getElementById('userCpf').textContent = userData.cpf;
+            document.getElementById('userNascimento').textContent = userData.nascimento;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('userPhone').textContent = userData.telefone;
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
+
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
+
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log('userRole real:', decryptedRole);
+
+        if (decryptedRole == '1') {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            alert('Você não tem permissão para acessar esta página.');
+            window.location.href = '/login';
+        }
+    }   
+    
+    if (!userId || userId == 'undefined' || userId == null) {
+        alert('Você não tem acesso a essa página');
+        window.location.href = '/login';
+    } else {
+        fetchUserData();
+    }
 });
 
+async function mudarSenha(event) {
+    event.preventDefault();
 
-window.onload = async () => {
-    const userId = localStorage.getItem('userId');
-    const userRole = localStorage.getItem('userRole');
-    if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
-        window.location.href = '/Front-end/src/login/login.html';
+    const senhaAtual = document.getElementById('currentPassword').value;
+    const novaSenha = document.getElementById('newPassword').value;
+    const confirmarSenha = document.getElementById('confirmPassword').value;
+
+    if (!senhaAtual || !novaSenha || !confirmarSenha) {
+        alert('Preencha todos os campos!');
         return;
     }
-    }; 
+
+    if (novaSenha !== confirmarSenha) {
+        alert('As senhas não coincidem!');
+        return;
+    }
+
+    if (senhaAtual === novaSenha) {
+        alert('A nova senha deve ser diferente da senha atual!');
+        return;
+    }
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('Usuário não autenticado.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                senhaAtual: senhaAtual,
+                senha: novaSenha
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.response || 'Erro ao alterar senha');
+        }
+
+        alert('Senha alterada com sucesso!');
+        console.log('Resposta:', data);
+        document.getElementById('changePasswordForm').reset();
+    } catch (error) {
+        alert(`Erro: ${error.message}`);
+        console.error('Erro ao alterar senha:', error);
+    }
+}

@@ -13,10 +13,6 @@ const CarrosDestaques = sequelize.define('destaques', {
     allowNull: false,
     unique: true,
   },
-  descricao_curta: {
-    type: Sequelize.STRING(100),
-    allowNull: true,
-  }
 }, {
   timestamps: false,
   freezeTableName: true,

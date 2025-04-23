@@ -2,14 +2,31 @@ const roleModal = document.getElementById('roleModal');
 const roleForm = document.getElementById('roleForm');
 let currentUserId;
 
-window.onload = async () => {
-    const userId = localStorage.getItem('userId');
-    const userRole = localStorage.getItem('userRole');
-    if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
-        window.location.href = '/login';
-        return;
-    }
-};
+// window.onload = async () => {
+//     const userId = localStorage.getItem('userId');
+//     const userRole = localStorage.getItem('userRole');
+//     if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
+//         window.location.href = '/login';
+//         return;
+//     }
+// };
+
+// window.onloud = async () => {if (encryptedRole) {
+//     const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+//     const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+//     console.log('userRole real:', decryptedRole);
+
+//     // Comparando como string
+//     if (decryptedRole !== '1') {
+//         window.location.href = '/login';
+//         localStorage.removeItem('userId');
+//     localStorage.removeItem('userRole');
+//         return;
+//     } 
+// }
+// }
+
 
 function openRoleModal(userId) {
     roleModal.style.display = 'block';
@@ -156,5 +173,23 @@ async function alterarRole() {
 }
 
 
-// Chamar a função quando a página carregar
 document.addEventListener('DOMContentLoaded', ListarUsuarios);
+
+window.onload = async () => {
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
+
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log('userRole real:', decryptedRole);
+
+        if (decryptedRole !== '1') {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            alert('Você não tem permissão para acessar esta página.');
+            window.location.href = '/login';
+        }
+    }   
+};

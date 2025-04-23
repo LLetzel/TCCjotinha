@@ -5,6 +5,8 @@ const router = require('./routes/router');
 const cors = require('cors')
 const session = require('express-session');
 const { token } = require('./config.json')
+require('dotenv').config();
+const cookieParser = require('cookie-parser');
 // require('dotenv').config();
 
 // Testando a conexão com o banco de dados
@@ -18,11 +20,6 @@ sequelize.authenticate()
     .then(([result, metadata]) => {
         console.log('Tabelas no banco de dados:');
         console.log(result);
-
-        // Iniciando o servidor
-        /*app.listen(3000, () => {
-            console.log('Servidor Express iniciado na porta 3000');
-        }); */
     })
     .catch(err => {
         console.error('Falha ao conectar ao banco de dados:', err);
@@ -32,7 +29,7 @@ sequelize.authenticate()
 const app = express();
 
 app.use(session({
-    secret: token, // Substitua por uma chave secreta forte
+    secret: token, // Substitua por uma chave secreta cors 
     resave: false,
     saveUninitialized: true,
     cookie: { 
@@ -43,29 +40,22 @@ app.use(session({
     } // O cookie vai expirar em 1 dia
 }));
 
-// // Middleware para lidar com erros
-// app.use(function (err, req, res, next) {
-//     if (err instanceof multer.MulterError) {
-//         return res.status(400).send(`Erro no upload do arquivo: ${err.message}`);
-//     } else if (err) {
-//         return res.status(400).send(`Erro: ${err.message}`);
-//     }
-//     next();
-// });
 
 app.use(cors({
-         origin: "http://127.0.0.1:5501", // Permite apenas essa origem acessar
-         methods: ["GET", "POST", "DELETE", "PUT"], // Permite apenas esses métodos
-         allowedHeaders: ["Content-Type", "Authorization"], // Define cabeçalhos permitidos
-         credentials: true // Permite envio de cookies e headers de autenticação
+    origin: 'http://localhost:5500', // ou o domínio do seu frontend
+    credentials: true,
+    allowedHeaders: ['Authorization', 'Content-Type']
      }))
+
+
+app.use (cookieParser())
 
 // Definindo o middleware para aceitar dados no formato JSON
 app.use(express.json());
 app.use(router);
 
 // Definindo a porta em que o servidor irá ouvir
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // Iniciando o servidor e ouvindo a porta especificada
 app.listen(PORT, () => {

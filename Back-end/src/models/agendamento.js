@@ -15,16 +15,8 @@ const Agendamento = sequelize.define('Agendamento', {
             key: 'id'
         }
     },
-    id_carro: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'carros',
-            key: 'id'
-        }
-    },
     data: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: false
     },
 
@@ -33,26 +25,14 @@ const Agendamento = sequelize.define('Agendamento', {
         allowNull: false,
         
     },
-    interesse_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'interesses_agendamentos',
-            key: 'id'
-        }
+    interesse: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     observacoes: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: true
     },
-    status_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'status_carros',
-            key: 'id'
-        }
-    }
 }, {
     tableName: 'agendamentos',
     timestamps: false 

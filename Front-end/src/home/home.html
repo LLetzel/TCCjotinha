@@ -25,62 +25,27 @@
     <main>
         <section class="hero">
             <div class="hero-background"></div> <!-- Novo elemento para a imagem de fundo -->
-            <div class="hero-content">
+            <div class="hero-content" data-aos="fade-up">
                 <h1>Encontre o veículo Perfeito!</h1>
                 <div class="separator"></div>
             </div>
 
-            <h2>DESTAQUES</h2>
+            <h2 data-aos="fade-up">DESTAQUES</h2>
         
-            <div class="cards">
+            <div class="cards" data-aos="fade-up">
                 
             </div>
         </section>
-
-        <section class="car-types">
-            <h2 data-aos="fade-up">Tipos de Carros</h2>
-            <div class="types">
-                <div class="type" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="type-content">
-                        <div class="type-icon">
-                            <img src="../../img/sedan.png" alt="Sedan">
-                        </div>
-                        <h3>Sedan</h3>
-                        <p>Conforto e Espaço</p>
-                        <!-- <a href="#" class="type-link">
-                            Ver Mais <i class="fas fa-arrow-right"></i>
-                        </a> -->
-                    </div>
-                </div>
-                <div class="type" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="type-content">
-                        <div class="type-icon">
-                            <img src="../../img/carro-suv.png" alt="SUV">
-                        </div>
-                        <h3>SUV</h3>
-                        <p>Versatilidade e Robustez</p>
-                        <!-- <a href="#" class="type-link">
-                            Ver Mais <i class="fas fa-arrow-right"></i>
-                        </a> -->
-                    </div>
-                </div>
-                <div class="type" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="type-content">
-                        <div class="type-icon">
-                            <img src="../../img/carro-conversivel.png" alt="Conversível">
-                        </div>
-                        <h3>Conversível</h3>
-                        <p>Esportividade e Estilo</p>
-                        <!-- <a href="#" class="type-link">
-                            Ver Mais <i class="fas fa-arrow-right"></i>
-                        </a> -->
-                    </div>
-                </div>
-            </div>
+        <section class="concessionaria" data-aos="fade-up">
+            <h2>Venha conhecer nossa concessionária</h2>
+            <p>Agende um horário para conhecer nossos veículos e serviços!</p>
+            <button class="btn-agendamento" onclick="window.location.href='/agendamento'">
+                Agendar Visita
+            </button>
         </section>
 
-        <section class="carousel">
-            <h2 data-aos="fade-up">Sonhos Realizados</h2>
+        <section class="carousel" data-aos="fade-up">
+            <h2>Sonhos Realizados</h2>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
@@ -118,7 +83,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
     <script src="/src/components/footer/footer.js"></script>
     <script>
-        AOS.init(); // Inicializa o AOS
+        AOS.init({ duration: 1000, once: true });
     </script>
     <script src="/src/home/carouselhome.js"></script>
 </body>

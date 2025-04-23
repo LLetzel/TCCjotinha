@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug API Node.js",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder}/Back-end/src/server.js", // ou app.js, main.js, etc
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "console": "integratedTerminal"
+      }
+    ]
+  }
+  
