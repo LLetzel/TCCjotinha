@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - JOTINHA VEICULOS</title>
-    <link rel="stylesheet" href="/src/perfil/perfil.css">
-    <link rel="stylesheet" href="/src/components/footer/footer.css">
-    <link rel="stylesheet" href="/src/components/header/header.css">
-    <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
+    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="src/components/footer/footer.css">
+    <link rel="stylesheet" href="src/components/header/header.css">
+    <link rel="shortcut icon" href="img/image.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
 </head>
 
@@ -20,15 +20,13 @@
                 <div class="profile-header">
                     <div class="profile-cover">
                         <div class="profile-avatar">
-                            <img src="/img/profile.jpg" alt="Profile Picture">
-                            <button class="edit-avatar">
-                                <i class="fas fa-camera"></i>
-                            </button>
+                            <img src="../../img/perfilred.png" alt="Profile Picture">
+                            
                         </div>
                     </div>
                     <div class="profile-info">
-                        <h1 id="userName2">Lucas Letzel</h1>
-                        <p id="userEmail">usuario@email.com</p>
+                        <h1 id="nome"></h1>
+                        <p id="email"></p>
                     </div>
                 </div>  
 
@@ -53,19 +51,19 @@
                             <div class="info-grid">
                                 <div class="info-item">
                                     <label>Nome Completo</label>
-                                    <p id="userName">Lucas Dias Letzel</p>
+                                    <p id="nome"></p>
                                 </div>
                                 <div class="info-item">
                                     <label>CPF</label>
-                                    <p id="userCpf">123.456.789-00</p>
+                                    <p id="cpf"></p>
                                 </div>
                                 <div class="info-item">
                                     <label>Data de Nascimento</label>
-                                    <p id="userNascimento">01/01/1990</p>
+                                    <p id="nascimento"></p>
                                 </div>
                                 <div class="info-item">
                                     <label>Telefone</label>
-                                    <p id="userPhone">(11) 98765-4321</p>
+                                    <p id="telefone"></p>
                                 </div>
                             </div>
                             <button class="edit-btn">
@@ -113,22 +111,22 @@
             <form id="editPersonalForm">
                 <div class="form-group">
                     <label>Nome Completo</label>
-                    <input type="text" id="editName" value="Lucas Dias Letzel" disabled>
+                    <input type="text" id="editName" value="" disabled>
                     <span class="disabled-message">Este campo não pode ser alterado</span>
                 </div>
                 <div class="form-group">
                     <label>CPF</label>
-                    <input type="text" id="editCpf" value="123.456.789-00" disabled>
+                    <input type="text" id="editCpf" value="" disabled>
                     <span class="disabled-message">Este campo não pode ser alterado</span>
                 </div>
                 <div class="form-group">
                     <label>Data de Nascimento</label>
-                    <input type="date" id="editBirthdate" value="1990-01-01" disabled>
+                    <input type="date" id="editBirthdate" value="" disabled>
                     <span class="disabled-message">Este campo não pode ser alterado</span>
                 </div>
                 <div class="form-group">
                     <label>Telefone</label>
-                    <input type="tel" id="editPhone" value="(11) 98765-4321" required>
+                    <input type="tel" id="editPhone" value="" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="cancel-btn">Cancelar</button>
@@ -143,7 +141,7 @@
     <div id="changePasswordModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Alterar Senha</h2>
+            <h2>Alterar Senha</h2> 
             <form id="changePasswordForm">
                 <div class="form-group">
                     <label for="currentPassword">Senha Atual</label>
@@ -174,37 +172,13 @@
         </div>
     </div>
 
-    <!-- Change Avatar Modal -->
-    <div id="changeAvatarModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Alterar Foto de Perfil</h2>
-            <form id="avatarForm">
-                <div class="avatar-preview">
-                    <img id="avatarPreview" src="/img/perfilred.png" alt="Preview">
-                </div>
-                <div class="form-group">
-                    <label for="avatarInput" class="file-input-label">
-                        <i class="fas fa-upload"></i>
-                        Escolher Foto
-                    </label>
-                    <input type="file" id="avatarInput" accept="image/*" hidden>
-                </div>
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-save"></i>
-                    Salvar Foto
-                </button>
-            </form>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
-    <script src="/src/components/footer/footer.js" type="text/javascript" defer></script>
-    <script src="/src/components/header/header.js" type="text/javascript" defer></script>
+    <script src="src/components/footer/footer.js" type="text/javascript" defer></script>
+    <script src="src/components/header/header.js" type="text/javascript" defer></script>
     <script>
         AOS.init();
     </script>
-    <script src="/src/perfil/perfil.js" type="text/javascript" defer></script>
+    <script src="../perfil/perfil.js" type="text/javascript" defer></script>
 </body>
 </html>

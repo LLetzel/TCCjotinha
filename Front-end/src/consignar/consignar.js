@@ -99,27 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Envio do formulário
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const submitBtn = this.querySelector('.submit-btn');
-        const spinner = submitBtn.querySelector('.loading-spinner');
-        const btnText = submitBtn.querySelector('span');
-
-        // Simular envio
-        submitBtn.disabled = true;
-        btnText.style.opacity = '0';
-        spinner.style.display = 'block';
-
-        setTimeout(() => {
-            alert('Proposta enviada com sucesso! Em breve entraremos em contato.');
-            submitBtn.disabled = false;
-            btnText.style.opacity = '1';
-            spinner.style.display = 'none';
-            form.reset();
-            previewGrid.innerHTML = '';
-        }, 2000);
-    });
+   
+ 
 
     // Prevenir envio do formulário ao pressionar Enter
     document.addEventListener('keydown', function(e) {
@@ -148,11 +129,70 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-window.onload = async () => {
-    const userId = localStorage.getItem('userId');
-    const userRole = localStorage.getItem('userRole');
-    if (!userId || userId == 'undefined' || userRole == 1 || userId == null) {
-        window.location.href = '/login';
-        return;
+document.getElementById("consignForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    // Recupera os dados do usuário do localStorage
+    let userData = localStorage.getItem('user');
+    let userName = "";
+    let userId = "";
+    let userEmail = "";
+    let userTelefone = "";
+    let userCPF = "";
+    if (userData) {
+        userData = JSON.parse(userData);
+        userName = userData.nome || "";
+        userEmail = userData.email || "";
+        userTelefone = userData.telefone || "";
+        userCPF = userData.cpf || "";
+        userId = userData.id || "";
     }
-    }; 
+
+    // Recupera os dados do formulário
+    const marca = document.getElementById("marca").value;
+    const modelo = document.getElementById("modelo").value;
+    const ano = document.getElementById("ano").value;
+    const quilometragem = document.getElementById("quilometragem").value;
+    const fipeResult = document.querySelector("#fipeResult .fipe-value").textContent.trim();
+    const preco = document.getElementById("preco").value;
+    const ratingElem = document.querySelector('input[name="estado"]:checked');
+    const rating = ratingElem ? ratingElem.value : "";
+    const observacoes = document.getElementById("observacoes").value;
+
+    // Fotos como string (se necessário, ajuste para enviar nomes ou URLs)
+    const fotos = document.getElementById("fotos").value;
+
+    // Monta o payload para envio
+    const payload = {
+        userName,
+        userEmail,
+        userTelefone,
+        userCPF,
+        marca,
+        modelo,
+        ano,
+        quilometragem,
+        fipeResult,
+        preco,
+        rating,
+        observacoes,
+        fotos
+    };
+
+    // Envia os dados para o servidor
+    try {
+        const resposta = await fetch(`http://localhost:3000/consignar/${userId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const resultado = await resposta.json();
+        alert(resultado.message); // Exibe o resultado
+    } catch (error) {
+        console.error("Erro ao enviar os dados:", error);
+        alert("Erro ao enviar os dados. Tente novamente.");
+    }
+});

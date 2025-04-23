@@ -7,6 +7,9 @@ const session = require('express-session');
 const { token } = require('./config.json')
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const path = require('path');
+const multer = require('multer');
+
 // require('dotenv').config();
 
 // Testando a conexão com o banco de dados
@@ -27,6 +30,8 @@ sequelize.authenticate()
 
 // Criando uma instância do express
 const app = express();
+
+app.use(express.static('../../../Front-end/'));
 
 app.use(session({
     secret: token, // Substitua por uma chave secreta cors 
@@ -52,6 +57,7 @@ app.use (cookieParser())
 
 // Definindo o middleware para aceitar dados no formato JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
 // Definindo a porta em que o servidor irá ouvir

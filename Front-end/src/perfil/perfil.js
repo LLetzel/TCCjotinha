@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tab.classList.remove('active');
         });
 
+
         // Remove active class from all buttons
         navBtns.forEach(btn => btn.classList.remove('active'));
 
@@ -45,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modals = {
         editPersonal: document.getElementById('editPersonalModal'),
         changePassword: document.getElementById('changePasswordModal'),
-        changeAvatar: document.getElementById('changeAvatarModal')
     };
 
     function openModal(modalId) {
@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal triggers
     document.querySelector('.edit-btn').addEventListener('click', () => openModal('editPersonal'));
-    document.querySelector('.edit-avatar').addEventListener('click', () => openModal('changeAvatar'));
     document.querySelector('.settings-btn').addEventListener('click', () => openModal('changePassword'));
 
     // Close buttons
@@ -127,104 +126,135 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    async function fetchUserData() {
-        try { 
-            const response = await fetch(`http://localhost:3000/usuario/${userId}`);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const Dados = await response.json();
-            const userData = Dados.response;
-            console.log(userData);
-            
-
-    
-            document.getElementById('userName').textContent = userData.nome;
-            document.getElementById('userName2').textContent = userData.nome;
-            document.getElementById('userCpf').textContent = userData.cpf;
-            document.getElementById('userNascimento').textContent = userData.nascimento;
-            document.getElementById('userEmail').textContent = userData.email;
-            document.getElementById('userPhone').textContent = userData.telefone;
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
-    }
-
-    const secretKey = 'letzellindo';
-    const encryptedRole = localStorage.getItem('userRole');
-
-    if (encryptedRole) {
-        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
-        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
-
-        console.log('userRole real:', decryptedRole);
-
-        if (decryptedRole == '1') {
-            localStorage.removeItem('userId');
-            localStorage.removeItem('userRole');
-            alert('Você não tem permissão para acessar esta página.');
-            window.location.href = '/login';
-        }
-    }   
-    
-    if (!userId || userId == 'undefined' || userId == null) {
-        alert('Você não tem acesso a essa página');
-        window.location.href = '/login';
-    } else {
-        fetchUserData();
-    }
 });
 
-async function mudarSenha(event) {
-    event.preventDefault();
-
-    const senhaAtual = document.getElementById('currentPassword').value;
-    const novaSenha = document.getElementById('newPassword').value;
-    const confirmarSenha = document.getElementById('confirmPassword').value;
-
-    if (!senhaAtual || !novaSenha || !confirmarSenha) {
-        alert('Preencha todos os campos!');
-        return;
+document.addEventListener("DOMContentLoaded", async () => {
+    
+    const personalInfoItems = document.querySelectorAll(".info-grid .info-item p");
+    const navInfoItems = document.querySelectorAll(".profile-container .profile-info p, h1");
+    
+    const cadastroDadosPessoaisStr = localStorage.getItem("user");
+    if (cadastroDadosPessoaisStr) {
+        const cadastroDadosPessoais = JSON.parse(cadastroDadosPessoaisStr);
+        console.log(cadastroDadosPessoais);
+        personalInfoItems[0].textContent = cadastroDadosPessoais.nome;
+        personalInfoItems[1].textContent = cadastroDadosPessoais.cpf;
+        personalInfoItems[2].textContent = cadastroDadosPessoais.nascimento;
+        personalInfoItems[3].textContent = cadastroDadosPessoais.telefone;
+        navInfoItems[0].textContent = cadastroDadosPessoais.nome;
+        navInfoItems[1].textContent = cadastroDadosPessoais.email;
+    } else {
+        console.warn("Dados pessoais não encontrados no localStorage.");
     }
 
-    if (novaSenha !== confirmarSenha) {
-        alert('As senhas não coincidem!');
+
+    
+    
+});
+
+document.getElementById('editPersonalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const newPhone = document.getElementById('editPhone').value;
+   
+    
+    const cadastroStr = localStorage.getItem("user");
+  
+    if (!cadastroStr) {
+        console.warn("Dados do usuário não encontrados no localStorage.");
         return;
     }
+    const cadastroDadosPessoais = JSON.parse(cadastroStr);
+    const userId = cadastroDadosPessoais.id;
 
-    if (senhaAtual === novaSenha) {
-        alert('A nova senha deve ser diferente da senha atual!');
-        return;
-    }
-
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-        alert('Usuário não autenticado.');
-        return;
-    }
-
+ 
+    
     try {
-        const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
-            method: 'PUT',
+        const response = await fetch(`http://localhost:3000/telefone/${userId}`, {
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                senhaAtual: senhaAtual,
-                senha: novaSenha
-            })
+            body: JSON.stringify({ telefone: newPhone }),
         });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.response || 'Erro ao alterar senha');
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            // Atualiza a interface com o novo telefone
+            const personalInfoItems = document.querySelectorAll(".info-grid .info-item p");
+            personalInfoItems[3].textContent = newPhone;
+            
+            // Atualize também os dados salvos no localStorage
+            cadastroDadosPessoais.telefone = newPhone;
+            localStorage.setItem("cadastroDadosPessoais", JSON.stringify(cadastroDadosPessoais));
+            
+            alert(result.message);
+        } else {
+            alert(result.message || "Erro ao atualizar telefone.");
         }
-
-        alert('Senha alterada com sucesso!');
-        console.log('Resposta:', data);
-        document.getElementById('changePasswordForm').reset();
-    } catch (error) {
-        alert(`Erro: ${error.message}`);
-        console.error('Erro ao alterar senha:', error);
+    } catch (err) {
+        console.error("Erro na requisição:", err);
+        alert("Erro ao atualizar telefone.");
     }
-}
+
+    // Fecha o modal após salvar
+    const editModal = document.getElementById('editPersonalModal');
+    editModal.classList.remove('show');
+    setTimeout(() => editModal.style.display = 'none', 300);
+
+
+    async function mudarSenha(event) {
+        event.preventDefault();
+    
+        const senhaAtual = document.getElementById('currentPassword').value;
+        const novaSenha = document.getElementById('newPassword').value;
+        const confirmarSenha = document.getElementById('confirmPassword').value;
+    
+        if (!senhaAtual || !novaSenha || !confirmarSenha) {
+            alert('Preencha todos os campos!');
+            return;
+        }
+    
+        if (novaSenha !== confirmarSenha) {
+            alert('As senhas não coincidem!');
+            return;
+        }
+    
+        if (senhaAtual === novaSenha) {
+            alert('A nova senha deve ser diferente da senha atual!');
+            return;
+        }
+    
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            alert('Usuário não autenticado.');
+            return;
+        }
+    
+        try {
+            const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    senhaAtual: senhaAtual,
+                    senha: novaSenha
+                })
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+                throw new Error(data.response || 'Erro ao alterar senha');
+            }
+    
+            alert('Senha alterada com sucesso!');
+            console.log('Resposta:', data);
+            document.getElementById('changePasswordForm').reset();
+        } catch (error) {
+            alert(`Erro: ${error.message}`);
+            console.error('Erro ao alterar senha:', error);
+        }
+    }
+});
