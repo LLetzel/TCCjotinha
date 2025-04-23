@@ -44,6 +44,7 @@ function entrar(event) {
                 .then(data => {
                     if (data) {
                         try {
+
                             const tipoId = data.response.tipo_id;
                             const secretKey = 'letzellindo'; // guarde com segurança
 
@@ -51,6 +52,7 @@ function entrar(event) {
                             const encryptedRole = CryptoJS.AES.encrypt(tipoId.toString(), secretKey).toString();
                             localStorage.setItem('userRole', encryptedRole);
                             localStorage.setItem('userId', data.response.id);
+                            localStorage.setItem('user', JSON.stringify(data.response));
 
                             // Redirecionar
                             if (tipoId === 1) {

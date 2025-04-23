@@ -87,6 +87,7 @@ class Header extends HTMLElement {
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         window.location.href = '/home';
     }
 }

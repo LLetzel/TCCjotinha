@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const navInfoItems = document.querySelectorAll(".profile-container .profile-info p, h1");
     
     const cadastroDadosPessoaisStr = localStorage.getItem("user");
+    
     if (cadastroDadosPessoaisStr) {
         const cadastroDadosPessoais = JSON.parse(cadastroDadosPessoaisStr);
         console.log(cadastroDadosPessoais);
@@ -144,7 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         navInfoItems[0].textContent = cadastroDadosPessoais.nome;
         navInfoItems[1].textContent = cadastroDadosPessoais.email;
     } else {
-        console.warn("Dados pessoais não encontrados no localStorage.");
+        alert("Dados pessoais não encontrados no localStorage.");
     }
 
 
@@ -203,58 +204,59 @@ document.getElementById('editPersonalForm').addEventListener('submit', async (e)
     setTimeout(() => editModal.style.display = 'none', 300);
 
 
-    async function mudarSenha(event) {
-        event.preventDefault();
-    
-        const senhaAtual = document.getElementById('currentPassword').value;
-        const novaSenha = document.getElementById('newPassword').value;
-        const confirmarSenha = document.getElementById('confirmPassword').value;
-    
-        if (!senhaAtual || !novaSenha || !confirmarSenha) {
-            alert('Preencha todos os campos!');
-            return;
-        }
-    
-        if (novaSenha !== confirmarSenha) {
-            alert('As senhas não coincidem!');
-            return;
-        }
-    
-        if (senhaAtual === novaSenha) {
-            alert('A nova senha deve ser diferente da senha atual!');
-            return;
-        }
-    
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-            alert('Usuário não autenticado.');
-            return;
-        }
-    
-        try {
-            const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    senhaAtual: senhaAtual,
-                    senha: novaSenha
-                })
-            });
-    
-            const data = await response.json();
-    
-            if (!response.ok) {
-                throw new Error(data.response || 'Erro ao alterar senha');
-            }
-    
-            alert('Senha alterada com sucesso!');
-            console.log('Resposta:', data);
-            document.getElementById('changePasswordForm').reset();
-        } catch (error) {
-            alert(`Erro: ${error.message}`);
-            console.error('Erro ao alterar senha:', error);
-        }
-    }
 });
+
+async function mudarSenha(event) {
+    event.preventDefault();
+
+    const senhaAtual = document.getElementById('currentPassword').value;
+    const novaSenha = document.getElementById('newPassword').value;
+    const confirmarSenha = document.getElementById('confirmPassword').value;
+
+    if (!senhaAtual || !novaSenha || !confirmarSenha) {
+        alert('Preencha todos os campos!');
+        return;
+    }
+
+    if (novaSenha !== confirmarSenha) {
+        alert('As senhas não coincidem!');
+        return;
+    }
+
+    if (senhaAtual === novaSenha) {
+        alert('A nova senha deve ser diferente da senha atual!');
+        return;
+    }
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('Usuário não autenticado.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                senhaAtual: senhaAtual,
+                senha: novaSenha
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.response || 'Erro ao alterar senha');
+        }
+
+        alert('Senha alterada com sucesso!');
+        console.log('Resposta:', data);
+        document.getElementById('changePasswordForm').reset();
+    } catch (error) {
+        alert(`Erro: ${error.message}`);
+        console.error('Erro ao alterar senha:', error);
+    }
+}
