@@ -27,6 +27,7 @@ router.post('/consignar/:id',
     authController.consignar
   );
 
+
 // carros
 router.post('/RegistroCarro',
     upload.fields([
@@ -96,6 +97,44 @@ router.post("/contato", async (req, res) => {
 
 //-----------------------PESSOAL notificações-----------------------//
 
+router.get("/perfil/email", isAuthenticated, async (req, res) => {
+    try {
+        const userId = req.user.id; // Obtém o ID do usuário autenticado via JWT
+
+        const sql = "SELECT email FROM usuarios WHERE id = ?";
+        const [results] = await promisePool.execute(sql, [userId]);
+
+        if (results.length > 0) {
+            const userEmail = results[0].email;
+
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER, // Definido no .env
+                    pass: process.env.EMAIL_PASS  // App Password do Gmail
+                }
+            });
+
+            const mailOptions = {
+                from: `"Jotinha veículos" <${process.env.EMAIL_USER}>`,
+                to: userEmail,
+                subject: "Confirmação de notificações",
+                html: `<p><strong>Suas notificações por email foram ativadas. Enviaremos para você nossas novidades!</strong></p>`
+            };
+
+            await transporter.sendMail(mailOptions);
+            return res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
+        } else {
+            return res.status(404).json({ mensagem: "Usuário não encontrado" });
+        }
+    } catch (err) {
+        console.error("Erro ao buscar e-mail do usuário ou enviar notificação:", err);
+        return res.status(500).json({ mensagem: "Erro ao processar a solicitação" });
+    }
+});
+
+
+//------------------------------Router Pages--------------------------------//
 
 router.use(express.static(path.join(__dirname, "../../../Front-end")));
 
