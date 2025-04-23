@@ -1,10 +1,20 @@
+@import url("https://kit.fontawesome.com/d0367c04e4.js");
+
 :root {
     --primary-color: #c9302c;
     --hover-color: #A61211;
     --text-color: #F6F6F6;
 }
 
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: auto;
+    font-style: normal;
+  }
+
 header {
+    font-family: "Montserrat", sans-serif;
     display: flex;
     flex-direction: column;
     background-color: #000;

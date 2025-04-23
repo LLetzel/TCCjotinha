@@ -22,7 +22,7 @@
 
 
 body {
-    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     margin: 0;
     color: var(--text-color);
     background-color: #161616;
@@ -138,7 +138,7 @@ nav a:hover {
 .consign-container {
     max-width: 800px;
     margin: 2rem auto;
-    padding: 0 1rem;
+    padding: 2rem 1rem;
 }
 
 h1 {

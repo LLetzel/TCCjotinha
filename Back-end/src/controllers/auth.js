@@ -251,9 +251,12 @@ exports.updateUsers = async (req, res) => {
     return res.status(200).json({
       success: true,
       response: userUpdated
-      });
+    });
   } catch (error) {
     alert(error.message);
+  }
+}
+
 exports.infoPerfil = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -338,7 +341,7 @@ exports.alterarSenha = async (req, res) => {
       response: "Erro no servidor",
     });
   }
-  }
+}
 
 exports.consignar = async (req, res) => {
   try {
@@ -361,7 +364,7 @@ exports.consignar = async (req, res) => {
     const userEmail = req.body.userEmail || "Não informado";
     const userTelefone = req.body.userTelefone || "Não informado";
     const userCPF = req.body.userCPF || "Não informado";
-    
+
 
     const mailOptions = {
       from: `"Jotinha veiculos" <${process.env.EMAIL_USER}>`,
@@ -393,5 +396,3 @@ exports.consignar = async (req, res) => {
     res.status(500).json({ message: "Não foi possível enviar o e-mail, tente novamente" });
   }
 };
-}
-}

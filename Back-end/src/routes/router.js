@@ -2,7 +2,6 @@
 // Neste arquivo estão definidas todas as rotas do projeto.
 // Em projetos com muitas rotas, é possível dividir as rotas em vários arquivos.
 const isAuthenticated = require('../middleware/authMiddleware.js');
-const checkPermissions = require('../middleware/checkPermissionsMiddleware.js')
 const multer = require('multer');
 const upload = multer();
 const express = require("express");
@@ -10,10 +9,10 @@ const router = express.Router();
 const path = require("path");
 const authController = require("../controllers/auth.js");
 const carsController = require("../controllers/carsController.js");
-const upload = require("../utils/multer.js");
+// const upload = require("../utils/multer.js");
 const nodemailer = require("nodemailer");
 const agendamentoController = require("../controllers/agendamentoController");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "Back-end/.env" });
 
 // pages
 router.use(express.static(path.join(__dirname, "../../../Front-end")));
@@ -98,27 +97,6 @@ router.get("/sobrenos", (req, res) => {
   );
 });
 
-// usuário
-router.post("/cadastro", authController.register);
-router.post("/login", authController.login);
-router.get("/usuario/:id", authController.mostrarUser);
-router.get("/usuarios", authController.mostrarUsers);
-router.delete("/deletarUsuario/:id", authController.deleteUser);
-router.put("/atualizarUsuario/:id", authController.updateUsers);
-router.put("/atualizarSenha/:id", authController.alterarSenha);
-
-// carros
-router.post(
-  "/RegistroCarro",
-  upload.fields([
-    { name: "imagem1", maxCount: 1 },
-    { name: "imagem2", maxCount: 1 },
-    { name: "imagem3", maxCount: 1 },
-    { name: "imagem4", maxCount: 1 },
-    { name: "imagem5", maxCount: 1 },
-  ]),
-  carsController.createCar
-);
 
 // usuário
 router.post('/cadastro', authController.register);
@@ -127,6 +105,10 @@ router.get('/usuario/:id', authController.mostrarUser);
 router.get('/usuarios', authController.mostrarUsers);
 router.get('/infoPerfil/:userId', authController.infoPerfil);
 router.put('/telefone/:id', authController.atualizarUser);
+router.delete("/deletarUsuario/:id", authController.deleteUser);
+router.put("/atualizarUsuario/:id", authController.updateUsers);
+router.put("/atualizarSenha/:id", authController.alterarSenha);
+
 router.post('/consignar/:id', 
     multer().fields([{ name: 'fotos', maxCount: 5 }]),
     authController.consignar
@@ -197,51 +179,51 @@ router.post("/contato", async (req, res) => {
         // Enviar o e-mail
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
+        return res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
     } catch (error) {
         console.error("Erro ao enviar e-mail:", error);
-        res.status(500).json({ mensagem: "Não foi possível enviar o e-mail, tente novamente" });
+        return res.status(500).json({ mensagem: "Não foi possível enviar o e-mail, tente novamente" });
     }
 });
 
 
-//-----------------------PESSOAL notificações-----------------------//
+// //-----------------------PESSOAL notificações-----------------------//
 
-router.get("/perfil/email", isAuthenticated, async (req, res) => {
-    try {
-        const userId = req.user.id; // Obtém o ID do usuário autenticado via JWT
+// router.get("/perfil/email", isAuthenticated, async (req, res) => {
+//     try {
+//         const userId = req.user.id; // Obtém o ID do usuário autenticado via JWT
 
-        const sql = "SELECT email FROM usuarios WHERE id = ?";
-        const [results] = await promisePool.execute(sql, [userId]);
+//         const sql = "SELECT email FROM usuarios WHERE id = ?";
+//         const [results] = await promisePool.execute(sql, [userId]);
 
-        if (results.length > 0) {
-            const userEmail = results[0].email;
+//         if (results.length > 0) {
+//             const userEmail = results[0].email;
 
-            const transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: process.env.EMAIL_USER, // Definido no .env
-                    pass: process.env.EMAIL_PASS  // App Password do Gmail
-                }
-            });
+//             const transporter = nodemailer.createTransport({
+//                 service: "gmail",
+//                 auth: {
+//                     user: process.env.EMAIL_USER, // Definido no .env
+//                     pass: process.env.EMAIL_PASS  // App Password do Gmail
+//                 }
+//             });
 
-            const mailOptions = {
-                from: `"Jotinha veículos" <${process.env.EMAIL_USER}>`,
-                to: userEmail,
-                subject: "Confirmação de notificações",
-                html: `<p><strong>Suas notificações por email foram ativadas. Enviaremos para você nossas novidades!</strong></p>`
-            };
+//             const mailOptions = {
+//                 from: `"Jotinha veículos" <${process.env.EMAIL_USER}>`,
+//                 to: userEmail,
+//                 subject: "Confirmação de notificações",
+//                 html: `<p><strong>Suas notificações por email foram ativadas. Enviaremos para você nossas novidades!</strong></p>`
+//             };
 
-            await transporter.sendMail(mailOptions);
-            return res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
-        } else {
-            return res.status(404).json({ mensagem: "Usuário não encontrado" });
-        }
-    } catch (err) {
-        console.error("Erro ao buscar e-mail do usuário ou enviar notificação:", err);
-        return res.status(500).json({ mensagem: "Erro ao processar a solicitação" });
-    }
-});
+//             await transporter.sendMail(mailOptions);
+//             return res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
+//         } else {
+//             return res.status(404).json({ mensagem: "Usuário não encontrado" });
+//         }
+//     } catch (err) {
+//         console.error("Erro ao buscar e-mail do usuário ou enviar notificação:", err);
+//         return res.status(500).json({ mensagem: "Erro ao processar a solicitação" });
+//     }
+// });
 
 
 module.exports = router;

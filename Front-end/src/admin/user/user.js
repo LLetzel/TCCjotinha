@@ -106,12 +106,22 @@ async function ListarUsuarios() {
 
 
 async function deleteUser(id) {
-    const userRole = localStorage.getItem('userRole');
-    if (userRole !== '1') {
-        alert('Você não tem permissão para excluir usuários!');
-        return;
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
 
-    }
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log('userRole real:', decryptedRole);
+
+        if (decryptedRole !== '1') {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            alert('Você não tem permissão para deletar um usuário');
+            window.location.href = '/login';
+        }
+    }  
     if (confirm('Tem certeza que deseja excluir esse usuário?')) {
 
         try {
@@ -141,11 +151,22 @@ async function alterarRole() {
 
     console.log(currentUserId)
 
-    const userRole = localStorage.getItem('userRole');
-    if (userRole !== '1') {
-        alert('Você não tem permissão para alterar cargos!');
-        return;
-    }
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
+
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log('userRole real:', decryptedRole);
+
+        if (decryptedRole !== '1') {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            alert('Você não tem permissão para alterar um cargo');
+            window.location.href = '/login';
+        }
+    }   
 
     const userRoleSelect = document.getElementById('userRole');
     const selectedRole = parseInt(userRoleSelect.value);

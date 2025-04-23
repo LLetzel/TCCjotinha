@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     // Inicializa o swiper conforme a configuração atual
     const swiper = new Swiper(".mySwiper", {
-        effect: "fade", // efeito de fade entre os slides
-        loop: true, // loop infinito
+        effect: "fade", // fade effect between slides
+        loop: true, // infinite loop
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
         },
-        speed: 800, // velocidade da transição
+        speed: 800, // transition speed
         grabCursor: true,
         fadeEffect: {
             crossFade: true
