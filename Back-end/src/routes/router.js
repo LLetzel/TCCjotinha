@@ -108,7 +108,7 @@ router.post("/contato", async (req, res) => {
 });
 
 
-//-----------------------PESSOAL notificações-----------------------//
+//-------------------------------------------------------------//
 
 
 router.use(express.static(path.join(__dirname, "../../../Front-end")));

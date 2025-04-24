@@ -9,7 +9,7 @@ const { verifyEncrypt, encrypting } = require("../utils/encrypt.js");
 const Role = require("../models/role.js");
 const session = require("express-session");
 const nodemailer = require("nodemailer");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "Back-end/.env" });
 
 exports.login = async (req, res) => {
   try {
@@ -292,7 +292,7 @@ exports.consignar = async (req, res) => {
     // Preparar os anexos com base nos arquivos enviados via multer
     const attachments = req.files && req.files.fotos
       ? req.files.fotos.map(file => ({
-          filename: file.originalname,
+          // filename: file.originalname,
           path: file.path, // Usar o caminho no disco (diskStorage)
           contentType: file.mimetype
         }))
@@ -318,11 +318,11 @@ exports.consignar = async (req, res) => {
         <p><strong>Modelo:</strong> ${req.body.modelo}</p>
         <p><strong>Ano:</strong> ${req.body.ano}</p>
         <p><strong>Quilometragem:</strong> ${req.body.quilometragem}</p>
-        <p><strong>fipeResult:</strong> ${req.body.fipeResult}</p>
+        <p><strong>Valor fipe:</strong> ${req.body.fipeResult}</p>
         <p><strong>Preço:</strong> ${req.body.preco}</p>
-        <p><strong>Estado do veículo:</strong> ${req.body.rating}</p>
+        <p><strong>Estado do veículo:</strong> ${req.body.rating} ⭐</p>
         <p><strong>Observações:</strong> ${req.body.observacoes}</p>
-        <p><strong>Fotos enviadas:</strong> ${attachments.length > 0 ? attachments.map(att => att.filename).join(", ") : "Nenhuma"}</p>
+        <p><strong>Fotos enviadas:</strong> </p>
       `,
       attachments: attachments
     };
@@ -335,3 +335,4 @@ exports.consignar = async (req, res) => {
     res.status(500).json({ message: "Não foi possível enviar o e-mail, tente novamente" });
   }
 };
+
