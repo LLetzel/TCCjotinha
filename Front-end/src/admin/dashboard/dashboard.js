@@ -232,6 +232,11 @@ function renderTimeSlots(containerId, slots) {
 window.onload = async () => {
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
+    if (!encryptedRole) {
+        alert('Você não está logado ou não tem permissão para acessar esta página.');
+        window.location.href = '/login';
+        return;
+    }
 
     if (encryptedRole) {
         const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);

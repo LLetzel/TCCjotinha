@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const fipeResult = document.getElementById('fipeResult');
     const form = document.getElementById('consignForm');
     const precoInput = document.getElementById('preco');
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+        alert('Você precisa estar logado para acessar esta página.'); // Alerta se não houver dados do usuário
+        window.location.href = '/login'; // Redireciona para a página de login se não houver dados do usuário
+    } else {
+        return
+    }
     
     // API FIPE base URL
     const FIPE_API = 'https://parallelum.com.br/fipe/api/v1/carros';
@@ -196,3 +203,4 @@ document.getElementById("consignForm").addEventListener("submit", async function
         alert("Erro ao enviar os dados. Tente novamente.");
     }
 });
+

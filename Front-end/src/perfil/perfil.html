@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,93 +19,89 @@
 
 <body>
     <header-component></header-component>
-        <main>
-            <div class="profile-container" data-aos="fade-up">
-                <!-- Profile Header -->
-                <div class="profile-header">
-                    <div class="profile-cover">
-                        <div class="profile-avatar">
-                            <img src="../../img/perfilred.png" alt="Profile Picture">
-                            
-                        </div>
-                    </div>
-                    <div class="profile-info">
-                        <h1 id="nome"></h1>
-                        <p id="email"></p>
-                    </div>
-                </div>  
+    <main>
+        <div class="profile-container" data-aos="fade-up">
+            <div class="fundo-img"></div>
+            <!-- Profile Header -->
+            <!-- Substitua a profile-header por algo assim -->
+            <div class="profile-header">
+                <div class="profile-info">
+                    <h1 id="nome"></h1>
+                    <p id="email"></p>
+                </div>
+            </div>
 
-                <!-- Profile Navigation -->
-                <div class="profile-nav">
-                    <button class="nav-btn active" data-tab="personal">
-                        <i class="fas fa-user"></i>
-                        Dados Pessoais
-                    </button>
-                    <button class="nav-btn" data-tab="settings">
-                        <i class="fas fa-cog"></i>
-                        Configurações
-                    </button>
+            <!-- Profile Navigation -->
+            <div class="profile-nav">
+                <button class="nav-btn active" data-tab="personal">
+                    <i class="fas fa-user"></i>
+                    Dados Pessoais
+                </button>
+                <button class="nav-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    Configurações
+                </button>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <!-- Personal Info Tab -->
+                <div class="tab-content" id="personal">
+                    <div class="content-section" data-aos="fade-up">
+                        <h2>Informações Pessoais</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Nome Completo</label>
+                                <p id="nome"></p>
+                            </div>
+                            <div class="info-item">
+                                <label>CPF</label>
+                                <p id="cpf"></p>
+                            </div>
+                            <div class="info-item">
+                                <label>Data de Nascimento</label>
+                                <p id="nascimento"></p>
+                            </div>
+                            <div class="info-item">
+                                <label>Telefone</label>
+                                <p id="telefone"></p>
+                            </div>
+                        </div>
+                        <button class="edit-btn">
+                            <i class="fas fa-edit"></i>
+                            Editar Informações
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Profile Content -->
-                <div class="profile-content">
-                    <!-- Personal Info Tab -->
-                    <div class="tab-content" id="personal">
-                        <div class="content-section" data-aos="fade-up">
-                            <h2>Informações Pessoais</h2>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <label>Nome Completo</label>
-                                    <p id="nome"></p>
-                                </div>
-                                <div class="info-item">
-                                    <label>CPF</label>
-                                    <p id="cpf"></p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Data de Nascimento</label>
-                                    <p id="nascimento"></p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Telefone</label>
-                                    <p id="telefone"></p>
-                                </div>
-                            </div>
-                            <button class="edit-btn">
-                                <i class="fas fa-edit"></i>
-                                Editar Informações
+                <div class="tab-content" id="settings">
+                    <div class="content-section" data-aos="fade-up">
+                        <h2>Segurança</h2>
+                        <div class="settings-group">
+                            <button class="settings-btn">
+                                <i class="fas fa-key"></i>
+                                Alterar Senha
                             </button>
                         </div>
                     </div>
-                    
-                    <div class="tab-content" id="settings">
-                        <div class="content-section" data-aos="fade-up">
-                            <h2>Segurança</h2>
-                            <div class="settings-group">
-                                <button class="settings-btn">
-                                    <i class="fas fa-key"></i>
-                                    Alterar Senha
-                                </button>
-                            </div>
-                        </div>
 
-                        <div class="content-section" data-aos="fade-up" data-aos-delay="100">
-                            <h2>Preferências</h2>
-                            <div class="settings-group">
-                                <div class="toggle-setting">
-                                    <span>Notificações por Email</span>
-                                    <label class="switch">
-                                        <input type="checkbox" checked>
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
+                    <div class="content-section" data-aos="fade-up" data-aos-delay="100">
+                        <h2>Preferências</h2>
+                        <div class="settings-group">
+                            <div class="toggle-setting">
+                                <span>Notificações por Email</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
-        </main>
+
+        </div>
+    </main>
     </div>
 
     <!-- Edit Personal Info Modal -->
@@ -145,7 +142,7 @@
     <div id="changePasswordModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Alterar Senha</h2> 
+            <h2>Alterar Senha</h2>
             <form id="changePasswordForm">
                 <div class="form-group">
                     <label for="currentPassword">Senha Atual</label>
@@ -185,4 +182,5 @@
     </script>
     <script src="/src/perfil/perfil.js" type="text/javascript" defer></script>
 </body>
+
 </html>

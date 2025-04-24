@@ -52,7 +52,9 @@ function entrar(event) {
                             const encryptedRole = CryptoJS.AES.encrypt(tipoId.toString(), secretKey).toString();
                             localStorage.setItem('userRole', encryptedRole);
                             localStorage.setItem('userId', data.response.id);
-                            localStorage.setItem('user', JSON.stringify(data.response));
+                            const { tipo_id, ...userSemTipoId } = data.response;
+                            localStorage.setItem('user', JSON.stringify(userSemTipoId));
+
 
                             // Redirecionar
                             if (tipoId === 1) {
@@ -102,6 +104,7 @@ function entrar(event) {
 document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('user');
 
     const togglePassword = document.querySelector('#togglePassword');
     const senhaInput = document.querySelector('#senha');

@@ -87,7 +87,7 @@
                     <div class="form-group">
                         <div class="input-wrapper">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="name" name="name" placeholder="Nome completo" required>
+                            <input type="text" id="name" name="name" placeholder="Nome completo" required pattern="[A-Za-zÀ-ÿ\s]+" title="Digite apenas letras e espaços">
                         </div>
                     </div>
 
@@ -101,7 +101,7 @@
                     <div class="form-group">
                         <div class="input-wrapper">
                             <i class="fas fa-phone"></i>
-                            <input type="tel" id="phone" name="phone" placeholder="Telefone" required>
+                            <input type="text" id="telefone" name="telefone" required pattern="\d{10,11}" title="Digite um telefone válido com DDD">
                         </div>
                     </div>
 

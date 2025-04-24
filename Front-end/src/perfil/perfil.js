@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userRole = localStorage.getItem('userRole');
     const navBtns = document.querySelectorAll('.nav-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+    const userData = localStorage.getItem('user');
 
     function switchTab(targetId) {
         // Hide all tabs first
@@ -145,7 +146,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         navInfoItems[0].textContent = cadastroDadosPessoais.nome;
         navInfoItems[1].textContent = cadastroDadosPessoais.email;
     } else {
-        alert("Dados pessoais não encontrados no localStorage.");
+        alert("Você nao está logado");
+        window.location.href = "/login";
     }
 
 
