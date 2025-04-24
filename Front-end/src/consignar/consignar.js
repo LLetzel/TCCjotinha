@@ -167,9 +167,12 @@ document.getElementById("consignForm").addEventListener("submit", async function
     }
 
     // Recupera os dados do formulário
-    const marca = document.getElementById("marca").value;
-    const modelo = document.getElementById("modelo").value;
-    const ano = document.getElementById("ano").value;
+    const idMarca = document.getElementById("marca").value;
+    const marca = document.querySelector(`#marca option[value='${idMarca}']`).text;
+    const idModelo = document.getElementById("modelo").value;
+    const modelo = document.querySelector(`#modelo option[value='${idModelo}']`).text;
+    const idAno = document.getElementById("ano").value;
+    const ano = document.querySelector(`#ano option[value='${idAno}']`).text;
     const quilometragem = document.getElementById("quilometragem").value;
     const fipeResult = document.querySelector("#fipeResult .fipe-value").textContent.trim();
     const preco = document.getElementById("preco").value;
