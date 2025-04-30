@@ -199,8 +199,15 @@ document.addEventListener('DOMContentLoaded', ListarCarros);
 
 // Delete car function
 async function deleteCar(id) {
-    const userRole = localStorage.getItem('userRole');
-    if (userRole !== '1') {
+    const secretKey = 'letzellindo';
+    const encryptedRole = localStorage.getItem('userRole');
+
+    if (encryptedRole) {
+        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+
+    console.log('userRole real:', decryptedRole);
+    if (decryptedRole !== '1') {
         alert('Você não tem permissão para excluir veículos');
         return;
     }
@@ -297,4 +304,4 @@ window.onload = async () => {
             window.location.href = '/login';
         }
     }
-};
+}};
