@@ -75,29 +75,47 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fotos');
     const previewGrid = document.getElementById('preview');
 
-    fileInput.addEventListener('change', function() {
+    fileInput.addEventListener('change', function () {
         previewGrid.innerHTML = '';
-        
-        [...this.files].forEach(file => {
+    
+        // Cria uma cópia dos arquivos usando DataTransfer
+        const dataTransfer = new DataTransfer();
+    
+        [...this.files].forEach((file, index) => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 const div = document.createElement('div');
                 div.className = 'preview-item';
-
-                reader.onload = function(e) {
+    
+                reader.onload = function (e) {
                     div.innerHTML = `
                         <img src="${e.target.result}" alt="Preview">
-                        <button type="button" class="remove-btn">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <button type="button" class="remove-btn">❌</button>
                     `;
+    
+                    // Clique para remover a imagem
+                    div.querySelector('.remove-btn').addEventListener('click', () => {
+                        div.remove(); // remove da tela
+                        // Remove da lista de arquivos (reconstrói o DataTransfer)
+                        const novaLista = [...fileInput.files].filter((_, i) => i !== index);
+                        const novoTransfer = new DataTransfer();
+                        novaLista.forEach(f => novoTransfer.items.add(f));
+                        fileInput.files = novoTransfer.files;
+                    });
                 };
-
+    
                 reader.readAsDataURL(file);
                 previewGrid.appendChild(div);
+    
+                // Adiciona à nova lista de arquivos válida
+                dataTransfer.items.add(file);
             }
         });
+    
+        // Substitui a lista original de arquivos pela nova (usando DataTransfer)
+        fileInput.files = dataTransfer.files;
     });
+    
 
    
  
@@ -149,9 +167,12 @@ document.getElementById("consignForm").addEventListener("submit", async function
     }
 
     // Recupera os dados do formulário
-    const marca = document.getElementById("marca").value;
-    const modelo = document.getElementById("modelo").value;
-    const ano = document.getElementById("ano").value;
+    const idMarca = document.getElementById("marca").value;
+    const marca = document.querySelector(`#marca option[value='${idMarca}']`).text;
+    const idModelo = document.getElementById("modelo").value;
+    const modelo = document.querySelector(`#modelo option[value='${idModelo}']`).text;
+    const idAno = document.getElementById("ano").value;
+    const ano = document.querySelector(`#ano option[value='${idAno}']`).text;
     const quilometragem = document.getElementById("quilometragem").value;
     const fipeResult = document.querySelector("#fipeResult .fipe-value").textContent.trim();
     const preco = document.getElementById("preco").value;
@@ -159,38 +180,40 @@ document.getElementById("consignForm").addEventListener("submit", async function
     const rating = ratingElem ? ratingElem.value : "";
     const observacoes = document.getElementById("observacoes").value;
 
-    // Fotos como string (se necessário, ajuste para enviar nomes ou URLs)
-    const fotos = document.getElementById("fotos").value;
+    // Recupera as fotos (input type="file")
+    const fotosInput = document.getElementById("fotos");
+    const files = fotosInput.files;
+    
 
-    // Monta o payload para envio
-    const payload = {
-        userName,
-        userEmail,
-        userTelefone,
-        userCPF,
-        marca,
-        modelo,
-        ano,
-        quilometragem,
-        fipeResult,
-        preco,
-        rating,
-        observacoes,
-        fotos
-    };
+    // Cria o FormData
+    const formData = new FormData();
+    formData.append("userName", userName);
+    formData.append("userEmail", userEmail);
+    formData.append("userTelefone", userTelefone);
+    formData.append("userCPF", userCPF);
+    formData.append("marca", marca);
+    formData.append("modelo", modelo);
+    formData.append("ano", ano);
+    formData.append("quilometragem", quilometragem);
+    formData.append("fipeResult", fipeResult);
+    formData.append("preco", preco);
+    formData.append("rating", rating);
+    formData.append("observacoes", observacoes);
+
+    // Adiciona as fotos ao FormData (pode ser múltiplas)
+    for (let i = 0; i < files.length; i++) {
+        formData.append("fotos", files[i]); // ou "fotos[]" se o backend esperar array
+    }
 
     // Envia os dados para o servidor
     try {
         const resposta = await fetch(`http://localhost:3000/consignar/${userId}`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
+            body: formData // sem headers de Content-Type!
         });
 
         const resultado = await resposta.json();
-        alert(resultado.message); // Exibe o resultado
+        alert(resultado.message);
     } catch (error) {
         console.error("Erro ao enviar os dados:", error);
         alert("Erro ao enviar os dados. Tente novamente.");

@@ -13,7 +13,20 @@ const carsController = require('../controllers/carsController.js')
 const nodemailer = require("nodemailer");
 require("dotenv").config({ path: "../.env" });
 const multer = require('multer');
-const upload = multer();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '../../uploads')); 
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname);
+        const name = path.basename(file.originalname, ext);
+        const timestamp = Date.now();
+        cb(null, `${name}-${timestamp}${ext}`); // nome do arquivo salvo
+    },
+});
+
+const upload = multer({ storage });
 
 // usuário
 router.post('/cadastro', authController.register);
@@ -22,10 +35,11 @@ router.get('/usuario/:id', authController.mostrarUser);
 router.get('/usuarios', authController.mostrarUsers);
 router.get('/infoPerfil/:userId', authController.infoPerfil);
 router.put('/telefone/:id', authController.atualizarUser);
-router.post('/consignar/:id', 
-    multer().fields([{ name: 'fotos', maxCount: 5 }]),
+router.post(
+    '/consignar/:id',
+    upload.fields([{ name: 'fotos', maxCount: 5 }]),
     authController.consignar
-  );
+);
 
 // carros
 router.post('/RegistroCarro',
@@ -55,7 +69,7 @@ router.post("/contato", async (req, res) => {
         if (!name || !email || !phone || !subject || !message) {
             return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
         }
-       
+
         // Configuração do transporte de e-mail (usando variáveis de ambiente)
         const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -94,7 +108,7 @@ router.post("/contato", async (req, res) => {
 });
 
 
-//-----------------------PESSOAL notificações-----------------------//
+//-------------------------------------------------------------//
 
 
 router.use(express.static(path.join(__dirname, "../../../Front-end")));
