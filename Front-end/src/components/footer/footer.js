@@ -41,7 +41,7 @@ class Footer extends HTMLElement {
         // Adiciona o CSS do componente
         const style = document.createElement('link');
         style.rel = 'stylesheet';
-        style.href = '/Front-end/src/components/footer/footer.css';
+        style.href = '/src/components/footer/footer.css';
         document.head.appendChild(style);
     }
 }

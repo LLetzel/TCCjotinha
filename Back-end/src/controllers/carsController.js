@@ -22,7 +22,7 @@ exports.createCar = async (req, res) => {
         if (req.files) {
             for (let i = 1; i <= 5; i++) {
                 if (req.files[`imagem${i}`]) {
-                    carData[`imagem${i}`] = `/Front-end/src/imgcarros/${req.files[`imagem${i}`][0].filename}`;
+                    carData[`imagem${i}`] = `/src/imgcarros/${req.files[`imagem${i}`][0].filename}`;
                 }
             }
         }
