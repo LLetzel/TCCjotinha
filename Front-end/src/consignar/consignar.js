@@ -183,6 +183,7 @@ document.getElementById("consignForm").addEventListener("submit", async function
     // Recupera as fotos (input type="file")
     const fotosInput = document.getElementById("fotos");
     const files = fotosInput.files;
+    
 
     // Cria o FormData
     const formData = new FormData();
