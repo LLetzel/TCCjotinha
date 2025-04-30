@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         navInfoItems[0].textContent = cadastroDadosPessoais.nome;
         navInfoItems[1].textContent = cadastroDadosPessoais.email;
     } else {
-        alert("Você nao está logado");
+        alert("Você precisa estar logado para acessar esta página.");
         window.location.href = "/login";
     }
 

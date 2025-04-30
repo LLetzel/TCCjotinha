@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        alert("Você precisa estar logado para acessar esta página.");
+        window.location.href = '/login';
+    }
+
+
     const marcaSelect = document.getElementById('marca');
     const modeloSelect = document.getElementById('modelo');
     const anoSelect = document.getElementById('ano');

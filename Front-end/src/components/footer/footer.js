@@ -31,7 +31,7 @@ class Footer extends HTMLElement {
                     <div class="footer-bottom">
                         <div class="rights">
                             <p>Desenvolvido por Lucas Letzel</p>
-                            <p>Copyright © 2024. Todos os direitos reservados</p>
+                            <p>Copyright © 2025. Todos os direitos reservados</p>
                         </div>
                     </div>
                 </div>
