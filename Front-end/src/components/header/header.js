@@ -26,8 +26,8 @@ class Header extends HTMLElement {
                     </nav>
 
                     <div class="auth-links-desktop">
-                        <a id="login" href="/src/login/login.html">Login</a>
-                        <a id="cadastro" href="/src/cadastro/cadastro.html">Cadastrar-se</a>
+                        <a id="login" href="/login">Login</a>
+                        <a id="cadastro" href="/cadastro">Cadastrar-se</a>
                     </div>
 
                     <button class="menu-toggle">
@@ -40,7 +40,7 @@ class Header extends HTMLElement {
 
         const style = document.createElement('link');
         style.rel = 'stylesheet';
-        style.href = '/Front-end/src/components/header/header.css';
+        style.href = '/src/components/header/header.css';
         document.head.appendChild(style);
 
         // Check if user is logged in
@@ -86,7 +86,7 @@ class Header extends HTMLElement {
         e.preventDefault();
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
-        window.location.href = '/src/home/home.html';
+        window.location.href = '/home';
     }
 }
 
