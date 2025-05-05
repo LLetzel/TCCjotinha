@@ -332,3 +332,9 @@ main {
         padding: 1rem;
     }
 }
+
+
+.swal-border-red {
+    border: 2px solid #c9302c !important;
+    border-radius: 8px;       
+}

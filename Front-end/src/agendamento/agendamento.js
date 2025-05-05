@@ -36,8 +36,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const observacoes = observacoesInput.value;
     const userId = localStorage.getItem("userId");
 
-    if (!data || !hora || !interesse || !userId) {
-      alert("Preencha todos os campos obrigatórios.");
+    if (!data || !hora || !interesse || !userId) {    
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: 'Preencha todos os campos obrigatórios.',
+        showConfirmButton: false,
+        timer: 1500,
+        background: "rgba(0, 0, 0, 1)", // --background-dark
+        color: "#F6F6F6", // --text-color
+    })
       
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
@@ -61,15 +69,46 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((res) => res.json())
     .then((data) => {
       if (data.message) {
-        alert(data.message); 
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: data.message,
+          showConfirmButton: false,
+          timer: 2000,
+          background: "rgba(0, 0, 0, 1)", // --background-dark
+          color: "#F6F6F6", // --text-color
+          customClass: {
+            popup: 'swal-border-red'   // classe personalizada
+          }
+        });
         form.reset(); 
       } else {
-        alert("Erro ao agendar. Tente novamente.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Erro ao agendar. Tente novamente.",
+          background: "rgba(0, 0, 0, 1)",
+          color: "#F6F6F6",
+          customClass: {
+            popup: 'swal-border-red'
+          }
+        });
       }
     })
     .catch((error) => {
       console.error("Erro:", error);
-      alert("Erro ao conectar ao servidor. Tente novamente."); // ❌ Erro de conexão
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Erro ao conectar ao servidor. Tente novamente.",
+
+        background: "rgba(0, 0, 0, 1)",
+        color: "#F6F6F6",
+        iconColor: "#c9302c",
+        customClass: {
+          popup: 'swal-border-red'
+        }
+      });
     })
     .finally(() => {
       // 🔄 Restaura o botão ao estado original

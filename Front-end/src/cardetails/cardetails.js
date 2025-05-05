@@ -10,7 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const carId = urlParams.get('id');
 
             if (!carId) {
-                alert('ID do carro não encontrado na URL.');
+              Swal.fire({
+                position: "center",
+                icon: "info",
+                title: "ID do carro não encontrado.",
+                showConfirmButton: true,
+                confirmButtonColor: "#c9302c", // vermelho
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+                customClass: {
+                  popup: 'swal-border-red'
+                }
+              });
                 return;
             }
 
