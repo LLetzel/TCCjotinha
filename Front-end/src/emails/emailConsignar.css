@@ -7,6 +7,7 @@
   width: 35%;
   height: 100%;
   background-color: white;
+  text-align:start;
 }
 
 .email-header {
@@ -33,8 +34,8 @@
 .email-body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start; 
+  text-align: left;
   width: 100%;
   height: 90%;
   padding: 2rem;
@@ -44,6 +45,7 @@
   color: #A71313;
   font-size: 2rem;
   margin: 0;
+  text-align: center;
 }
 
 .email-body p{
@@ -51,4 +53,24 @@
   flex-direction: column;
   font-size: 1.2rem;
   margin: 0;
+}
+
+@media (max-width: 1173px) {
+  .email-contaier {
+    width: 35%;
+    height: 100%;
+  }
+  .logo {
+    width: 50%;
+    height: 75%;
+  }
+  .email-header h1 {
+    font-size: 1rem;
+  }
+  .email-body h1 {
+    font-size: 1rem;
+  }
+  .email-body h3{
+    font-size: 0.8rem;
+  }
 }
