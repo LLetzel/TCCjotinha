@@ -81,7 +81,7 @@ router.post("/contato", async (req, res) => {
             }
         });
 
-        console.log(__dirname)
+        
         const templatePath = path.join("./email", 'emailContato.html');
         let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
 
