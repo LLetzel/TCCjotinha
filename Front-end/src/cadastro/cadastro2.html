@@ -79,7 +79,12 @@
     <!-- <script src="/src/cadastro/cadastro.js"></script> -->
     <script src="/src/cadastro/cadastro2.js"></script>
     <script>
-        AOS.init();
-    </script>
+
+    $(document).ready(function () {
+        $('#telefone').mask('(00) 00000-0000');
+        $('#cpf').mask('000.000.000-00');
+    });
+    AOS.init();
+</script>
 </body>
 </html>
