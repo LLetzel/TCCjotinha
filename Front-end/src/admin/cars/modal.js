@@ -68,11 +68,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// formulário
 carForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Criar um objeto FormData para envio multipart
     const formData = new FormData();
     formData.append('marca', document.getElementById('marca').value);
     formData.append('modelo', document.getElementById('modelo').value);
@@ -87,11 +85,10 @@ carForm.addEventListener('submit', async (e) => {
     formData.append('status_id', '1');
     formData.append('tipo_id', '1');
 
-    // Adicionar imagens
     for (let i = 1; i <= 5; i++) {
         const fileInput = document.getElementById(`imagem${i}`);
-        if (fileInput.files.length > 0) {
-            formData.append(`imagem${i}`, fileInput.files[0]); 
+        if (fileInput && fileInput.files.length > 0) {
+            formData.append(`imagem${i}`, fileInput.files[0]);
         }
     }
 
@@ -104,28 +101,40 @@ carForm.addEventListener('submit', async (e) => {
 
         const response = await fetch(url, {
             method: editingCarId ? 'PUT' : 'POST',
-            credentials: 'include', // Envia cookies de sessão
-            body: formData // Envia os dados corretamente como `multipart/form-data`
+            credentials: 'include',
+            body: formData
         });
 
         if (!response.ok) {
             throw new Error('Erro ao salvar o veículo');
         }
 
-        alert('Veículo cadastrado com sucesso!', 'sucesso');
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: 'Veículo cadastrado com sucesso!',
+            showConfirmButton: false,
+            timer: 2000,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
+
         setTimeout(() => {
             closeModal();
-            loadCars(); // Refresh the table after successful submission
+            loadCars();
         }, 2000);
     } catch (error) {
         console.error('Erro:', error.message);
-        alert(error.message, 'erro');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
     }
 });
 
-
-
-// Função para formatar preço em Real
 function formatarPreco(preco) {
     return parseFloat(preco).toLocaleString('pt-BR', {
         style: 'currency',
@@ -133,31 +142,20 @@ function formatarPreco(preco) {
     });
 }
 
-//--------------------------------------------------------
-
-// Função atualizada para listar carros
 async function ListarCarros() {
     try {
-        // Fazer requisição GET para a API
         const response = await fetch('http://localhost:3000/Carros', {
             method: 'GET',
             credentials: 'include'
         });
 
         const carros = await response.json();
-        console.log('Carros:', carros.cars);
         const carr = carros.cars;
-
-        // Selecionar tbody da tabela
         const tbody = document.querySelector('.cars-table tbody');
-        
-        // Limpar conteúdo atual da tabela
         tbody.innerHTML = '';
-        
-        // Usar map para criar as linhas da tabela
-        const linhasHTML = carr.map(carro => 
-            `
-            <tr>
+
+        const linhasHTML = carr.map(carro =>
+            `<tr>
                 <td>
                     <img src="${carro.imagem1 || '../../../img/no-image.jpg'}" 
                          alt="${carro.modelo}"
@@ -181,23 +179,24 @@ async function ListarCarros() {
                         </button>
                     </div>
                 </td>
-            </tr>
-            `
+            </tr>`
         ).join('');
-        
-        // Inserir as linhas na tabela
-        tbody.innerHTML = linhasHTML;   
-        
+
+        tbody.innerHTML = linhasHTML;
     } catch (error) {
         console.error('Erro ao listar carros:', error);
-        alert('Erro ao carregar veículos', 'erro');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Erro ao carregar veículos',
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
     }
 }
 
-// Chamar a função quando a página carregar
 document.addEventListener('DOMContentLoaded', ListarCarros);
 
-// Delete car function
 async function deleteCar(id) {
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
@@ -206,68 +205,100 @@ async function deleteCar(id) {
         const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
         const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
 
-    console.log('userRole real:', decryptedRole);
-    if (decryptedRole !== '1') {
-        alert('Você não tem permissão para excluir veículos');
-        return;
-    }
-
-    if (confirm('Tem certeza que deseja excluir este veículo?')) {
-        try {
-
-            const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
-                method: 'DELETE',
+        if (decryptedRole !== '1') {
+            Swal.fire({
+                icon: 'info',
+                title: 'Acesso negado',
+                text: 'Você não tem permissão para excluir veículos',
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6"
             });
+            return;
+        }
 
-            console.log(id);
+        const confirmResult = await Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Você deseja realmente excluir este veículo?',
+            icon: 'warning',
+            iconColor: '#d33',
+            showCancelButton: true,
+            confirmButtonColor: ' #28a745',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
 
-            if (response.ok) {  
-                ListarCarros(); // Refresh table
-                alert('Veículo excluído com sucesso!', 'sucesso');
-            } else {
-                throw new Error('Erro ao excluir veículo');
-            }
+        if (confirmResult.isConfirmed) {
+            try {
+                const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    await ListarCarros();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: 'Veículo excluído com sucesso!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        background: "rgba(0, 0, 0, 1)",
+                        color: "#F6F6F6"
+                    });
+                } else {
+                    throw new Error('Erro ao excluir veículo');
+                }
             } catch (error) {
-                alert(error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: error.message,
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6"
+                });
+            }
         }
     }
 }
 
+
 async function marcarComoDestaque(id_carro) {
     try {
-        // Primeiro, verificar se o carro já está em destaque
         const responseCheck = await fetch('http://localhost:3000/mostrarDestaques', {
             method: 'GET',
             credentials: 'include'
         });
-        
+
         if (!responseCheck.ok) {
             throw new Error('Erro ao verificar destaques');
         }
 
         const destaques = await responseCheck.json();
         const carroJaDestaque = destaques.find(d => d.id_carro === id_carro);
-        
 
         if (carroJaDestaque) {
-            // Se já está em destaque, remove
             await fetch(`http://localhost:3000/removerDestaque/${carroJaDestaque.id}`, {
                 method: 'DELETE',
                 credentials: 'include'
             });
-            
-            alert('Carro removido dos destaques!', 'sucesso');
+
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: 'Carro removido dos destaques!',
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6"
+            });
         } else {
-            // Se não está em destaque, adiciona
             const response = await fetch('http://localhost:3000/AdicionarDestaque', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({
-                    id_carro: id_carro
-                })
+                body: JSON.stringify({ id_carro: id_carro })
             });
 
             if (!response.ok) {
@@ -275,33 +306,65 @@ async function marcarComoDestaque(id_carro) {
                 throw new Error(error || 'Erro ao marcar como destaque');
             }
 
-            alert('Carro marcado como destaque!', 'sucesso');
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: 'Carro marcado como destaque!',
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6"
+            });
         }
 
-        // Atualiza a lista de carros para refletir as mudanças
         await ListarCarros();
 
     } catch (error) {
         console.error('Erro:', error);
-        alert(error.message, 'erro');
+        Swal.fire({
+            icon: 'info',
+            title: 'Erro',
+            text: error.message,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
     }
 }
 
 window.onload = async () => {
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
+    if (!encryptedRole) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Acesso negado',
+            text: 'Você precisa estar logado para acessar esta página.',
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
+        setTimeout(() => {
+            window.location.href = '/login';
+        }, 2000);
+        }
+
 
     if (encryptedRole) {
         const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
         const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
 
-        console.log('userRole real:', decryptedRole);
-
-        if (decryptedRole !== '1') {
+        if (decryptedRole !== '1' || !decryptedRole) {
             localStorage.removeItem('userId');
             localStorage.removeItem('userRole');
-            alert('Você não tem permissão para acessar esta página.');
-            window.location.href = '/login';
+            Swal.fire({
+                icon: 'info',
+                title: 'Acesso negado',
+                text: 'Você não tem permissão para acessar esta página.',
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6"
+            });
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
         }
     }
-}};
+};

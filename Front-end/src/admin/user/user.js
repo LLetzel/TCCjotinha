@@ -2,37 +2,10 @@ const roleModal = document.getElementById('roleModal');
 const roleForm = document.getElementById('roleForm');
 let currentUserId;
 
-// window.onload = async () => {
-//     const userId = localStorage.getItem('userId');
-//     const userRole = localStorage.getItem('userRole');
-//     if (!userId || userId == 'undefined' || userRole == 2 || userId == null) {
-//         window.location.href = '/login';
-//         return;
-//     }
-// };
-
-// window.onloud = async () => {if (encryptedRole) {
-//     const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
-//     const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
-
-//     console.log('userRole real:', decryptedRole);
-
-//     // Comparando como string
-//     if (decryptedRole !== '1') {
-//         window.location.href = '/login';
-//         localStorage.removeItem('userId');
-//     localStorage.removeItem('userRole');
-//         return;
-//     } 
-// }
-// }
-
-
 function openRoleModal(userId) {
     roleModal.style.display = 'block';
     currentUserId = userId;
 
-    // Busca o usuário na lista carregada
     const user = users.find(u => u.id === userId);
     if (user) {
         document.getElementById('userName').innerText = user.nome;
@@ -49,61 +22,58 @@ function closeRoleModal() {
     currentUserId = null;
 }
 
-
 async function ListarUsuarios() {
     try {
-        //Fazer o GET
         const response = await fetch('http://localhost:3000/usuarios', {
             method: 'GET',
             credentials: 'include'
-        }
-
-        );
+        });
 
         const Usuarios = await response.json();
         users = Usuarios.response;
 
-
-        //selecionando o lugar no html
-        const tbody = document.querySelector('.users-table tbody')
-        //limpar o conteudo
-        tbody.innerHTML = ``
+        const tbody = document.querySelector('.users-table tbody');
+        tbody.innerHTML = ``;
 
         const linhasHTML = users.map(user =>
-
             `
              <tr>
-                            <td>${user.nome}</td>
-                            <td>${user.email}</td>
-                            <td>${user.telefone}</td>
-                            <td>
-                            ${user.tipo_id === 1
-                ? `<span class="role-badge admin">Administrador</span>`
-                : `<span class="role-badge cliente">Cliente</span>`}
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="edit-btn" onclick="openRoleModal(${user.id})">
-                                        <i class="fas fa-user-edit"></i>
-                                    </button>
-                                    <button class="delete-btn" onclick="deleteUser(${user.id})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                <td>${user.nome}</td>
+                <td>${user.email}</td>
+                <td>${user.telefone}</td>
+                <td>
+                    ${user.tipo_id === 1
+                        ? `<span class="role-badge admin">Administrador</span>`
+                        : `<span class="role-badge cliente">Cliente</span>`}
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="openRoleModal(${user.id})">
+                            <i class="fas fa-user-edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteUser(${user.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
             `
-        ).join('')
+        ).join('');
 
         tbody.innerHTML = linhasHTML;
     } catch (error) {
         console.error('Erro ao listar usuarios:', error);
-        alert('Erro ao carregar usuarios', 'erro');
-
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: 'Erro ao carregar usuários.',
+            showConfirmButton: false,
+            timer: 2000,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        });
     }
 }
-
-
 
 async function deleteUser(id) {
     const secretKey = 'letzellindo';
@@ -118,38 +88,81 @@ async function deleteUser(id) {
         if (decryptedRole !== '1') {
             localStorage.removeItem('userId');
             localStorage.removeItem('userRole');
-            alert('Você não tem permissão para deletar um usuário');
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: 'Você não tem permissão para deletar um usuário.',
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
             window.location.href = '/login';
+            return;
         }
-    }  
-    if (confirm('Tem certeza que deseja excluir esse usuário?')) {
+    }
 
+    // Confirmação com SweetAlert2
+    const result = await Swal.fire({
+        title: 'Tem certeza?',
+        text: "Você realmente deseja excluir este usuário?",
+        icon: 'warning',
+        iconColor: '#d33',
+        showCancelButton: true,
+        confirmButtonColor:' #28a745',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar',
+        background: "rgba(0, 0, 0, 1)",
+        color: "#F6F6F6",
+    });
+
+    if (result.isConfirmed) {
         try {
             const response = await fetch(`http://localhost:3000/deletarUsuario/${id}`, {
                 method: 'DELETE',
-            })
-
-            console.log(id)
+            });
 
             if (response.ok) {
                 ListarUsuarios();
-                alert('Usuário excluído com sucesso!', 'sucesso');
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: 'Usuário excluído com sucesso!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
             } else {
-                alert('Erro ao excluir usuário', 'erro');
                 console.error('Erro ao excluir usuário:', response.status);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: 'Erro ao excluir usuário.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
             }
-
         } catch (error) {
-            alert(error.message);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: error.message,
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
         }
     }
 }
 
 
-
 async function alterarRole() {
-
-    console.log(currentUserId)
+    console.log(currentUserId);
 
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
@@ -163,10 +176,19 @@ async function alterarRole() {
         if (decryptedRole !== '1') {
             localStorage.removeItem('userId');
             localStorage.removeItem('userRole');
-            alert('Você não tem permissão para alterar um cargo');
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: 'Você não tem permissão para alterar um cargo.',
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
             window.location.href = '/login';
+            return;
         }
-    }   
+    }
 
     const userRoleSelect = document.getElementById('userRole');
     const selectedRole = parseInt(userRoleSelect.value);
@@ -183,9 +205,25 @@ async function alterarRole() {
         });
 
         if (!response.ok) {
-            alert('Erro ao alterar cargo.');
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: 'Erro ao alterar cargo.',
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
         } else {
-            alert('Cargo alterado com sucesso!');
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: 'Cargo alterado com sucesso!',
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
         }
 
     } catch (error) {
@@ -193,30 +231,43 @@ async function alterarRole() {
     }
 }
 
-
-document.addEventListener('DOMContentLoaded', ListarUsuarios, );
+document.addEventListener('DOMContentLoaded', ListarUsuarios);
 
 window.onload = async () => {
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
 
     if (!encryptedRole) {
-        alert('Você não está logado ou não tem permissão para acessar esta página.');
+        Swal.fire({
+            position: "center",
+            icon: "info",
+            title: 'Você não está logado ou não tem permissão para acessar esta página.',
+            showConfirmButton: false,
+            timer: 2000,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        });
         window.location.href = '/login';
         return;
     }
 
-    if (encryptedRole) {
-        const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
-        const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
+    const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
+    const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
 
-        console.log('userRole real:', decryptedRole);
+    console.log('userRole real:', decryptedRole);
 
-        if (decryptedRole !== '1') {
-            localStorage.removeItem('userId');
-            localStorage.removeItem('userRole');
-            alert('Você não tem permissão para acessar esta página.');
-            window.location.href = '/login';
-        }
-    }   
+    if (decryptedRole !== '1') {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: 'Você não tem permissão para acessar essa página.',
+            showConfirmButton: false,
+            timer: 2000,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        });
+        window.location.href = '/login';
+    }
 };

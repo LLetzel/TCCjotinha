@@ -233,22 +233,36 @@ window.onload = async () => {
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
     if (!encryptedRole) {
-        alert('Você não está logado ou não tem permissão para acessar esta página.');
-        window.location.href = '/login';
-        return;
-    }
+        Swal.fire({
+            icon: 'info',
+            title: 'Acesso negado',
+            text: 'Você precisa estar logado para acessar esta página.',
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
+        setTimeout(() => {
+            window.location.href = '/login';
+        }, 2000);
+        }
+
 
     if (encryptedRole) {
         const bytes = CryptoJS.AES.decrypt(encryptedRole, secretKey);
         const decryptedRole = bytes.toString(CryptoJS.enc.Utf8);
 
-        console.log('userRole real:', decryptedRole);
-
-        if (decryptedRole !== '1') {
+        if (decryptedRole !== '1' || !decryptedRole) {
             localStorage.removeItem('userId');
             localStorage.removeItem('userRole');
-            alert('Você não tem permissão para acessar esta página.');
-            window.location.href = '/login';
+            Swal.fire({
+                icon: 'info',
+                title: 'Acesso negado',
+                text: 'Você não tem permissão para acessar esta página.',
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6"
+            });
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
         }
     }
 };

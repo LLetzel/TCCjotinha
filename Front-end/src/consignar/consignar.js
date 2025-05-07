@@ -1,10 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
-        alert("Você precisa estar logado para acessar esta página.");
-        window.location.href = '/login';
+        Swal.fire({
+            icon: "error",
+            title: "Acesso negado",
+            text: "Você precisa estar logado para acessar esta página.",
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        }).then(() => {
+            window.location.href = '/login';
+        });
     }
-
 
     const marcaSelect = document.getElementById('marca');
     const modeloSelect = document.getElementById('modelo');
@@ -95,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 div.className = 'preview-item';
     
                 reader.onload = function (e) {
-                    div.innerHTML = `
+                    div.innerHTML = `  
                         <img src="${e.target.result}" alt="Preview">
                         <button type="button" class="remove-btn">❌</button>
                     `;
@@ -122,10 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Substitui a lista original de arquivos pela nova (usando DataTransfer)
         fileInput.files = dataTransfer.files;
     });
-    
-
-   
- 
 
     // Prevenir envio do formulário ao pressionar Enter
     document.addEventListener('keydown', function(e) {
@@ -153,17 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+// Submissão do formulário
 document.getElementById("consignForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    // Recupera os dados do usuário do localStorage
     let userData = localStorage.getItem('user');
-    let userName = "";
-    let userId = "";
-    let userEmail = "";
-    let userTelefone = "";
-    let userCPF = "";
+    let userName = "", userEmail = "", userTelefone = "", userCPF = "", userId = "";
     if (userData) {
         userData = JSON.parse(userData);
         userName = userData.nome || "";
@@ -173,7 +170,6 @@ document.getElementById("consignForm").addEventListener("submit", async function
         userId = userData.id || "";
     }
 
-    // Recupera os dados do formulário
     const idMarca = document.getElementById("marca").value;
     const marca = document.querySelector(`#marca option[value='${idMarca}']`).text;
     const idModelo = document.getElementById("modelo").value;
@@ -186,13 +182,9 @@ document.getElementById("consignForm").addEventListener("submit", async function
     const ratingElem = document.querySelector('input[name="estado"]:checked');
     const rating = ratingElem ? ratingElem.value : "";
     const observacoes = document.getElementById("observacoes").value;
-
-    // Recupera as fotos (input type="file")
     const fotosInput = document.getElementById("fotos");
     const files = fotosInput.files;
-    
 
-    // Cria o FormData
     const formData = new FormData();
     formData.append("userName", userName);
     formData.append("userEmail", userEmail);
@@ -207,22 +199,50 @@ document.getElementById("consignForm").addEventListener("submit", async function
     formData.append("rating", rating);
     formData.append("observacoes", observacoes);
 
-    // Adiciona as fotos ao FormData (pode ser múltiplas)
     for (let i = 0; i < files.length; i++) {
-        formData.append("fotos", files[i]); // ou "fotos[]" se o backend esperar array
+        formData.append("fotos", files[i]);
     }
 
-    // Envia os dados para o servidor
     try {
         const resposta = await fetch(`http://localhost:3000/consignar/${userId}`, {
             method: "POST",
-            body: formData // sem headers de Content-Type!
+            body: formData
         });
 
         const resultado = await resposta.json();
-        alert(resultado.message);
+
+        if (resposta.ok) {
+            // ✅ Sucesso
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Dados enviados com sucesso!",
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
+
+        } else {
+            // ⚠️ Erro conhecido do backend
+            Swal.fire({
+                icon: "error",
+                title: "Erro ao enviar",
+                text: resultado.message || "Algo deu errado ao enviar os dados.",
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
+        }
+
     } catch (error) {
+        // ❌ Erro inesperado
         console.error("Erro ao enviar os dados:", error);
-        alert("Erro ao enviar os dados. Tente novamente.");
+        Swal.fire({
+            icon: "error",
+            title: "Erro de conexão",
+            text: "Não foi possível conectar ao servidor. Tente novamente.",
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        });
     }
 });

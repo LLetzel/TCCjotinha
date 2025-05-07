@@ -124,6 +124,16 @@ window.onload = async () => {
   const userRole = localStorage.getItem('userRole');
 
   if (!userId || userId === 'undefined' || userRole == 1 || userId == null) {
-    window.location.href = '/login'; // 🚪 Redireciona para login se não estiver autenticado
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: 'Você precisa estar logado para acessar essa página.',
+      showConfirmButton: false,
+      timer: 2000,
+      background: "rgba(0, 0, 0, 1)",
+      color: "#F6F6F6",
+  }).then(() => {
+    window.location.href = '/login';
+  });
   }
 };

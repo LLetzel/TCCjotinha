@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cpf: document.getElementById('cpf').value,
                 sexo: document.getElementById('sexo').value
             };
+            console.log(formData);
             localStorage.setItem('cadastroDadosPessoais', JSON.stringify(formData));
             
             // Redirect with animation

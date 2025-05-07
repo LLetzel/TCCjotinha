@@ -1,7 +1,6 @@
 // routes/router.js
 // Neste arquivo estão definidas todas as rotas do projeto.
 // Em projetos com muitas rotas, é possível dividir as rotas em vários arquivos.
-const isAuthenticated = require('../middleware/authMiddleware.js');
 const multer = require('multer');
 const upload = multer();
 const express = require("express");

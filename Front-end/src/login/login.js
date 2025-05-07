@@ -1,6 +1,6 @@
 function entrar(event) {
     event.preventDefault(); // evita o reload da página
-    
+
     try {
         const emailInput = document.querySelector('#email');
         const senhaInput = document.querySelector('#senha');
@@ -11,7 +11,15 @@ function entrar(event) {
         const btnText = submitButton.querySelector('.btn-text');
 
         if (!email || !senha) {
-            alert('Preencha todos os campos');
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Preencha todos os campos",
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
             return;
         }
 
@@ -44,50 +52,98 @@ function entrar(event) {
                 .then(data => {
                     if (data) {
                         try {
-
                             const tipoId = data.response.tipo_id;
-                            const secretKey = 'letzellindo'; // guarde com segurança
+                            const secretKey = 'letzellindo';
 
-                            // Criptografar o tipoId (userRole)
                             const encryptedRole = CryptoJS.AES.encrypt(tipoId.toString(), secretKey).toString();
                             localStorage.setItem('userRole', encryptedRole);
                             localStorage.setItem('userId', data.response.id);
                             const { tipo_id, ...userSemTipoId } = data.response;
                             localStorage.setItem('user', JSON.stringify(userSemTipoId));
 
-
-                            // Redirecionar
-                            if (tipoId === 1) {
-                                window.location.href = '/dashboardAdm';
-                            } else {
-                                window.location.href = '/home';
-                            }
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Login realizado com sucesso!",
+                                showConfirmButton: false,
+                                timer: 2000,
+                                background: "rgba(0, 0, 0, 1)",
+                                color: "#F6F6F6",
+                            }).then(() => {
+                                if (tipoId === 1) {
+                                    window.location.href = '/dashboardAdm';
+                                } else {
+                                    window.location.href = '/home';
+                                }
+                            });
 
                         } catch (cryptoError) {
                             console.error('Erro ao criptografar userRole:', cryptoError);
                             localStorage.setItem('userRole', data.response.tipo_id);
 
-                            if (data.response.tipo_id === 1) {
-                                window.location.href = '/dashboardAdm';
-                            } else {
-                                window.location.href = '/home';
-                            }
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Login realizado com sucesso!",
+                                showConfirmButton: false,
+                                timer: 2000,
+                                background: "rgba(0, 0, 0, 1)",
+                                color: "#F6F6F6",
+                            }).then(() => {
+                                if (data.response.tipo_id === 1) {
+                                    window.location.href = '/dashboardAdm';
+                                } else {
+                                    window.location.href = '/home';
+                                }
+                            });
                         }
                     } else {
-                        console.log('Erro ao verificar o usuário');
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "Erro ao verificar o usuário",
+                            showConfirmButton: false,
+                            timer: 2000,
+                            background: "rgba(0, 0, 0, 1)",
+                            color: "#F6F6F6",
+                        });
                     }
                 })
                 .catch(err => {
                     console.error('Erro de conexão com o servidor na segunda requisição:', err);
-                    alert('Erro de conexão com o servidor na segunda requisição');
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Erro ao carregar dados do usuário",
+                        showConfirmButton: false,
+                        timer: 2000,
+                        background: "rgba(0, 0, 0, 1)",
+                        color: "#F6F6F6",
+                    });
                 });
             } else {
-                alert(data.response || 'Erro ao fazer login');
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: data.response || "Erro ao fazer login",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
             }
         })
         .catch(err => {
             console.error('Erro de conexão com o servidor na primeira requisição:', err);
-            alert('Erro de conexão com o servidor na primeira requisição');
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Erro ao conectar com o servidor",
+                showConfirmButton: false,
+                timer: 2000,
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
         })
         .finally(() => {
             // Restaurar botão
@@ -97,7 +153,15 @@ function entrar(event) {
         });
     } catch (generalError) {
         console.error('Erro geral na função entrar:', generalError);
-        alert('Ocorreu um erro ao processar o login');
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Erro inesperado ao processar o login",
+            showConfirmButton: false,
+            timer: 2000,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        });
     }
 }
 

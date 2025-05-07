@@ -2,8 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let dadosPessoais = JSON.parse(localStorage.getItem("cadastroDadosPessoais"));
 
     if (!dadosPessoais) {
-        alert("Erro ao carregar os dados do cadastro. Retornando à primeira página.");
-        window.location.href = "/cadastro";
+        Swal.fire({
+            icon: "error",
+            title: "Erro",
+            text: "Erro ao carregar os dados do cadastro. Retornando à primeira página.",
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        }).then(() => {
+            window.location.href = "/cadastro";
+        });
         return;
     }
 
@@ -13,67 +20,54 @@ document.addEventListener("DOMContentLoaded", function () {
         let telefone = document.querySelector("#telefone").value;
         let email = document.querySelector("#email").value;
         let senha = document.querySelector("#senha").value;
-        let confirmPassword = document.querySelector("#confirmar_senha").value;
+        let confirmPassword = document.querySelector("#confirmar-senha").value;
 
         if (!telefone || !email || !senha || !confirmPassword) {
-            alert("Preencha todos os campos.");
+            Swal.fire({
+                icon: "error",
+                title: "Atenção",
+                text: "Preencha todos os campos.",
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
             return;
         }
 
         if (senha !== confirmPassword) {
-            alert("As senhas não coincidem.");
+            Swal.fire({
+                icon: "error",
+                title: "Erro",
+                text: "As senhas não coincidem.",
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
             return;
         }
 
         let dadosCompletos = {
-            ...dadosPessoais, // Recupera os dados armazenados na tela 1
+            ...dadosPessoais,
             telefone,
             email,
             senha,
             confirmPassword
         };
 
-        fetch("http://localhost:3000/cadastro", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(dadosCompletos),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Cadastro realizado com sucesso!");
-                    localStorage.removeItem("cadastroDadosPessoais"); // Limpa os dados após o cadastro
-                    window.location.href = "/login";
-                } else {
-                    alert(data.response);
-                }
-            })
-            .catch((err) => {
-                console.error("Erro na requisição:", err);
-                alert("Erro ao conectar-se com o servidor.");
-            });
+        
     });
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.cadastro-form');
-
-    // Recuperar os dados do cadastro 1 do localStorage
     let dadosPessoais = JSON.parse(localStorage.getItem('cadastroDadosPessoais')) || {};
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
 
         if (validateForm()) {
             const submitBtn = form.querySelector('.submit-btn');
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
 
-            // Capturar novos dados do cadastro 2
             const novosDados = {
                 telefone: document.getElementById('telefone').value,
                 email: document.getElementById('email').value,
@@ -81,20 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 confirmPassword: document.getElementById('confirmar-senha').value
             };
 
-            console.log('Novos Dados:', novosDados);
-
             if (novosDados.senha !== novosDados.confirmPassword) {
-                alert('As senhas não coincidem.');
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro",
+                    text: "As senhas não coincidem.",
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
                 return;
-            } else{
-                console.log('Senhas iguais');
             }
 
-            // console.log('Dados Pessoais:', dadosPessoais);
-
-            // Juntar todos os dados (cadastro1 + cadastro2)
             const dadosCompletos = { ...dadosPessoais, ...novosDados };
 
             try {
@@ -109,14 +102,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert('Cadastro realizado com sucesso!');
-                    localStorage.removeItem('cadastroDadosPessoais'); // Limpa os dados locais
-                    window.location.href = '/login'; // Redireciona para página de sucesso
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: result.response,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        background: "rgba(0, 0, 0, 1)",
+                        color: "#F6F6F6",
+                    }).then(() => {
+                        localStorage.removeItem('cadastroDadosPessoais');
+                        window.location.href = '/login';
+                    });
                 } else {
-                    alert(`Erro: ${result.message}`);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Erro",
+                        text: result.response,
+                        background: "rgba(0, 0, 0, 1)",
+                        color: "#F6F6F6",
+                    });
                 }
             } catch (error) {
-                alert('Erro ao enviar os dados. Tente novamente mais tarde.');
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro",
+                    text: result.response,
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
                 console.error('Erro:', error);
             } finally {
                 submitBtn.classList.remove('loading');
@@ -125,29 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Seleciona todos os ícones de toggle de senha na tela de cadastro (senha e confirmar senha)
     const toggleIcons = document.querySelectorAll('.toggle-password');
-
     toggleIcons.forEach((icon) => {
         icon.addEventListener('click', () => {
-            // Seleciona o input de senha associado ao ícone (buscando dentro do mesmo container)
             const input = icon.closest('.input-wrapper').querySelector('input');
-
-            if (!input) {
-                console.error('Input de senha não encontrado.');
-                return;
-            }
+            if (!input) return;
 
             const isPassword = input.getAttribute('type') === 'password';
             input.setAttribute('type', isPassword ? 'text' : 'password');
 
-            if (isPassword) {
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+            icon.classList.toggle('fa-eye', !isPassword);
+            icon.classList.toggle('fa-eye-slash', isPassword);
         });
     });
 });
@@ -155,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function validateForm() {
     let isValid = true;
     const inputs = document.querySelectorAll('input[required], select[required]');
-
     inputs.forEach(input => {
         if (!input.value) {
             isValid = false;
@@ -164,6 +165,5 @@ function validateForm() {
             input.closest('.input-wrapper').classList.remove('error');
         }
     });
-
     return isValid;
 }
