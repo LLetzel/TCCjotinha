@@ -25,6 +25,13 @@ jobs:
 
       - name: npm install, build, and test
         run: |
+          cd Front-end
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          cd ..
+          
+          cd Back-end
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -71,4 +78,3 @@ jobs:
           app-name: 'jotinha2'
           slot-name: 'Production'
           package: .
-          
