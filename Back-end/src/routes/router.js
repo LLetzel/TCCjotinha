@@ -2,7 +2,7 @@
 // Neste arquivo estão definidas todas as rotas do projeto.
 // Em projetos com muitas rotas, é possível dividir as rotas em vários arquivos.
 const multer = require('multer');
-const upload = multer();
+// const upload = multer();
 const express = require("express");
 const router = express.Router();
 const path = require("path");
@@ -11,7 +11,7 @@ const carsController = require("../controllers/carsController.js");
 // const upload = require("../utils/multer.js");
 const nodemailer = require("nodemailer");
 const agendamentoController = require("../controllers/agendamentoController");
-require("dotenv").config({ path: "Back-end/.env" });
+require("dotenv").config({ path: path.resolve(__dirname, '../../.env') });
 
 // pages
 router.use(express.static(path.join(__dirname, "../../../Front-end")));
@@ -106,11 +106,11 @@ const storage = multer.diskStorage({
         const ext = path.extname(file.originalname);
         const name = path.basename(file.originalname, ext);
         const timestamp = Date.now();
-        cb(null, `${name}-${timestamp}${ext}`); // nome do arquivo salvo
+        cb(null, `${name}-${timestamp}${ext}`);
     },
 });
 
-// const upload = multer({ storage });
+const upload = multer({ storage });
 
 // usuário
 router.post('/cadastro', authController.register);
@@ -123,9 +123,9 @@ router.delete("/deletarUsuario/:id", authController.deleteUser);
 router.put("/atualizarUsuario/:id", authController.updateUsers);
 router.put("/atualizarSenha/:id", authController.alterarSenha);
 
-router.post('/consignar/:id', 
-    multer().fields([{ name: 'fotos', maxCount: 5 }]),
-    authController.consignar
+router.post('/consignar/:id',
+  upload.fields([{ name: 'fotos', maxCount: 5 }]),
+  authController.consignar
 );
 
 
@@ -170,7 +170,6 @@ router.post("/contato", async (req, res) => {
             auth: {
                 user: process.env.EMAIL_USER, // Definido no .env
                 pass: process.env.EMAIL_PASS // App Password do Gmail
-
             }
         });
 
@@ -210,10 +209,5 @@ router.post("/contato", async (req, res) => {
         return res.status(500).json({ mensagem: "Não foi possível enviar o e-mail, tente novamente" });
     }
 });
-
-
-
-
-
 
 module.exports = router;

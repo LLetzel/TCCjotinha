@@ -211,6 +211,7 @@ document.getElementById("consignForm").addEventListener("submit", async function
         });
 
         const resultado = await resposta.json();
+        console.log(resposta);
 
         if (resposta.ok) {
             // ✅ Sucesso

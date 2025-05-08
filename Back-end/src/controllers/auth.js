@@ -11,7 +11,7 @@ const Role = require("../models/role.js");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
-require("dotenv").config({ path: "Back-end/.env" });
+require('dotenv').config();
 const fs = require('fs');
 const os = require('os');
 const sharp = require('sharp');
@@ -353,8 +353,8 @@ exports.consignar = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.EMAIL_USER, // Definido no .env
+        pass: process.env.EMAIL_PASS // App Password do Gmail
       }
     });
 
@@ -425,8 +425,8 @@ exports.consignar = async (req, res) => {
 
 
     const mailOptions = {
-      from: `"Jotinha Veículos" <${process.env.EMAIL_USER}>`,
-      to: "gabrielledelimaq@gmail.com",
+      from: `"Jotinha Veículos" <${process.env.EMAIL_PASS}>`, // Remetente
+      to: "guipaglioni@gmail.com",
       subject: "Nova mensagem de contato: proposta de consignação",
       html: htmlTemplate,
       attachments: allAttachments
