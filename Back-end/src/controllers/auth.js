@@ -15,6 +15,7 @@ require('dotenv').config();
 const fs = require('fs');
 const os = require('os');
 const sharp = require('sharp');
+const Agendamento = require('../models/agendamento'); // ajuste o caminho se necessário
 
 exports.login = async (req, res) => {
   try {
@@ -175,6 +176,10 @@ exports.deleteUser = async (req, res) => {
         response: "Usuário não encontrado",
       });
     }
+
+    // Deleta todos os agendamentos do usuário
+    await Agendamento.destroy({ where: { id_usuario: id } });
+
     await user.destroy();
     return res.status(200).json({
       success: true,
@@ -440,4 +445,3 @@ exports.consignar = async (req, res) => {
     res.status(500).json({ message: "Não foi possível enviar o e-mail, tente novamente" });
   }
 };
-

@@ -33,7 +33,7 @@
                     <label for="telefone">Telefone celular:</label>
                     <div class="input-wrapper">
                         <i class="fas fa-mobile-alt"></i>
-                        <input type="text" id="telefone" name="telefone" required pattern="\d{10,11}" title="Digite um telefone válido com DDD">
+                        <input type="text" id="telefone" name="telefone" title="Digite um telefone válido com DDD">
                     </div>
                 </div>
 
@@ -82,7 +82,6 @@
 
     $(document).ready(function () {
         $('#telefone').mask('(00) 00000-0000');
-        $('#cpf').mask('000.000.000-00');
     });
     AOS.init();
 </script>
