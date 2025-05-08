@@ -1,13 +1,13 @@
-const { username, password, database, host, port, dialect, logging } = require('./dbConfig.json');
+require('dotenv').config();
 
 module.exports = {
   development: {
-    username, // usuário do banco de dados
-    password, // senha do banco de dados
-    database, // nome do banco de dados
-    host, // endereço do servidor
-    port, // porta do servidor
-    dialect, // tipo de banco de dados (MySQL, PostgreSQL, etc.)
-    logging, // desativa ou ativa logs do Sequelize
+    username: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+    database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    logging: process.env.DB_LOGGING === 'true',
   },
 };

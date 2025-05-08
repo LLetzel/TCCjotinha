@@ -4,7 +4,7 @@ const sequelize = require('./config/sequelize');
 const router = require('./routes/router');
 const cors = require('cors');
 const session = require('express-session');
-const { token } = require('./config.json');
+const token = process.env.API_TOKEN;
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const path = require('path');
