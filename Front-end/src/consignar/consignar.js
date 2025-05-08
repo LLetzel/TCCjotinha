@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Substitui a lista original de arquivos pela nova (usando DataTransfer)
         fileInput.files = dataTransfer.files;
     });
+    
 
     // Prevenir envio do formulário ao pressionar Enter
     document.addEventListener('keydown', function(e) {

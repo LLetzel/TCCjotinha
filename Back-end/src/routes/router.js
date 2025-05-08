@@ -96,6 +96,21 @@ router.get("/sobrenos", (req, res) => {
   );
 });
 
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '../../uploads'));
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname);
+        const name = path.basename(file.originalname, ext);
+        const timestamp = Date.now();
+        cb(null, `${name}-${timestamp}${ext}`); // nome do arquivo salvo
+    },
+});
+
+// const upload = multer({ storage });
 
 // usuário
 router.post('/cadastro', authController.register);
@@ -111,7 +126,7 @@ router.put("/atualizarSenha/:id", authController.alterarSenha);
 router.post('/consignar/:id', 
     multer().fields([{ name: 'fotos', maxCount: 5 }]),
     authController.consignar
-  );
+);
 
 
 // carros
@@ -148,7 +163,7 @@ router.post("/contato", async (req, res) => {
         if (!name || !email || !phone || !subject || !message) {
             return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
         }
-       
+
         // Configuração do transporte de e-mail (usando variáveis de ambiente)
         const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -159,20 +174,31 @@ router.post("/contato", async (req, res) => {
             }
         });
 
+        
+        const templatePath = path.join("./email", 'emailContato.html');
+        let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
+
+        htmlTemplate = htmlTemplate
+            .replace('{{name}}', name)
+            .replace('{{email}}', email)
+            .replace('{{phone}}', phone)
+            .replace('{{subject}}', subject)
+            .replace('{{message}}', message);
+
+
         // Configuração do e-mail
         const mailOptions = {
             from: `"${name}" <${email}>`,
             to: "gabrielledelimaq@gmail.com",
             subject: `Nova mensagem de contato: ${subject}`,
-            html: `
-                <h2>Nova mensagem de contato</h2>
-                <p><strong>Nome:</strong> ${name}</p>
-                <p><strong>E-mail:</strong> ${email}</p>
-                <p><strong>Telefone:</strong> ${phone}</p>
-                <p><strong>Assunto:</strong> ${subject}</p>
-                <p><strong>Mensagem:</strong></p>
-                <p>${message}</p>
-            `
+            html: htmlTemplate,
+            attachments: [
+                {
+                  filename: 'logo.png',
+                  path: path.join(__dirname, '../../../Front-end/img/logo.png'),
+                  cid: 'logo'
+                }
+              ]
         };
 
         // Enviar o e-mail
@@ -186,43 +212,8 @@ router.post("/contato", async (req, res) => {
 });
 
 
-// //-----------------------PESSOAL notificações-----------------------//
 
-// router.get("/perfil/email", isAuthenticated, async (req, res) => {
-//     try {
-//         const userId = req.user.id; // Obtém o ID do usuário autenticado via JWT
 
-//         const sql = "SELECT email FROM usuarios WHERE id = ?";
-//         const [results] = await promisePool.execute(sql, [userId]);
-
-//         if (results.length > 0) {
-//             const userEmail = results[0].email;
-
-//             const transporter = nodemailer.createTransport({
-//                 service: "gmail",
-//                 auth: {
-//                     user: process.env.EMAIL_USER, // Definido no .env
-//                     pass: process.env.EMAIL_PASS  // App Password do Gmail
-//                 }
-//             });
-
-//             const mailOptions = {
-//                 from: `"Jotinha veículos" <${process.env.EMAIL_USER}>`,
-//                 to: userEmail,
-//                 subject: "Confirmação de notificações",
-//                 html: `<p><strong>Suas notificações por email foram ativadas. Enviaremos para você nossas novidades!</strong></p>`
-//             };
-
-//             await transporter.sendMail(mailOptions);
-//             return res.status(200).json({ mensagem: "E-mail enviado com sucesso!" });
-//         } else {
-//             return res.status(404).json({ mensagem: "Usuário não encontrado" });
-//         }
-//     } catch (err) {
-//         console.error("Erro ao buscar e-mail do usuário ou enviar notificação:", err);
-//         return res.status(500).json({ mensagem: "Erro ao processar a solicitação" });
-//     }
-// });
 
 
 module.exports = router;

@@ -3,6 +3,7 @@ const User = require("../models/user.js");
 const { Op } = require("sequelize");
 const jwt = require('jsonwebtoken'); // Importe a biblioteca jwt
 const { where } = require("sequelize");
+const path = require('path');
 const { response } = require("express");
 const { spliceStr, singularize, removeTicks } = require("sequelize/lib/utils");
 const { verifyEncrypt, encrypting } = require("../utils/encrypt.js");
@@ -10,7 +11,10 @@ const Role = require("../models/role.js");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "Back-end/.env" });
+const fs = require('fs');
+const os = require('os');
+const sharp = require('sharp');
 
 exports.login = async (req, res) => {
   try {
@@ -345,6 +349,7 @@ exports.alterarSenha = async (req, res) => {
 
 exports.consignar = async (req, res) => {
   try {
+    // Configurar o transportador do Nodemailer (Gmail)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -353,46 +358,86 @@ exports.consignar = async (req, res) => {
       }
     });
 
-    // Preparar os anexos com base nos arquivos enviados via multer
-    const attachments = req.files && req.files.fotos ? req.files.fotos.map(file => ({
-      filename: file.originalname,
-      content: file.buffer,
-      contentType: file.mimetype
-    })) : [];
+    const templatePath = path.join("./email", 'emailConsignar.html');
+    let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
 
+    // Redimensionar as imagens antes de anexar
+    const uploadedAttachments = [];
+
+    if (req.files && req.files.fotos) {
+      for (let index = 0; index < req.files.fotos.length; index++) {
+        const file = req.files.fotos[index];
+
+        // Caminho temporário para a imagem redimensionada
+        const resizedPath = path.join(os.tmpdir(), `resized-${Date.now()}-${file.originalname}`);
+
+        // Redimensiona a imagem com sharp
+        await sharp(file.path)
+          .resize({ width: 800 }) // ajusta a largura máxima
+          .toFile(resizedPath);
+
+        // Adiciona ao array de anexos
+        uploadedAttachments.push({
+          filename: file.originalname,
+          path: resizedPath,
+          contentType: file.mimetype,
+          cid: `foto${index}@jotinha`
+        });
+      }
+    }
+
+    // Gerar HTML com as imagens (inseridas via CID)
+    let fotosHTML = '';
+    uploadedAttachments.forEach((file, index) => {
+      fotosHTML += `<img src="cid:foto${index}@jotinha" alt="Foto ${index + 1}" style="width: 55%; max-width: 500px; margin-bottom: 10px;" />`;
+    });
+
+    const embeddedLogo = {
+      filename: 'logo.png',
+      path: path.join(__dirname, '../../../Front-end/img/logo.png'),
+      cid: 'logo'
+    };
+
+    // Juntar tudo em um único array
+    const allAttachments = [...uploadedAttachments, embeddedLogo];
+    // Dados do formulário
     const userName = req.body.userName || "Não informado";
     const userEmail = req.body.userEmail || "Não informado";
     const userTelefone = req.body.userTelefone || "Não informado";
     const userCPF = req.body.userCPF || "Não informado";
 
+    htmlTemplate = htmlTemplate
+      .replace('{{name}}', userName)
+      .replace('{{email}}', userEmail)
+      .replace('{{phone}}', userTelefone)
+      .replace('{{cpf}}', userCPF)
+      .replace('{{marca}}', req.body.marca)
+      .replace('{{modelo}}', req.body.modelo)
+      .replace('{{ano}}', req.body.ano)
+      .replace('{{quilometragem}}', req.body.quilometragem)
+      .replace('{{fipeResult}}', req.body.fipeResult)
+      .replace('{{preco}}', req.body.preco)
+      .replace('{{rating}}', req.body.rating)
+      .replace('{{observacoes}}', req.body.observacoes)
+      .replace('{{fotos}}', fotosHTML);
+
+
+
 
     const mailOptions = {
-      from: `"Jotinha veiculos" <${process.env.EMAIL_USER}>`,
+      from: `"Jotinha Veículos" <${process.env.EMAIL_USER}>`,
       to: "gabrielledelimaq@gmail.com",
       subject: "Nova mensagem de contato: proposta de consignação",
-      html: `
-                <h2>Nova mensagem de consignação</h2>
-                <p><strong>Nome do Usuário:</strong> ${userName}</p>
-                <p><strong>Email do Usuário:</strong> ${userEmail}</p>
-                <p><strong>Telefone do Usuário:</strong> ${userTelefone}</p>
-                <p><strong>CPF do Usuário:</strong> ${userCPF}</p>
-                <p><strong>Marca:</strong> ${req.body.marca}</p>
-                <p><strong>Modelo:</strong> ${req.body.modelo}</p>
-                <p><strong>Ano:</strong> ${req.body.ano}</p>
-                <p><strong>Quilometragem:</strong> ${req.body.quilometragem}</p>
-                <p><strong>fipeResult:</strong> ${req.body.fipeResult}</p>
-                <p><strong>Preço:</strong> ${req.body.preco}</p>
-                <p><strong>Estado do veículo:</strong> ${req.body.rating}</p>
-                <p><strong>Observações:</strong> ${req.body.observacoes}</p>
-                <p><strong>Fotos enviadas:</strong> ${attachments.length > 0 ? attachments.map(att => att.filename).join(", ") : "Nenhuma"}</p>
-            `,
-      attachments: attachments  // Inclua os arquivos como anexos
+      html: htmlTemplate,
+      attachments: allAttachments
     };
 
     await transporter.sendMail(mailOptions);
+
     res.status(200).json({ message: "E-mail enviado com sucesso!" });
   } catch (error) {
-    console.error("Erro ao enviar e-mail:", error);
+    console.error("Erro ao enviar e-mail:", error.message, error.response);
     res.status(500).json({ message: "Não foi possível enviar o e-mail, tente novamente" });
   }
 };
+
