@@ -99,19 +99,24 @@ router.get("/sobrenos", (req, res) => {
 const fs = require('fs');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../../uploads'));
-    },
-    filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        const name = path.basename(file.originalname, ext);
-        const timestamp = Date.now();
-        cb(null, `${name}-${timestamp}${ext}`);
-    },
+  destination: function (req, file, cb) {
+      // Se for cadastro de carro (campos imagem1, imagem2, ...)
+      if (file.fieldname.startsWith('imagem')) {
+          cb(null, path.join(__dirname, '../../../Front-end/src/imgcarros'));
+      } else {
+          // Para consignação (campo fotos) e outros, salva em uploads
+          cb(null, path.join(__dirname, '../../uploads'));
+      }
+  },
+  filename: function (req, file, cb) {
+      const ext = path.extname(file.originalname);
+      const name = path.basename(file.originalname, ext);
+      const timestamp = Date.now();
+      cb(null, `${name}-${timestamp}${ext}`);
+  },
 });
 
 const upload = multer({ storage });
-
 // usuário
 router.post('/cadastro', authController.register);
 router.post('/login', authController.login);
