@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "npx nodemon src/server.js",
+    "start": "node Back-end/src/server.js",
     "dev": "nodemon src/server.js"
   },
   "dependencies": {
