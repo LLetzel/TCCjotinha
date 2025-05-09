@@ -2,7 +2,7 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: ${process.env.DB_HOST}
+-- Host: ${${process.env.DB_HOST}.DB_HOST}
 -- Tempo de geração: 08/05/2025 às 15:07
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12

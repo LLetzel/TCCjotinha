@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     try {
-        const response = await fetch('http://jotinhadb.mysql.database.azure.com:3000/mostrarDestaques', {
+        const response = await fetch('http://localhost:3000/mostrarDestaques', {
             method: 'GET',
             credentials: 'include',
         });

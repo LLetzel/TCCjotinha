@@ -1,6 +1,6 @@
 function entrar(event) {
     event.preventDefault(); // evita o reload da página
-
+    
     try {
         const emailInput = document.querySelector('#email');
         const senhaInput = document.querySelector('#senha');
@@ -28,7 +28,7 @@ function entrar(event) {
         btnText.style.visibility = 'hidden';
         spinner.style.display = 'inline-block';
 
-        fetch('http://jotinhadb.mysql.database.azure.com:3000/login', {
+        fetch(`http://localhost:3000/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ function entrar(event) {
             if (data.success) {
                 localStorage.setItem('userId', data.user.id);
 
-                fetch(`http://jotinhadb.mysql.database.azure.com:3000/usuario/${data.user.id}`, {
+                fetch(`http://localhost:3000/usuario/${data.user.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -191,3 +191,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
