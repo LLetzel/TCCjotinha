@@ -361,7 +361,7 @@ exports.consignar = async (req, res) => {
 
     const mailOptions = {
       from: `"Jotinha Veículos" <${process.env.EMAIL_USER}>`,
-      to: "gabrielledelimaq@gmail.com",
+      to: "jotinhadono.rece@gmail.com ",
       subject: "Nova mensagem de contato: proposta de consignação",
       html: htmlTemplate,
       attachments: allAttachments

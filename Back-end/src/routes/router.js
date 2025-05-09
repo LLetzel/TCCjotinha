@@ -96,7 +96,7 @@ router.post("/contato", async (req, res) => {
         // Configuração do e-mail
         const mailOptions = {
             from: `"${name}" <${email}>`,
-            to: "gabrielledelimaq@gmail.com",
+            to: "jotinhadono.rece@gmail.com ",
             subject: `Nova mensagem de contato: ${subject}`,
             html: htmlTemplate,
             attachments: [
