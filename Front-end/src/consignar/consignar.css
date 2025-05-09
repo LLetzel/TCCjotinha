@@ -388,6 +388,10 @@ input[type="file"] {
     transform: translate(-50%, -50%);
 }
 
+#observacoes {
+    resize: vertical;
+}
+
 @keyframes spin {
     to { transform: translate(-50%, -50%) rotate(360deg); }
 }
