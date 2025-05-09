@@ -29,6 +29,10 @@ const app = express();
 // Serve arquivos estáticos do Front-end
 app.use(express.static(path.join(__dirname, '../../../Front-end/')));
 
+app.get('/', (req, res) => {
+    res.redirect('/home');
+  });
+
 app.use(session({
     secret: token,
     resave: false,
