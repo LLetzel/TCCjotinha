@@ -1,6 +1,7 @@
 const roleModal = document.getElementById('roleModal');
 const roleForm = document.getElementById('roleForm');
 let currentUserId;
+let users = [];
 
 function openRoleModal(userId) {
     roleModal.style.display = 'block';
@@ -160,7 +161,6 @@ async function deleteUser(id) {
     }
 }
 
-
 async function alterarRole() {
     console.log(currentUserId);
 
@@ -231,6 +231,59 @@ async function alterarRole() {
     }
 }
 
+// Filtros
+document.getElementById('btnFiltrar').addEventListener('click', () => {
+    const filterNome = document.getElementById('filterNome').value.toLowerCase();
+    const filterEmail = document.getElementById('filterEmail').value.toLowerCase();
+    const filterRole = document.getElementById('filterRole').value;
+
+    const filteredUsers = users.filter(user => {
+        return (
+            (user.nome.toLowerCase().includes(filterNome) || filterNome === '') &&
+            (user.email.toLowerCase().includes(filterEmail) || filterEmail === '') &&
+            (user.tipo_id.toString() === filterRole || filterRole === '')
+        );
+    });
+
+    const tbody = document.querySelector('.users-table tbody');
+    tbody.innerHTML = ``;
+
+    const linhasHTML = filteredUsers.map(user =>
+        `
+         <tr>
+            <td>${user.nome}</td>
+            <td>${user.email}</td>
+            <td>${user.telefone}</td>
+            <td>
+                ${user.tipo_id === 1
+                    ? `<span class="role-badge admin">Administrador</span>`
+                    : `<span class="role-badge cliente">Cliente</span>`}
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" onclick="openRoleModal(${user.id})">
+                        <i class="fas fa-user-edit"></i>
+                    </button>
+                    <button class="delete-btn" onclick="deleteUser(${user.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        `
+    ).join('');
+
+    tbody.innerHTML = linhasHTML;
+});
+
+document.getElementById('btnLimpar').addEventListener('click', () => {
+    document.getElementById('filterNome').value = '';
+    document.getElementById('filterEmail').value = '';
+    document.getElementById('filterRole').value = '';
+    ListarUsuarios();
+});
+
+// Carregar usuários ao iniciar
 document.addEventListener('DOMContentLoaded', ListarUsuarios);
 
 window.onload = async () => {

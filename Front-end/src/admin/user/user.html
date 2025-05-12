@@ -42,10 +42,26 @@
     </nav>
 </aside>
 
+
+
         <main class="main-content">
             <header class="top-bar">
                 <h1>Gerenciar Usuários</h1>
             </header>
+
+            <div class="filters">
+                <input type="text" id="filterNome" placeholder="Filtrar por nome">
+                <input type="text" id="filterEmail" placeholder="Filtrar por email">
+                <select id="filterRole">
+                    <option value="">Todos os cargos</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Cliente</option>
+                </select>
+                <button id="btnFiltrar" class="filter-btn"><i class="fas fa-filter"></i> Filtrar</button>
+                <button id="btnLimpar" class="clear-btn"><i class="fas fa-times"></i> Limpar</button>
+            </div>
+
+            
 
             <div class="table-container">
                 <table class="users-table">

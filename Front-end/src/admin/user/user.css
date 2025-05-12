@@ -1,4 +1,4 @@
- .search-box {
+.search-box {
     position: relative;
     width: 300px;
 }
@@ -142,20 +142,55 @@
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
+    align-items: center;
+    background: var(--background-dark, #181818);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.filters select {
-    padding: 0.8rem 1.2rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
+.filters input, .filters select {
+    padding: 0.7rem 1rem;
     border-radius: 8px;
-    color: var(--text-color);
-    cursor: pointer;
-    transition: all 0.3s ease;
+    border: 1px solid var(--border-color, #333);
+    background: var(--card-bg, #232323);
+    color: var(--text-color, #f6f6f6);
+    font-size: 1rem;
+    transition: border-color 0.2s;
 }
 
-.filters select:hover {
-    border-color: var(--primary-color);
+.filters input:focus, .filters select:focus {
+    border-color: var(--primary-color, #c9302c);
+    outline: none;
+}
+
+.filter-btn, .clear-btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--primary-color, #c9302c);
+    color: #fff;
+    transition: background 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clear-btn {
+    background: #444;
+    color: #fff;
+}
+
+.filter-btn:hover {
+    background: #a82320;
+    transform: translateY(-2px);
+}
+
+.clear-btn:hover {
+    background: #222;
+    transform: translateY(-2px);
 }
 
 /* Action Buttons */
