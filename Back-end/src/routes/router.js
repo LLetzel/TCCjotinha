@@ -156,7 +156,7 @@ router.post(`/adicionarDestaque`, carsController.AdicionarDestaques);
 router.delete(`/removerDestaque/:id`, carsController.DeletarDestaque);
 
 // agendamento
-router.post("/agendamento/post", agendamentoController.postAgendamentos); // postar
+router.post("/agendamento/post", agendamentoController.postAgendamentos, agendamentoController.emailAgendamento); // postar
 router.get("/agendamento/get", agendamentoController.getAgendamentos);
 
 //contato
