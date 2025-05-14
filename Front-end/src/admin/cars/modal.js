@@ -96,8 +96,8 @@ carForm.addEventListener('submit', async (e) => {
 
     try {
         const url = editingCarId
-            ? `http://localhost:3000/AtualizarCarro/${editingCarId}`
-            : 'http://localhost:3000/RegistroCarro';
+            ? `https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/AtualizarCarro/${editingCarId}`
+            : 'https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/RegistroCarro';
 
         const response = await fetch(url, {
             method: editingCarId ? 'PUT' : 'POST',
@@ -144,7 +144,7 @@ function formatarPreco(preco) {
 
 async function ListarCarros() {
     try {
-        const response = await fetch('http://localhost:3000/Carros', {
+        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carros', {
             method: 'GET',
             credentials: 'include'
         });
@@ -232,7 +232,7 @@ async function deleteCar(id) {
 
         if (confirmResult.isConfirmed) {
             try {
-                const response = await fetch(`http://localhost:3000/DeletarCarro/${id}`, {
+                const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/DeletarCarro/${id}`, {
                     method: 'DELETE',
                 });
 
@@ -266,7 +266,7 @@ async function deleteCar(id) {
 
 async function marcarComoDestaque(id_carro) {
     try {
-        const responseCheck = await fetch('http://localhost:3000/mostrarDestaques', {
+        const responseCheck = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/mostrarDestaques', {
             method: 'GET',
             credentials: 'include'
         });
@@ -279,7 +279,7 @@ async function marcarComoDestaque(id_carro) {
         const carroJaDestaque = destaques.find(d => d.id_carro === id_carro);
 
         if (carroJaDestaque) {
-            await fetch(`http://localhost:3000/removerDestaque/${carroJaDestaque.id}`, {
+            await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/removerDestaque/${carroJaDestaque.id}`, {
                 method: 'DELETE',
                 credentials: 'include'
             });
@@ -294,7 +294,7 @@ async function marcarComoDestaque(id_carro) {
                 color: "#F6F6F6"
             });
         } else {
-            const response = await fetch('http://localhost:3000/AdicionarDestaque', {
+            const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/AdicionarDestaque', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

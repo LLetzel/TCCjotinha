@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dadosCompletos = { ...dadosPessoais, ...novosDados };
 
             try {
-                const response = await fetch('http://localhost:3000/cadastro', {
+                const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/cadastro', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

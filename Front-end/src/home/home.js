@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/mostrarDestaques', {
+        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/mostrarDestaques', {
             method: 'GET',
             credentials: 'include',
         });

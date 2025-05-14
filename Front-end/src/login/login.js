@@ -28,7 +28,7 @@ function entrar(event) {
         btnText.style.visibility = 'hidden';
         spinner.style.display = 'inline-block';
 
-        fetch(`http://localhost:3000/login`, {
+        fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

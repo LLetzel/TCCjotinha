@@ -149,7 +149,7 @@ document.getElementById('editPersonalForm').addEventListener('submit', async (e)
     const userId = cadastroDadosPessoais.id;
 
     try {
-        const response = await fetch(`http://localhost:3000/telefone/${userId}`, {
+        const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/telefone/${userId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -249,7 +249,7 @@ async function mudarSenha(event) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/atualizarSenha/${userId}`, {
+        const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/atualizarSenha/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

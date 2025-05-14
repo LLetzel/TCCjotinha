@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function contarUsuarios() {
     try {
-        const response = await fetch('http://localhost:3000/usuarios', {
+        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuarios', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', contarUsuarios);
 //contador carros 
 async function contarCarros() {
     try {
-        const response = await fetch('http://localhost:3000/Carros', {
+        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carros', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ function getCurrentDate() {
 
 async function loadAppointments(dateSelected) {
     try {
-        const response = await fetch('http://localhost:3000/agendamento/get');
+        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/agendamento/get');
         const result = await response.json();
         const userId = result[0].id_usuario; // ID do usuário logado
 
@@ -154,7 +154,7 @@ async function loadAppointments(dateSelected) {
 
         console.log('ID do usuário:', userId); // Verifica o ID do usuário logado
 
-        const reqUser = await fetch(`http://localhost:3000/usuario/${userId}`, {
+        const reqUser = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuario/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

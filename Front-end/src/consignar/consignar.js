@@ -205,7 +205,7 @@ document.getElementById("consignForm").addEventListener("submit", async function
     }
 
     try {
-        const resposta = await fetch(`http://localhost:3000/consignar/${userId}`, {
+        const resposta = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/consignar/${userId}`, {
             method: "POST",
             body: formData
         });

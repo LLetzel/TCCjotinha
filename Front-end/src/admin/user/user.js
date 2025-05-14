@@ -25,7 +25,7 @@ function closeRoleModal() {
 
 async function ListarUsuarios() {
     try {
-        const response = await fetch('http://localhost:3000/usuarios', {
+        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuarios', {
             method: 'GET',
             credentials: 'include'
         });
@@ -120,7 +120,7 @@ async function deleteUser(id) {
 
     if (result.isConfirmed) {
         try {
-            const response = await fetch(`http://localhost:3000/deletarUsuario/${id}`, {
+            const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/deletarUsuario/${id}`, {
                 method: 'DELETE',
             });
 
@@ -194,7 +194,7 @@ async function alterarRole() {
     const selectedRole = parseInt(userRoleSelect.value);
 
     try {
-        const response = await fetch(`http://localhost:3000/atualizarUsuario/${currentUserId}`, {
+        const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/atualizarUsuario/${currentUserId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             console.log('Car ID:', carId);
-            const response = await fetch(`http://localhost:3000/Carro/${carId}`, {
+            const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carro/${carId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

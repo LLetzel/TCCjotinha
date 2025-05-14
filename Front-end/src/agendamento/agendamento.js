@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    fetch("http://localhost:3000/agendamento/post", {
+    fetch("https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/agendamento/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
