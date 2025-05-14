@@ -78,7 +78,7 @@ body::before {
 .hero {
     min-height: 100vh;
     position: relative;
-    padding: 6rem 2rem 2rem;
+    padding: 2rem 2rem;
 }
 
 .hero-content {
@@ -93,7 +93,6 @@ body::before {
     font-size: 4rem;
     margin-bottom: 2rem;
     /* background: linear-gradient(45deg, var(--text-color)); */
-
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -126,7 +125,7 @@ body::before {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 2rem;
     padding: 2rem;
-    margin: 0 auto;
+    margin: auto;
     max-width: 1400px;
 }
 
@@ -244,7 +243,7 @@ body::before {
 
 @media (max-width: 768px) {
     .hero-content h1 {
-        font-size: 2.5rem;
+        font-size: 4rem;
         padding: 0 1rem;
     }
 
@@ -426,7 +425,7 @@ body::before {
     }
     
     .hero-content h1 {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 }
 
@@ -445,10 +444,10 @@ body::before {
 }
 
 .concessionaria h2 {
-    font-size: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
     color: var(--text-color);
     text-transform: uppercase;
-    letter-spacing: 2px;
     margin-bottom: 1rem;
 }
 

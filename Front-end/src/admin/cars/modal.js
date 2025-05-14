@@ -95,6 +95,9 @@ carForm.addEventListener('submit', async (e) => {
     console.log('Dados enviados:', formData);
 
     try {
+        const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
         const url = editingCarId
             ? `${API_BASE_URL}/AtualizarCarro/${editingCarId}`
             : `${API_BASE_URL}/RegistroCarro`;

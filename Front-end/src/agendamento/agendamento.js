@@ -1,7 +1,17 @@
 // ✅ Garante que o código só será executado depois que a página estiver totalmente carregada
-const email = JSON.parse(localStorage.getItem("user")).email;
-console.log(email)
 document.addEventListener("DOMContentLoaded", function () {
+  const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        Swal.fire({
+            icon: "error",
+            title: "Acesso negado",
+            text: "Você precisa estar logado para acessar esta página.",
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6",
+        }).then(() => {
+            window.location.href = '/login';
+        });
+    }
   flatpickr("#date", {
     dateFormat: "Y-m-d", // d/m/Y
     minDate: "today",
@@ -124,22 +134,3 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// 🔒 Verifica o login do usuário ao carregar a página
-window.onload = async () => {
-  const userId = localStorage.getItem('userId');
-  const userRole = localStorage.getItem('userRole');
-
-  if (!userId || userId === 'undefined' || userRole == 1 || userId == null) {
-    Swal.fire({
-      position: "center",
-      icon: "error",
-      title: 'Você precisa estar logado para acessar essa página.',
-      showConfirmButton: false,
-      timer: 2000,
-      background: "rgba(0, 0, 0, 1)",
-      color: "#F6F6F6",
-    }).then(() => {
-      window.location.href = '/login';
-    });
-  }
-};
