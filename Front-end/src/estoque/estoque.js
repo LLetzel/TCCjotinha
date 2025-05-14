@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Busca os veículos do banco e popula a grid e os filtros
     async function loadVehicles() {
         try {
-            const response = await fetch('http://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carros', {
+            const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carros', {
                 method: 'GET',
                 credentials: 'include'
             });
