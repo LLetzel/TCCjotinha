@@ -96,6 +96,10 @@ router.get("/sobrenos", (req, res) => {
   );
 });
 
+router.get("/esqueceusenha", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../../Front-end/src/esqueceusenha/esqueceusenha.html"));
+});
+
 const fs = require('fs');
 
 const storage = multer.diskStorage({

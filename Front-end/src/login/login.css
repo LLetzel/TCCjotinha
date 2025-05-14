@@ -201,13 +201,19 @@ input[type="text"] {
     to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-#esqueceusenha, #naotemconta {
+#esqueceusenha {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin-top: 30px;
+}
+ #naotemconta {
     color: var(--text-color);
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s ease;
     text-align: center;
-    margin-top: 1rem;
 }
 
 #Cadastre-se {
