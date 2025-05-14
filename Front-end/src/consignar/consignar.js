@@ -159,6 +159,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // Submissão do formulário
 document.getElementById("consignForm").addEventListener("submit", async function(event) {
     event.preventDefault();
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
 
     let userData = localStorage.getItem('user');
     let userName = "", userEmail = "", userTelefone = "", userCPF = "", userId = "";
@@ -205,7 +208,7 @@ document.getElementById("consignForm").addEventListener("submit", async function
     }
 
     try {
-        const resposta = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/consignar/${userId}`, {
+        const resposta = await fetch(`${API_BASE_URL}/consignar/${userId}`, {
             method: "POST",
             body: formData
         });

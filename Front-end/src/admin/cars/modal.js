@@ -96,8 +96,8 @@ carForm.addEventListener('submit', async (e) => {
 
     try {
         const url = editingCarId
-            ? `https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/AtualizarCarro/${editingCarId}`
-            : 'https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/RegistroCarro';
+            ? `${API_BASE_URL}/AtualizarCarro/${editingCarId}`
+            : `${API_BASE_URL}/RegistroCarro`;
 
         const response = await fetch(url, {
             method: editingCarId ? 'PUT' : 'POST',
@@ -143,8 +143,11 @@ function formatarPreco(preco) {
 }
 
 async function ListarCarros() {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     try {
-        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carros', {
+        const response = await fetch(`${API_BASE_URL}/Carros`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -198,6 +201,9 @@ async function ListarCarros() {
 document.addEventListener('DOMContentLoaded', ListarCarros);
 
 async function deleteCar(id) {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     const secretKey = 'letzellindo';
     const encryptedRole = localStorage.getItem('userRole');
 
@@ -232,7 +238,8 @@ async function deleteCar(id) {
 
         if (confirmResult.isConfirmed) {
             try {
-                const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/DeletarCarro/${id}`, {
+                
+                const response = await fetch(`${API_BASE_URL}/DeletarCarro/${id}`, {
                     method: 'DELETE',
                 });
 
@@ -266,7 +273,10 @@ async function deleteCar(id) {
 
 async function marcarComoDestaque(id_carro) {
     try {
-        const responseCheck = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/mostrarDestaques', {
+        const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
+        const responseCheck = await fetch(`${API_BASE_URL}/mostrarDestaques`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -279,7 +289,10 @@ async function marcarComoDestaque(id_carro) {
         const carroJaDestaque = destaques.find(d => d.id_carro === id_carro);
 
         if (carroJaDestaque) {
-            await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/removerDestaque/${carroJaDestaque.id}`, {
+            const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
+            await fetch(`${API_BASE_URL}/removerDestaque/${carroJaDestaque.id}`, {
                 method: 'DELETE',
                 credentials: 'include'
             });
@@ -294,7 +307,7 @@ async function marcarComoDestaque(id_carro) {
                 color: "#F6F6F6"
             });
         } else {
-            const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/AdicionarDestaque', {
+            const response = await fetch(`${API_BASE_URL}/AdicionarDestaque`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

@@ -1,5 +1,8 @@
 function entrar(event) {
     event.preventDefault(); // evita o reload da página
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     
     try {
         const emailInput = document.querySelector('#email');
@@ -28,7 +31,7 @@ function entrar(event) {
         btnText.style.visibility = 'hidden';
         spinner.style.display = 'inline-block';
 
-        fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/login`, {
+        fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +44,7 @@ function entrar(event) {
             if (data.success) {
                 localStorage.setItem('userId', data.user.id);
 
-                fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuario/${data.user.id}`, {
+                fetch(`${API_BASE_URL}/usuario/${data.user.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

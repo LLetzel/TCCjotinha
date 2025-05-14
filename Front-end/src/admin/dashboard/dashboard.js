@@ -73,8 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function contarUsuarios() {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     try {
-        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuarios', {
+        const response = await fetch(`${API_BASE_URL}/usuarios`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,8 +101,11 @@ document.addEventListener('DOMContentLoaded', contarUsuarios);
 
 //contador carros 
 async function contarCarros() {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     try {
-        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carros', {
+        const response = await fetch(`${API_BASE_URL}/Carros`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,8 +150,11 @@ function getCurrentDate() {
 }
 
 async function loadAppointments(dateSelected) {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     try {
-        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/agendamento/get');
+        const response = await fetch(`${API_BASE_URL}/agendamento/get`);
         const result = await response.json();
         const userId = result[0].id_usuario; // ID do usuário logado
 
@@ -154,7 +163,7 @@ async function loadAppointments(dateSelected) {
 
         console.log('ID do usuário:', userId); // Verifica o ID do usuário logado
 
-        const reqUser = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuario/${userId}`, {
+        const reqUser = await fetch(`${API_BASE_URL}/usuario/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

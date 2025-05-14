@@ -1,7 +1,9 @@
 // ----------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     const CarContainer = document.querySelector('.car-container');
-
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
 
 
     async function fetchCarDetails() {
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             console.log('Car ID:', carId);
-            const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/Carro/${carId}`, {
+            const response = await fetch(`${API_BASE_URL}/Carro/${carId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

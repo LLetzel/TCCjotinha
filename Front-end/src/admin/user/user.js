@@ -24,8 +24,11 @@ function closeRoleModal() {
 }
 
 async function ListarUsuarios() {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     try {
-        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuarios', {
+        const response = await fetch(`${API_BASE_URL}/usuarios`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -119,8 +122,11 @@ async function deleteUser(id) {
     });
 
     if (result.isConfirmed) {
+        const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
         try {
-            const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/deletarUsuario/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/deletarUsuario/${id}`, {
                 method: 'DELETE',
             });
 
@@ -162,6 +168,9 @@ async function deleteUser(id) {
 }
 
 async function alterarRole() {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     console.log(currentUserId);
 
     const secretKey = 'letzellindo';
@@ -194,7 +203,7 @@ async function alterarRole() {
     const selectedRole = parseInt(userRoleSelect.value);
 
     try {
-        const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/atualizarUsuario/${currentUserId}`, {
+        const response = await fetch(`${API_BASE_URL}/atualizarUsuario/${currentUserId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

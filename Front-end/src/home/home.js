@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function() {
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
 
     // Função auxiliar para formatar o preço no padrão BRL
     function formatPrice(value) {
@@ -9,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     try {
-        const response = await fetch('https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/mostrarDestaques', {
+        const response = await fetch(`${API_BASE_URL}/mostrarDestaques`, {
             method: 'GET',
             credentials: 'include',
         });

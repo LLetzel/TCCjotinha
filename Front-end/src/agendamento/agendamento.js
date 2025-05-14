@@ -26,7 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
     submitBtn.disabled = true;
 
-
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
     const dataInput = document.getElementById("date");
     const horaInput = document.getElementById("time");
     const interesseInput = document.getElementById("interest");
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    fetch("https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/agendamento/post", {
+    fetch(`${API_BASE_URL}/agendamento/post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
