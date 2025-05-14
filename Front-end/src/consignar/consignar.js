@@ -228,6 +228,9 @@ document.getElementById("consignForm").addEventListener("submit", async function
                 color: "#F6F6F6",
             });
 
+        document.getElementById("consignForm").reset();
+        document.getElementById("preview").innerHTML = ""; // Limpa o preview
+
         } else {
             // ⚠️ Erro conhecido do backend
             Swal.fire({

@@ -181,18 +181,6 @@
             });
 
             const resultado = await resposta.json();
-            // if (resultado !== "sucess") {
-            //     Swal.fire({
-            //     position: "center",
-            //     icon: "error",
-            //     title: resultado.mensagem,
-            //     showConfirmButton: false,
-            //     timer: 2000,
-            //     background: "rgba(0, 0, 0, 1)", // --background-dark
-            //     color: "#F6F6F6", // --text-color
-            // })
-            // }
-
             if (resposta.ok) {
             // ✅ Sucesso
             Swal.fire({
@@ -205,12 +193,14 @@
                 color: "#F6F6F6",
             });
 
+            document.getElementById("contactForm").reset();
+
         } else {
             // ⚠️ Erro conhecido do backend
             Swal.fire({
                 icon: "error",
                 title: "Erro ao enviar",
-                text: resultado.message || "Algo deu errado ao enviar os dados.",
+                text: resultado.mensagem || "Algo deu errado ao enviar os dados.",
                 background: "rgba(0, 0, 0, 1)",
                 color: "#F6F6F6",
             });
