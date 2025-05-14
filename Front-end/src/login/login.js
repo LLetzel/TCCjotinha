@@ -41,7 +41,7 @@ function entrar(event) {
             if (data.success) {
                 localStorage.setItem('userId', data.user.id);
 
-                fetch(`http://localhost:3000/usuario/${data.user.id}`, {
+                fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuario/${data.user.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
