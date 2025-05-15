@@ -125,9 +125,25 @@ exports.deleteCar = async (req, res) => {
 exports.atualizarCar = async (req, res) => {
     try {
         const { id } = req.params;
-        const { marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5 } = req.body;
-        const car = await Cars.update({ marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, imagem1, imagem2, imagem3, imagem4, imagem5 }, { where: { id } });
-        if (!car) {
+        const { marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao } = req.body;
+
+        // Processar imagens: se veio arquivo novo, usa o caminho do arquivo, senão usa o valor antigo enviado no body
+        let imagens = {};
+        for (let i = 1; i <= 5; i++) {
+            if (req.files && req.files[`imagem${i}`]) {
+                imagens[`imagem${i}`] = `/src/imgcarros/${req.files[`imagem${i}`][0].filename}`;
+            } else if (req.body[`imagem${i}`]) {
+                imagens[`imagem${i}`] = req.body[`imagem${i}`];
+            } else {
+                imagens[`imagem${i}`] = '';
+            }
+        }
+
+        const [affectedRows] = await Cars.update(
+            { marca, modelo, ano, preco, quilometragem, combustivel, cambio, cor, ipva, descricao, ...imagens },
+            { where: { id } }
+        );
+        if (affectedRows === 0) {
             return res.status(404).json({
                 message: 'Carro não encontrado'
             });

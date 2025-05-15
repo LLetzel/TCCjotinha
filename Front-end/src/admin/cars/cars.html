@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/src/admin/cars/cars.css">   
+    <link rel="stylesheet" href="/src/admin/cars/cars.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="shortcut icon" href="/img/image.png" type="image/x-icon">
 </head>
@@ -178,13 +178,120 @@
                 </div>
                 <div class="form-actions">
                     <button type="button" class="cancel-btn" onclick="closeModal()">Cancelar</button>
-                    <button type="submit" event="submit" class="save-btn">Salvar</button>
+                    <button type="submit" class="save-btn">Salvar</button>
                 </div>
-
-
             </form>
         </div>
     </div>
+
+    <!-- Editar carros modal  -->
+    <!-- <div id="editcarModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Adicionar Veículo</h2>
+            <form id="editcarForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Marca</label>
+                        <input type="text" id="marca" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Modelo</label>
+                        <input type="text" id="modelo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ano</label>
+                        <input type="number" id="ano" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Preço</label>
+                        <input type="number" id="preco" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quilometragem</label>
+                        <input type="number" id="quilometragem" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Combustível</label>
+                        <select id="combustivel" required>
+                            <option value="Flex">Flex</option>
+                            <option value="Gasolina">Gasolina</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Elétrico">Elétrico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Câmbio</label>
+                        <select id="cambio" required>
+                            <option value="Manual">Manual</option>
+                            <option value="Automático">Automático</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cor</label>
+                        <input type="text" id="cor" required>
+                    </div>
+                    <div class="form-group">
+                        <label>IPVA</label>
+                        <select id="ipva" required>
+                            <option value="Pago">Pago</option>
+                            <option value="Não pago">Não pago</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Descrição</label>
+                        <textarea id="descricao" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Imagens do Veículo</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview-grid">
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem1" required>
+                                    <div class="preview" id="preview1">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem Principal</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem2">
+                                    <div class="preview" id="preview2">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 2</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem3">
+                                    <div class="preview" id="preview3">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 3</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem4">
+                                    <div class="preview" id="preview4">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 4</span>
+                                    </div>
+                                </div>
+                                <div class="image-upload-slot">
+                                    <input type="file" id="imagem5" accept="image/*">
+                                    <div class="preview" id="preview5">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Imagem 5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="notification-container"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" event="submit" class="save-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/src/admin/dashboard/dashboard.js"></script>

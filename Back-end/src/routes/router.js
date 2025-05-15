@@ -146,7 +146,16 @@ router.post('/RegistroCarro',
     carsController.createCar
 );
 router.delete("/DeletarCarro/:id", carsController.deleteCar);
-router.put("/AtualizarCarro/:id", carsController.atualizarCar);
+router.put("/AtualizarCarro/:id",
+    upload.fields([
+        { name: 'imagem1', maxCount: 1 },
+        { name: 'imagem2', maxCount: 1 },
+        { name: 'imagem3', maxCount: 1 },
+        { name: 'imagem4', maxCount: 1 },
+        { name: 'imagem5', maxCount: 1 }
+    ]),
+    carsController.atualizarCar
+);
 router.get("/Carros", carsController.mostrarCarros);
 router.get("/Carro/:id", carsController.mostrarCarro);
 

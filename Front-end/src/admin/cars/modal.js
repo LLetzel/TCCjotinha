@@ -1,23 +1,90 @@
 const modal = document.getElementById('carModal');
 const carForm = document.getElementById('carForm');
 
+let editingCarId = null;
 
-// abrir modal
 function openModal(carId = null) {
     modal.style.display = 'block';
     editingCarId = carId;
 
     if (carId) {
         document.getElementById('modalTitle').textContent = 'Editar Veículo';
-        // Fetch car data and populate form
         fetchCarData(carId);
+        // Remover required dos campos de imagem ao editar
+        for (let i = 1; i <= 5; i++) {
+            const fileInput = document.getElementById(`imagem${i}`);
+            if (fileInput) fileInput.removeAttribute('required');
+        }
     } else {
         document.getElementById('modalTitle').textContent = 'Adicionar Veículo';
         carForm.reset();
+        // Adicionar required apenas para a imagem principal ao adicionar novo
+        for (let i = 1; i <= 5; i++) {
+            const fileInput = document.getElementById(`imagem${i}`);
+            if (fileInput) {
+                if (i === 1) fileInput.setAttribute('required', 'required');
+                else fileInput.removeAttribute('required');
+            }
+        }
+        // Limpa previews de imagem ao adicionar novo veículo
+        for (let i = 1; i <= 5; i++) {
+            const preview = document.getElementById(`preview${i}`);
+            if (preview) preview.innerHTML = '<i class="fas fa-plus"></i><span>Imagem ' + (i === 1 ? 'Principal' : i) + '</span>';
+        }
     }
 }
 
-//fechar modal (resetar)
+async function fetchCarData(carId) {
+    try {
+        const response = await fetch(`http://localhost:3000/Carro/${carId}`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (!response.ok) throw new Error('Erro ao buscar dados do veículo');
+        const data = await response.json();
+        const carro = data.car;
+
+        document.getElementById('marca').value = carro.marca || '';
+        document.getElementById('modelo').value = carro.modelo || '';
+        document.getElementById('ano').value = carro.ano || '';
+        document.getElementById('preco').value = carro.preco || '';
+        document.getElementById('quilometragem').value = carro.quilometragem || '';
+        document.getElementById('combustivel').value = carro.combustivel || '';
+        document.getElementById('cambio').value = carro.cambio || '';
+        document.getElementById('cor').value = carro.cor || '';
+        document.getElementById('ipva').value = carro.ipva || '';
+        document.getElementById('descricao').value = carro.descricao || '';
+
+        // Preencher previews das imagens, se existirem URLs no objeto carro
+        for (let i = 1; i <= 5; i++) {
+            const preview = document.getElementById(`preview${i}`);
+            const imgUrl = carro[`imagem${i}`];
+            if (preview) {
+                if (imgUrl) {
+                    preview.innerHTML = `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">`;
+                } else {
+                    preview.innerHTML = `<i class="fas fa-plus"></i><span>Imagem ${i === 1 ? 'Principal' : i}</span>`;
+                }
+            }
+        }
+
+        for (let i = 1; i <= 5; i++) {
+            const fileInput = document.getElementById(`imagem${i}`);
+            if (fileInput) {
+                fileInput.setAttribute('data-old', carro[`imagem${i}`] || '');
+            }
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message,
+            background: "rgba(0, 0, 0, 1)",
+            color: "#F6F6F6"
+        });
+    }
+}
+
 function closeModal() {
     modal.style.display = 'none';
     carForm.reset();
@@ -89,18 +156,24 @@ carForm.addEventListener('submit', async (e) => {
         const fileInput = document.getElementById(`imagem${i}`);
         if (fileInput && fileInput.files.length > 0) {
             formData.append(`imagem${i}`, fileInput.files[0]);
+        } else {
+            const oldValue = fileInput ? fileInput.getAttribute('data-old') : '';
+            formData.append(`imagem${i}`, oldValue);
         }
     }
 
-    console.log('Dados enviados:', formData);
+    let url, method;
+    if (editingCarId) {
+        url = `http://localhost:3000/AtualizarCarro/${editingCarId}`;
+        method = 'PUT';
+    } else {
+        url = 'http://localhost:3000/RegistroCarro';
+        method = 'POST';
+    }
 
     try {
-        const url = editingCarId
-            ? `http://localhost:3000/AtualizarCarro/${editingCarId}`
-            : 'http://localhost:3000/RegistroCarro';
-
         const response = await fetch(url, {
-            method: editingCarId ? 'PUT' : 'POST',
+            method: method,
             credentials: 'include',
             body: formData
         });
@@ -112,7 +185,7 @@ carForm.addEventListener('submit', async (e) => {
         Swal.fire({
             position: "center",
             icon: "success",
-            title: 'Veículo cadastrado com sucesso!',
+            title: editingCarId ? 'Veículo atualizado com sucesso!' : 'Veículo cadastrado com sucesso!',
             showConfirmButton: false,
             timer: 2000,
             background: "rgba(0, 0, 0, 1)",
@@ -173,6 +246,9 @@ async function ListarCarros() {
                     <div class="action-buttons">
                         <button class="destaque-btn" onclick="marcarComoDestaque(${carro.id})">
                             <i class="fas fa-star ${carro.destaqueData !== null ? 'desfa-star' : ''}"></i>
+                        </button>
+                        <button class="edit-btn" onclick="openModal(${carro.id})">
+                            <i class="fas fa-edit"></i>
                         </button>
                         <button class="delete-btn" onclick="deleteCar(${carro.id})">
                             <i class="fas fa-trash"></i>
@@ -345,7 +421,7 @@ window.onload = async () => {
         setTimeout(() => {
             window.location.href = '/login';
         }, 2000);
-        }
+    }
 
 
     if (encryptedRole) {
