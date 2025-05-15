@@ -11,6 +11,7 @@ const carsController = require("../controllers/carsController.js");
 // const upload = require("../utils/multer.js");
 const nodemailer = require("nodemailer");
 const agendamentoController = require("../controllers/agendamentoController");
+const recuperarSenhaController = require("../controllers/recuperarSenhaController");
 require("dotenv").config({ path: path.resolve(__dirname, '../../.env') });
 
 // pages
@@ -96,8 +97,8 @@ router.get("/sobrenos", (req, res) => {
   );
 });
 
-router.get("/esqueceusenha", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../../Front-end/src/esqueceusenha/esqueceusenha.html"));
+router.get("/recuperarsenha", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../../Front-end/src/recuperarsenha/recuperarsenha.html"));
 });
 
 const fs = require('fs');
@@ -162,6 +163,10 @@ router.delete(`/removerDestaque/:id`, carsController.DeletarDestaque);
 // agendamento
 router.post("/agendamento/post", agendamentoController.postAgendamentos, agendamentoController.emailAgendamento); // postar
 router.get("/agendamento/get", agendamentoController.getAgendamentos);
+
+// Rotas de recuperação de senha
+router.post('/recuperar/email', recuperarSenhaController.enviarEmail);
+router.post('/recuperar/redefinir', recuperarSenhaController.redefinirSenha);
 
 //contato
 router.post("/contato", async (req, res) => {

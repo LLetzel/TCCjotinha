@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Senha - Jotinha Veículos</title>
     <link rel="shortcut icon" href="/img/image.png" type="image/x-icon" />
-    <link rel="stylesheet" href="src/esqueceusenha/esqueceusenha.css">
+    <link rel="stylesheet" href="/src/recuperarsenha/recuperarsenha.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -16,24 +16,29 @@
                 <img src="/img/logonome.png" alt="Jotinha Veículos">
             </div>
             <h2>Recuperar Senha</h2>
-            <form id="resetForm">
+            <!-- Etapa 1: Enviar e-mail -->
+            <div id="etapaEmail">
                 <div class="input-group">
                     <label for="email"><i class="fas fa-envelope"></i></label>
                     <input type="email" id="email" placeholder="Digite seu e-mail" required>
                 </div>
-                <button type="submit" class="btn">Enviar link de recuperação</button>
-            </form>
+                <button id="enviarEmailBtn" class="btn" disabled>Enviar link de recuperação</button>
+            </div>
+            <!-- Etapa 2: Nova senha -->
+            <div id="etapaSenha" class="hidden">
+                <div class="input-group">
+                    <label for="novaSenha"><i class="fas fa-lock"></i></label>
+                    <input type="password" id="novaSenha" placeholder="Digite a nova senha" required>
+                </div>
+                <button id="alterarSenhaBtn" class="btn" disabled>Alterar senha</button>
+            </div>
             <div class="links">
                 <a href="/login">Voltar ao login</a>
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('resetForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Aqui você pode adicionar a lógica de envio do e-mail
-            alert('Se o e-mail existir, um link de recuperação será enviado.');
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/src/recuperarsenha/recuperarsenha.js"></script>
 </body>
 </html>
