@@ -52,14 +52,12 @@ document.addEventListener("DOMContentLoaded", function () {
             confirmPassword
         };
 
-        
+
     });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = window.location.hostname === "localhost"
-  ? "http://localhost:3000"
-  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
+
     const form = document.querySelector('.cadastro-form');
     let dadosPessoais = JSON.parse(localStorage.getItem('cadastroDadosPessoais')) || {};
 
@@ -92,7 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const dadosCompletos = { ...dadosPessoais, ...novosDados };
-
+            const API_BASE_URL = window.location.hostname === "localhost"
+                ? "http://localhost:3000"
+                : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
             try {
                 const response = await fetch(`${API_BASE_URL}/cadastro`, {
                     method: 'POST',
