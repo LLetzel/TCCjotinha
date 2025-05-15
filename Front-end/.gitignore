@@ -16,7 +16,6 @@ build/
 # Environment variables
 .env
 .env.local
-src/imgcarros/ 
 # Logs
 *.log
 npm-debug.log*

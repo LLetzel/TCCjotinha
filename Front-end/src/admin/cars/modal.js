@@ -7,25 +7,21 @@ function openModal(carId = null) {
     modal.style.display = 'block';
     editingCarId = carId;
 
+    // Sempre remova o required dos campos de imagem ao abrir o modal
+    for (let i = 1; i <= 5; i++) {
+        const fileInput = document.getElementById(`imagem${i}`);
+        if (fileInput) fileInput.removeAttribute('required');
+    }
+
     if (carId) {
         document.getElementById('modalTitle').textContent = 'Editar Veículo';
         fetchCarData(carId);
-        // Remover required dos campos de imagem ao editar
-        for (let i = 1; i <= 5; i++) {
-            const fileInput = document.getElementById(`imagem${i}`);
-            if (fileInput) fileInput.removeAttribute('required');
-        }
     } else {
         document.getElementById('modalTitle').textContent = 'Adicionar Veículo';
         carForm.reset();
         // Adicionar required apenas para a imagem principal ao adicionar novo
-        for (let i = 1; i <= 5; i++) {
-            const fileInput = document.getElementById(`imagem${i}`);
-            if (fileInput) {
-                if (i === 1) fileInput.setAttribute('required', 'required');
-                else fileInput.removeAttribute('required');
-            }
-        }
+        const fileInput = document.getElementById('imagem1');
+        if (fileInput) fileInput.setAttribute('required', 'required');
         // Limpa previews de imagem ao adicionar novo veículo
         for (let i = 1; i <= 5; i++) {
             const preview = document.getElementById(`preview${i}`);
@@ -55,12 +51,18 @@ async function fetchCarData(carId) {
         document.getElementById('ipva').value = carro.ipva || '';
         document.getElementById('descricao').value = carro.descricao || '';
 
+        // Limpa todos os previews antes de preencher
+        for (let i = 1; i <= 5; i++) {
+            const preview = document.getElementById(`preview${i}`);
+            if (preview) preview.innerHTML = '';
+        }
+
         // Preencher previews das imagens, se existirem URLs no objeto carro
         for (let i = 1; i <= 5; i++) {
             const preview = document.getElementById(`preview${i}`);
             const imgUrl = carro[`imagem${i}`];
             if (preview) {
-                if (imgUrl) {
+                if (imgUrl && imgUrl !== "" && imgUrl !== "null" && imgUrl !== null && imgUrl !== undefined) {
                     preview.innerHTML = `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">`;
                 } else {
                     preview.innerHTML = `<i class="fas fa-plus"></i><span>Imagem ${i === 1 ? 'Principal' : i}</span>`;

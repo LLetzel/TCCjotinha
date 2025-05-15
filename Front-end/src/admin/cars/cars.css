@@ -106,9 +106,11 @@ option {
 .edit-btn {
     background: var(--primary-color);
     color: var(--text-color);
+
 }
 
-.delete-btn {
+.delete-btn, 
+.edit-btn {
     background: #e73030;
     border: none;
     padding: 8px;
