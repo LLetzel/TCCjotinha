@@ -33,10 +33,30 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Permitir apenas e-mails do gmail.com, hotmail.com, outlook.com e yahoo.com
+        const emailPermitidos = [
+            "@gmail.com",
+            "@hotmail.com",
+            "@outlook.com",
+            "@yahoo.com"
+        ];
+        const emailValido = emailPermitidos.some(dominio => email.endsWith(dominio));
+
+        if (!emailValido) {
+            Swal.fire({
+                icon: "error",
+                title: "E-mail inválido",
+                text: "Apenas e-mails @gmail.com, @hotmail.com, @outlook.com ou @yahoo.com são permitidos.",
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6",
+            });
+            return;
+        }
+
         if (senha !== confirmPassword) {
             Swal.fire({
                 icon: "error",
-                title: "Erro",
+                title: "Atenção",
                 text: "As senhas não coincidem.",
                 background: "rgba(0, 0, 0, 1)",
                 color: "#F6F6F6",
@@ -75,6 +95,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 senha: document.getElementById('senha').value,
                 confirmPassword: document.getElementById('confirmar-senha').value
             };
+
+            // Validação de domínio de e-mail
+            const emailPermitidos = [
+                "@gmail.com",
+                "@hotmail.com",
+                "@outlook.com",
+                "@yahoo.com"
+            ];
+            const emailValido = emailPermitidos.some(dominio => novosDados.email.endsWith(dominio));
+
+            if (!emailValido) {
+                Swal.fire({
+                    icon: "error",
+                    title: "E-mail inválido",
+                    text: "Apenas e-mails @gmail.com, @hotmail.com, @outlook.com ou @yahoo.com são permitidos.",
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                return;
+            }
 
             if (novosDados.senha !== novosDados.confirmPassword) {
                 Swal.fire({
