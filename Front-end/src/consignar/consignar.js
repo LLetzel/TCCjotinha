@@ -207,6 +207,15 @@ document.getElementById("consignForm").addEventListener("submit", async function
         formData.append("fotos", files[i]);
     }
 
+    // Carregamento igual ao login/contato
+    const submitBtn = this.querySelector('.submit-btn');
+    const spinner = submitBtn.querySelector('.loading-spinner');
+    const btnText = submitBtn.querySelector('span');
+
+    submitBtn.disabled = true;
+    btnText.style.visibility = 'hidden';
+    spinner.style.display = 'inline-block';
+
     try {
         const resposta = await fetch(`${API_BASE_URL}/consignar/${userId}`, {
             method: "POST",
@@ -252,5 +261,9 @@ document.getElementById("consignForm").addEventListener("submit", async function
             background: "rgba(0, 0, 0, 1)",
             color: "#F6F6F6",
         });
+    } finally {
+        spinner.style.display = 'none';
+        btnText.style.visibility = 'visible';
+        submitBtn.disabled = false;
     }
 });

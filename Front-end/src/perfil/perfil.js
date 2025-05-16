@@ -187,9 +187,12 @@ document.getElementById('editPersonalForm').addEventListener('submit', async (e)
 
     const cadastroDadosPessoais = JSON.parse(cadastroStr);
     const userId = cadastroDadosPessoais.id;
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net"
 
     try {
-        const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/telefone/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/telefone/${userId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -287,9 +290,12 @@ async function mudarSenha(event) {
         });
         return;
     }
+    const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net"
 
     try {
-        const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/atualizarSenha/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/atualizarSenha/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

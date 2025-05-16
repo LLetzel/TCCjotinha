@@ -188,7 +188,14 @@ carForm.addEventListener('submit', async (e) => {
         });
 
         if (!response.ok) {
-            throw new Error('Erro ao salvar o veículo');
+            let errorMsg = 'Erro ao salvar o veículo';
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.mensagem || errorData.error || errorMsg;
+            } catch (e) {
+                errorMsg = await response.text() || errorMsg;
+            }
+            throw new Error(errorMsg);
         }
 
         Swal.fire({
@@ -346,7 +353,7 @@ async function deleteCar(id) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro',
-                    text: error.message,
+                    text: 'Verifique se o veículo não é um destaque',
                     background: "rgba(0, 0, 0, 1)",
                     color: "#F6F6F6"
                 });

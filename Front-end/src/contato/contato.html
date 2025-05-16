@@ -14,7 +14,6 @@
         rel="stylesheet">
     <link rel="shortcut icon" href="/img/image.png" type="image/x-icon"> <!--  -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
-    <!-- animação de carregamento -->
 </head>
 
 <body>
@@ -104,8 +103,9 @@
                     <div class="form-group">
                         <div class="input-wrapper">
                             <i class="fas fa-phone"></i>
-                            <input type="text" id="phone" name="phone" required pattern="\d{10,11}"
-                                title="Digite um telefone válido com DDD">
+                            <input type="text" id="phone" name="phone" required maxlength="15"
+                                placeholder="(99) 99999-9999" pattern="\(\d{2}\) \d{5}-\d{4}"
+                                title="Digite um telefone válido no formato (99) 99999-9999">
                         </div>
                     </div>
 
@@ -129,9 +129,9 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn">
-                        <span></span>
-                        <i class="fas fa-paper-plane"></i>
+                    <button type="submit" class="submit-btn" style="position:relative;">
+                        <span class="btn-text">Enviar</span>
+                        <div class="loading-spinner" style="display:none;"></div>
                     </button>
                 </form>
             </section>
@@ -158,9 +158,23 @@
     <script src="https://kit.fontawesome.com/d0367c04e4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
     <script src="/src/components/header/header.js" type="text/javascript" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Máscara de telefone (xx) xxxxx-xxxx
+        document.getElementById('phone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length > 6) {
+                e.target.value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+            } else if (value.length > 2) {
+                e.target.value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+            } else if (value.length > 0) {
+                e.target.value = `(${value}`;
+            }
+        });
+
         document.getElementById("contactForm").addEventListener("submit", async function (event) {
-            event.preventDefault(); // Evita recarregar a página
+            event.preventDefault();
 
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
@@ -168,50 +182,65 @@
             const subject = document.getElementById("subject").value;
             const message = document.getElementById("message").value;
             const API_BASE_URL = window.location.hostname === "localhost"
-  ? "http://localhost:3000"
-  : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
-            
+                ? "http://localhost:3000"
+                : "https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net";
 
-            const resposta = await fetch(`${API_BASE_URL}/contato`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name, email, phone, subject, message })
-            });
+            // Carregamento igual ao login
+            const submitBtn = this.querySelector('.submit-btn');
+            const spinner = submitBtn.querySelector('.loading-spinner');
+            const btnText = submitBtn.querySelector('.btn-text');
 
-            const resultado = await resposta.json();
-            if (resposta.ok) {
-            // ✅ Sucesso
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Email enviado com sucesso!",
-                showConfirmButton: false,
-                timer: 2000,
-                background: "rgba(0, 0, 0, 1)",
-                color: "#F6F6F6",
-            });
+            submitBtn.disabled = true;
+            btnText.style.visibility = 'hidden';
+            spinner.style.display = 'inline-block';
 
-            document.getElementById("contactForm").reset();
+            try {
+                const resposta = await fetch(`${API_BASE_URL}/contato`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name, email, phone, subject, message })
+                });
 
-        } else {
-            // ⚠️ Erro conhecido do backend
-            Swal.fire({
-                icon: "error",
-                title: "Erro ao enviar",
-                text: resultado.mensagem || "Algo deu errado ao enviar os dados.",
-                background: "rgba(0, 0, 0, 1)",
-                color: "#F6F6F6",
-            });
-        }
-
+                const resultado = await resposta.json();
+                if (resposta.ok) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Email enviado com sucesso!",
+                        showConfirmButton: false,
+                        timer: 2000,
+                        background: "rgba(0, 0, 0, 1)",
+                        color: "#F6F6F6",
+                    });
+                    document.getElementById("contactForm").reset();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Erro ao enviar",
+                        text: resultado.mensagem || "Algo deu errado ao enviar os dados.",
+                        background: "rgba(0, 0, 0, 1)",
+                        color: "#F6F6F6",
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro ao enviar",
+                    text: "Erro de conexão com o servidor.",
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6",
+                });
+            } finally {
+                spinner.style.display = 'none';
+                btnText.style.visibility = 'visible';
+                submitBtn.disabled = false;
+            }
         });
-    </script>
-    <script>
+
         AOS.init();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

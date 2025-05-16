@@ -112,6 +112,7 @@ exports.deleteCar = async (req, res) => {
                 message: 'Carro não encontrado'
             });
         }
+        
         return res.status(200).json({ message: 'Carro deletado com sucesso' });
     } catch (err) {
         console.error('Error no servidor:' + err);
