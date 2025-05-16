@@ -66,7 +66,9 @@ body {
 .logo img:hover {
     transform: scale(1.05);
 }
-
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+    background-color: #dc3545 !important;
+}
 h2 {
     color: var(--text-color);
     margin-bottom: 1.7rem;

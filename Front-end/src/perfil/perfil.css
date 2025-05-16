@@ -468,6 +468,13 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+    background-color: #dc3545 !important;
+}
+div:where(.swal2-icon).swal2-info {
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .profile-nav {

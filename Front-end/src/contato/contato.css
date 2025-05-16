@@ -418,3 +418,7 @@ footer {
         text-align: center;
     }
 }
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+    background-color: #dc3545 !important;
+}

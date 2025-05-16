@@ -219,6 +219,7 @@ carForm.addEventListener('submit', async (e) => {
             title: 'Erro',
             text: error.message,
             background: "rgba(0, 0, 0, 1)",
+            confirmButtonColor: "#dc3545",
             color: "#F6F6F6"
         });
     }
