@@ -48,7 +48,47 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => modal.style.display = 'none', 300);
     }
 
-    document.querySelector('.edit-btn').addEventListener('click', () => openModal('editPersonal'));
+    document.querySelector('.edit-btn').addEventListener('click', async () => {
+        const cadastroStr = localStorage.getItem("user");
+        if (!cadastroStr) return;
+
+        const cadastroDadosPessoais = JSON.parse(cadastroStr);
+        const userId = cadastroDadosPessoais.id;
+
+        try {
+            const response = await fetch(`https://jotinha2-hdecesc2cba3b9bg.brazilsouth-01.azurewebsites.net/usuario/${userId}`);
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                const user = data.response;
+                document.getElementById('editName').value = user.nome || '';
+                document.getElementById('editCpf').value = user.cpf || '';
+                document.getElementById('editBirthdate').value = user.nascimento || '';
+                document.getElementById('editPhone').value = user.telefone || '';
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro ao buscar dados do usuário",
+                    text: data.response || "Tente novamente.",
+                    background: "rgba(0, 0, 0, 1)",
+                    color: "#F6F6F6"
+                });
+                return;
+            }
+        } catch (err) {
+            Swal.fire({
+                icon: "error",
+                title: "Erro de conexão",
+                text: "Não foi possível buscar os dados do usuário.",
+                background: "rgba(0, 0, 0, 1)",
+                color: "#F6F6F6"
+            });
+            return;
+        }
+
+        openModal('editPersonal');
+    });
+
     document.querySelector('.settings-btn').addEventListener('click', () => openModal('changePassword'));
 
     document.querySelectorAll('.close, .cancel-btn').forEach(btn => {
